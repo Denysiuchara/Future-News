@@ -5,7 +5,7 @@ import SwiftUI
 struct Future_NewsApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
     }
 }

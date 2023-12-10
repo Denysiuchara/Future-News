@@ -9,13 +9,14 @@ import SwiftUI
 
 struct TabCard: View {
     var imagePath: [String]
+    @State var isSelected = false
     @State private var currentPage = 0
     
     var body: some View {
         VStack {
             TabView(selection: $currentPage) {
                 ForEach(imagePath.indices, id: \.self) { index in
-                    CardView(asyncImageName: imagePath[index])
+                    CardView(isSelected: $isSelected, asyncImageName: imagePath[index])
                         .tag(index)
                 }
             }
