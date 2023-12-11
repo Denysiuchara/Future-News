@@ -12,7 +12,7 @@ struct MainView: View {
         TabView {
             HomeView()
                 .tabItem {
-                    Label("", systemImage: "house.fill")
+                    Image(systemName: "house.fill")
                 }
             
             SearchView()

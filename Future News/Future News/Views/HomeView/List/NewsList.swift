@@ -9,14 +9,20 @@ import SwiftUI
 
 struct NewsList: View {
     @Binding var isSafe: Bool
+    
+    @State private var dynamicSize: CGFloat = 20
+    
     var imagePath: [String]
     
     var body: some View {
+        
+        // FIXME: - Пераработать макет размеров, чтобы он подганялся под разный размер девайсов
         ForEach(imagePath.indices) { index in
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(.newsRow)
-                    .opacity(0.2)
+                    .opacity(0.5)
+                    .frame(width: 300, height: 120)
                     .padding([.top], 20)
                     .padding([.leading], 50)
                     .padding([.trailing], 8)
@@ -36,44 +42,42 @@ struct NewsList: View {
                                 .fill(.gray)
                                 .frame(width: 100, height: 100)
                         }
-                        .padding([.bottom], 50)
-                        .padding([.leading], 20)
                         
-                        // TODO: - Сделать так чтобы нижние элементы не двигались при заголовке в 1 и 2 линии
-                        // TODO: - Разобратся из цветами: карточка под картинкой плохо видна
-                        VStack(alignment: .leading) {
-                            Text("**Some text for testing with line limit 2**")
-                                .lineLimit(2)
-                                .padding([.leading], 5)
-                                .padding([.bottom], 20)
-                            
-                            HStack {
-                                Text("1 hour ago")
-                                    .font(.caption)
-                                    .padding([.leading], 5)
-                                
-                                Spacer()
-                                
-                                // TODO: - Добавить скейлинг при нажатии
-                                // FIXME: - Пофиксить баг: при нажатии перекрашиваются все row
-                                Button {
-                                    isSafe.toggle()
-                                } label: {
-                                    Image(systemName: "bookmark.fill")
-                                        .foregroundStyle(isSafe ? .orange : .black)
-                                }
-                                .padding()
-                            }
-                        }
-                        
-                        
-                        Spacer()
+                        Text("**Some text for testing**")
+                            .lineLimit(2)
+                            .frame(width: 200, height: 50, alignment: .topLeading)
                     }
-                    
+                    HStack {
+                        Spacer()
+                        
+                        Text("1 hour ago")
+                            .frame(width: 100, height: 20, alignment: .leading)
+                            .padding(.horizontal)
+                            .opacity(0.5)
+                            .font(.caption)
+                        
+                        // FIXME: - Пофиксить баг: при нажатии перекрашиваются все row
+                        Button {
+                            withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
+                                isSafe.toggle()
+                                dynamicSize = isSafe ? 23 : 20
+                            }
+                        } label: {
+                            Image(systemName: "bookmark.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: dynamicSize, height: dynamicSize)
+                                .foregroundStyle(isSafe ? .orange : .black)
+                        }
+                        .frame(width: 30, height: 30)
+                        .padding(.leading, 100)
+                        .padding(.trailing, 10)
+                        .padding(.bottom, 5)
+                    }
+                    .padding(.horizontal)
                 }
             }
-            .padding([.vertical], 5)
-            .frame(maxWidth: .infinity)
+            .padding()
         }
     }
 }

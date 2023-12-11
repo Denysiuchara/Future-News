@@ -34,6 +34,7 @@ struct SegmentedView: View {
             }
             .scrollIndicators(.hidden)
         }
+        .padding(.horizontal)
     }
 }
 
