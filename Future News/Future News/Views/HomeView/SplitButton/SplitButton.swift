@@ -26,6 +26,7 @@ struct SplitButton: View {
                         .foregroundStyle(.black)
                     
                     Text("**Future  News**")
+                        .fontDesign(.rounded)
                         .foregroundStyle(.white)
                         .font(.system(size: 20))
                 }

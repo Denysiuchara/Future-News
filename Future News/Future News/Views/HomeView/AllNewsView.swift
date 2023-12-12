@@ -18,14 +18,18 @@ struct AllNewsView: View {
             TabCard(imagePath: imagePath)
                 .frame(height: 300)
             
-            HStack{
+            
+            HStack {
                 Text("Latest news")
+                    .fontDesign(.rounded)
                     .font(.title)
-                    .padding()
+                    .padding(.horizontal)
                 
                 Spacer()
             }
+            .padding(.horizontal)
             
+            Divider()
             
             // TODO: - Add scrolling with news
             NewsList(isSafe: $isSafe, imagePath: imagePath)

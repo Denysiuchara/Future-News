@@ -44,6 +44,7 @@ struct NewsList: View {
                         }
                         
                         Text("**Some text for testing**")
+                            .fontDesign(.rounded)
                             .lineLimit(2)
                             .frame(width: 200, height: 50, alignment: .topLeading)
                     }
@@ -51,6 +52,7 @@ struct NewsList: View {
                         Spacer()
                         
                         Text("1 hour ago")
+                            .fontDesign(.rounded)
                             .frame(width: 100, height: 20, alignment: .leading)
                             .padding(.horizontal)
                             .opacity(0.5)

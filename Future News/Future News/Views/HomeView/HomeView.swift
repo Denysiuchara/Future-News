@@ -4,6 +4,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var isSafe = false
+    @State private var showDestinationSearchView = false
     
     // TODO: - Create native real category
     let newsCategory = [
@@ -22,28 +23,33 @@ struct HomeView: View {
         "https://t4.ftcdn.net/jpg/03/96/00/75/360_F_396007562_FPXMDvZROZp0Cnnn4hLX2Zs5zBPyQTFV.jpg",
     ]
     
+    
+    
     var body: some View {
         ZStack {
             Color(.backround)
                 .ignoresSafeArea()
             
-            VStack {
-                HStack {
-                    SplitButton {
-                        // TODO: Toggle theme
-                    }
-                    .padding([.horizontal])
+            if showDestinationSearchView {
+                DestinationSearchView(isShow: $showDestinationSearchView)
+            } else {
+                VStack {
+                    SearchView()
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            withAnimation(.bouncy) {
+                                showDestinationSearchView.toggle()
+                            }
+                        }
                     
-                    Spacer()
+                    ScrollView {
+                        // TODO: - Add animation for pagecontrol
+                        SegmentedView(newsCategory: newsCategory)
+                        
+                        // TODO: - Add the ability to select news views
+                        AllNewsView(imagePath: imagePath)
+                    }
                 }
-                
-                // TODO: - Add animation for pagecontrol
-                SegmentedView(newsCategory: newsCategory)
-                
-                // TODO: - Add the ability to select news views
-                AllNewsView(imagePath: imagePath)
-                
-                // TODO: - Add tab bar with another views
             }
         }
     }

@@ -22,6 +22,7 @@ struct SegmentedView: View {
                             } label: {
                                 Text(newsCategory[index])
                                     .foregroundStyle(index == currentPage ? .black : .gray)
+                                    .fontDesign(.rounded)
                             }
                             .frame(width: 100)
                             

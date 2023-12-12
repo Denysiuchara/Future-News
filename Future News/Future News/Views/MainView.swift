@@ -15,10 +15,10 @@ struct MainView: View {
                     Image(systemName: "house.fill")
                 }
             
-            SearchView()
-                .tabItem {
-                    Image(systemName: "magnifyingglass")
-                }
+//            SearchView()
+//                .tabItem {
+//                    Image(systemName: "magnifyingglass")
+//                }
             
             SavedNewsView()
                 .tabItem {
