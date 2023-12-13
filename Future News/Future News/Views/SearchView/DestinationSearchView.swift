@@ -20,91 +20,141 @@ struct DestinationSearchView: View {
     
     @State private var selectedOption: DestinationSearchOptions = .text
     
+    @State private var startDate = Date()
+    @State private var endDate = Date()
+    
     var body: some View {
         VStack {
-            Button {
-                withAnimation(.snappy) {
-                    isShow.toggle()
+            HStack {
+                Button {
+                    withAnimation(.snappy) {
+                        isShow.toggle()
+                    }
+                } label: {
+                    Image(systemName: "xmark.circle")
+                        .imageScale(.large)
+                        .foregroundStyle(.black)
                 }
-            } label: {
-                Image(systemName: "xmark.circle")
-                    .imageScale(.large)
-                    .foregroundStyle(.black)
+                
+                Spacer()
+                
+                if !destination.isEmpty {
+                        Button {
+                            destination = ""
+                        } label: {
+                            Text("Clear All")
+                        }
+                        .foregroundStyle(.black)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                }
+            }
+            .padding()
+            
+            // MARK: - Search
+            VStack(alignment: .leading) {
+                if selectedOption == .text {
+                    Text("What we looking for?")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .fontDesign(.rounded)
+                    
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .imageScale(.small)
+                        
+                        TextField("Search destinations", text: $destination)
+                            .fontDesign(.rounded)
+                            .font(.subheadline)
+                    }
+                    .frame(height: 44)
+                    .padding(.horizontal)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(lineWidth: 1.0)
+                            .foregroundStyle(Color(.systemGray4))
+                    }
+                } else {
+                    CollapsedPickerView(title: "What we looking for?", description: "Add destination")
+                }
+            }
+            .modifier(CollapsibleDestinationViewModifier())
+            .frame(height: selectedOption == .text ? 120 : 64)
+            .onTapGesture {
+                withAnimation(.snappy) {
+                    selectedOption = .text
+                }
             }
             
+            
+            // MARK: - Date selection
             VStack(alignment: .leading) {
-                Text("What we looking for?")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .fontDesign(.rounded)
-                
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .imageScale(.small)
+                if selectedOption == .dates {
+                    Text("Selecting a time interval")
+                        .padding(.top)
+                        .font(.title2)
+                        .fontWeight(.semibold)
                     
-                    TextField("Search destinations", text: $destination)
-                        .fontDesign(.rounded)
-                        .font(.subheadline)
-                }
-                .frame(height: 44)
-                .padding(.horizontal)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(lineWidth: 1.0)
-                        .foregroundStyle(Color(.systemGray4))
+                    VStack {
+                        DatePicker("From", selection: $startDate, displayedComponents: .date)
+                        
+                        Divider()
+                        
+                        DatePicker("To", selection: $endDate, displayedComponents: .date)
+                    }
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    
+                } else {
+                    CollapsedPickerView(title: "When", description: "Add dates")
                 }
             }
+            .modifier(CollapsibleDestinationViewModifier())
+            .frame(height: selectedOption == .dates ? 180 : 64)
+            .onTapGesture {
+                withAnimation(.snappy) {
+                    selectedOption = .dates
+                }
+            }
+            
+            
+            // MARK: - Publisher's selection
+            VStack(alignment: .leading) {
+                if selectedOption == .authors {
+                    Text("Selecting publisher's")
+                        .padding(.top)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                } else {
+                    CollapsedPickerView(title: "Who", description: "Add some information")
+                }
+            }
+            .modifier(CollapsibleDestinationViewModifier())
+            .frame(height: selectedOption == .authors ? 120 : 64)
+            .onTapGesture {
+                withAnimation(.snappy) {
+                    selectedOption = .authors
+                }
+            }
+            
+            Spacer()
+        }
+    }
+}
+
+struct CollapsibleDestinationViewModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
             .padding()
             .background(.backround)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding()
             .shadow(radius: 10)
-            .onTapGesture {
-                selectedOption = .text
-            }
-            
-            // date selection
-            CollapsedPickerView(title: "When", description: "Add dates")
-                .onTapGesture {
-                    selectedOption = .dates
-                }
-            
-            
-            CollapsedPickerView(title: "Who", description: "Add some information")
-                .onTapGesture {
-                    selectedOption = .authors
-                }
-        }
     }
 }
 
 #Preview {
     DestinationSearchView(isShow: .constant(false))
-}
-
-
-struct CollapsedPickerView: View {
-    let title: String
-    let description: String
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text(title)
-                    .foregroundStyle(.gray)
-                
-                Spacer()
-                
-                Text(description)
-            }
-            .fontWeight(.semibold)
-            .fontDesign(.rounded)
-            .font(.subheadline)
-        }
-        .padding()
-        .background(.backround)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .padding()
-        .shadow(radius: 10)
-    }
 }

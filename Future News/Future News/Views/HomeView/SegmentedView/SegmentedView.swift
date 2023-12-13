@@ -14,13 +14,14 @@ struct SegmentedView: View {
     var body: some View {
         VStack {
             ScrollView(.horizontal) {
-                HStack {
+                HStack(spacing: 0) {
                     ForEach(newsCategory.indices, id: \.self) { index in
                         VStack {
                             Button {
                                 currentPage = index
                             } label: {
                                 Text(newsCategory[index])
+                                    .fontWeight(.semibold)
                                     .foregroundStyle(index == currentPage ? .black : .gray)
                                     .fontDesign(.rounded)
                             }

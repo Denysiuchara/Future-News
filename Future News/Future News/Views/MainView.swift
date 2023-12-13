@@ -15,11 +15,6 @@ struct MainView: View {
                     Image(systemName: "house.fill")
                 }
             
-//            SearchView()
-//                .tabItem {
-//                    Image(systemName: "magnifyingglass")
-//                }
-            
             SavedNewsView()
                 .tabItem {
                     Image(systemName: "bookmark.fill")
@@ -33,7 +28,6 @@ struct MainView: View {
         .tint(.orange)
     }
 }
-
 
 
 #Preview {
