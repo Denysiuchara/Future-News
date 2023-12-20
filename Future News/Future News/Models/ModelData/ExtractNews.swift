@@ -9,8 +9,8 @@ struct ExtractNews: Codable {
     let publishDate: String
     let author: String
     let language: String
-//    let sourceCountry: String?
-//    let sentiment: Double?
+    let sentiment: Double
+    let entities: [Entity]
 
     enum CodingKeys: String, CodingKey {
         case title = "title"
@@ -20,7 +20,24 @@ struct ExtractNews: Codable {
         case publishDate = "publish_date"
         case author = "author"
         case language = "language"
-//        case sourceCountry = "source_country"
-//        case sentiment = "sentiment"
+        case sentiment = "sentiment"
+        case entities = "entities"
+    }
+}
+
+// MARK: - Entity
+struct Entity: Codable {
+    let type: String
+    let name: String
+    let latitude: Double
+    let longitude: Double
+    let locationType: String
+
+    enum CodingKeys: String, CodingKey {
+        case type = "type"
+        case name = "name"
+        case latitude = "latitude"
+        case longitude = "longitude"
+        case locationType = "location_type"
     }
 }

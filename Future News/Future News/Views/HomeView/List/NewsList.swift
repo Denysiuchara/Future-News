@@ -9,28 +9,31 @@ import SwiftUI
 
 struct NewsList: View {
     @Binding var isSafe: Bool
+    var news: [News]
     
     @State private var dynamicSize: CGFloat = 20
-    
-    var imagePath: [String]
+    @State private var isPresented = false
     
     var body: some View {
         
         // FIXME: - Пераработать макет размеров, чтобы он подганялся под разный размер девайсов
-        ForEach(imagePath.indices) { index in
+        ForEach(news.indices) { index in
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(.newsRow)
-                    .opacity(0.5)
+                    .opacity(0.7)
                     .frame(width: 300, height: 120)
                     .padding([.top], 20)
                     .padding([.leading], 50)
                     .padding([.trailing], 8)
                     .shadow(radius: 10)
+                    .onTapGesture {
+                        isPresented.toggle()
+                    }
                 
                 VStack {
                     HStack {
-                        AsyncImage(url: URL(string: imagePath[index])) { image in
+                        AsyncImage(url: URL(string: news[index].image)) { image in
                             image
                                 .resizable()
                                 .scaledToFill()
@@ -43,7 +46,8 @@ struct NewsList: View {
                                 .frame(width: 100, height: 100)
                         }
                         
-                        Text("**Some text for testing**")
+                        Text(news[index].title)
+                            .fontWeight(.semibold)
                             .fontDesign(.rounded)
                             .lineLimit(2)
                             .frame(width: 200, height: 50, alignment: .topLeading)
@@ -51,7 +55,7 @@ struct NewsList: View {
                     HStack {
                         Spacer()
                         
-                        Text("1 hour ago")
+                        Text(news[index].publishDate)
                             .fontDesign(.rounded)
                             .frame(width: 100, height: 20, alignment: .leading)
                             .padding(.horizontal)
@@ -80,14 +84,22 @@ struct NewsList: View {
                 }
             }
             .padding()
+            .fullScreenCover(isPresented: $isPresented) {
+                NewsDetails(isSafe: $isSafe, news: news[index])
+            }
         }
     }
 }
 
 #Preview {
-    NewsList(isSafe: Binding(projectedValue: .constant(false)), imagePath: [ "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
-        "https://nystudio107.com/img/blog/_1200x675_crop_center-center_82_line/image_optimzation.jpg",
-        "https://cc-prod.scene7.com/is/image/CCProdAuthor/d-03-4?$pjpeg$&jpegSize=200&wid=720",
-        "https://t4.ftcdn.net/jpg/03/96/00/75/360_F_396007562_FPXMDvZROZp0Cnnn4hLX2Zs5zBPyQTFV.jpg",
-    ])
+    NewsList(isSafe: .constant(false), news: [News(id: 1,
+                                                   title: "Some Title",
+                                                   text: "Some text",
+                                                   url: "url",
+                                                   image: "url_image",
+                                                   publishDate: "12-12-12 12:12",
+                                                   language: "sm",
+                                                   sourceCountry: "Some Country",
+                                                   sentiment: 0.1,
+                                                   author: "Some Author")])
 }

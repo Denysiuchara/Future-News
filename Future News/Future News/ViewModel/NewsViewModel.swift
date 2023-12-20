@@ -1,20 +1,17 @@
 
 import Foundation
 
-// TODO: - Данные не парсятся и не записываются в модель
-
 class NewsViewModel: ObservableObject {
     @Published var searchNews: SearchNews?
     @Published var extractNews: ExtractNews?
     @Published var extractNewsLinks: ExtractNewsLinks?
     @Published var geoCoordinates: GeoCoordinates?
-
-    init() {
-        fetchExtractNews()
-    }
     
-    func fetchSearchNews() {
-        ApiService.getData(path: .searchNews) { (result: Result<SearchNews, Error>) in
+    typealias Parameters = [APIURLConfig.APIParameter : String]
+    
+    func fetchSearchNews(parameters: Parameters = [:]) {
+        ApiService.getData(path: .searchNews, parameters: parameters)
+        { (result: Result<SearchNews, Error>) in
             switch result {
             case .success (let data):
                 DispatchQueue.main.async {
@@ -26,8 +23,8 @@ class NewsViewModel: ObservableObject {
         }
     }
     
-    func fetchExtractNews() {
-        ApiService.getData(path: .extractNews) 
+    func fetchExtractNews(parameters: Parameters = [:]) {
+        ApiService.getData(path: .extractNews, parameters: parameters)
         { (result: Result<ExtractNews, Error>) in
             switch result {
             case .success (let data):
@@ -41,8 +38,9 @@ class NewsViewModel: ObservableObject {
         }
     }
     
-    func fetchExtractNewsLinks() {
-        ApiService.getData(path: .extractNewsLinks) { (result: Result<ExtractNewsLinks, Error>) in
+    func fetchExtractNewsLinks(parameters: Parameters = [:]) {
+        ApiService.getData(path: .extractNewsLinks, parameters: parameters)
+        { (result: Result<ExtractNewsLinks, Error>) in
             switch result {
             case .success (let data):
                 DispatchQueue.main.async {
@@ -54,8 +52,9 @@ class NewsViewModel: ObservableObject {
         }
     }
 
-    func fetchGeoCoordinates() {
-        ApiService.getData(path: .coordinates) { (result: Result<GeoCoordinates, Error>) in
+    func fetchGeoCoordinates(parameters: Parameters = [:]) {
+        ApiService.getData(path: .coordinates, parameters: parameters)
+        { (result: Result<GeoCoordinates, Error>) in
             switch result {
             case .success (let data):
                 DispatchQueue.main.async {

@@ -1,52 +1,62 @@
-//
-//  SegmentedView.swift
-//  Future News
-//
-//  Created by Danya Denisiuk on 09.12.2023.
-//
 
 import SwiftUI
 
 struct SegmentedView: View {
-    var newsCategory: [String]
-    @State private var currentPage = 0
-    
+    @Binding var selectedIndex: Int
+    @State private var frames: [CGRect]
+    @State private var backgroundFrame = CGRect.zero
+
+    private let titles: [String]
+
+    init(selectedIndex: Binding<Int>, titles: [String]) {
+        self._selectedIndex = selectedIndex
+        self.titles = titles
+        frames = Array<CGRect>(repeating: .zero, count: titles.count)
+    }
+
     var body: some View {
         VStack {
-            ScrollView(.horizontal) {
-                HStack(spacing: 0) {
-                    ForEach(newsCategory.indices, id: \.self) { index in
-                        VStack {
-                            Button {
-                                currentPage = index
-                            } label: {
-                                Text(newsCategory[index])
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(index == currentPage ? .black : .gray)
-                                    .fontDesign(.rounded)
-                            }
-                            .frame(width: 100)
-                            
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(index == currentPage ? .orange : .clear)
-                                .frame(height: 5)
-                        }
-                    }
+            ScrollView(.horizontal, showsIndicators: false) {
+                SegmentedButtonView(selectedIndex: $selectedIndex,
+                                           frames: $frames,
+                                           backgroundFrame: $backgroundFrame,
+                                           checkIsScrollable: checkIsScrollable,
+                                           titles: titles)
+            }
+        }
+        .background(
+            GeometryReader { geoReader in
+                Color.clear.preference(key: RectPreferenceKey.self,
+                                       value: geoReader.frame(in: .global))
+                    .onPreferenceChange(RectPreferenceKey.self) {
+                    self.setBackgroundFrame(frame: $0)
                 }
             }
-            .scrollIndicators(.hidden)
+        )
+    }
+    
+    // Задает размер background
+    private func setBackgroundFrame(frame: CGRect) {
+        backgroundFrame = frame
+        checkIsScrollable()
+    }
+
+    private func checkIsScrollable() {
+        if frames[frames.count - 1].width > .zero {
+            var width = CGFloat.zero
+
+            for frame in frames {
+                width += frame.width
+            }
         }
-        .padding(.horizontal)
     }
 }
 
+
+
+
+
+
 #Preview {
-    SegmentedView(newsCategory: [
-        "All news",
-        "Business",
-        "Politics",
-        "Tech",
-        "Science",
-        "Game"
-    ])
+    SegmentedView(selectedIndex: .constant(3), titles: ["Hello", "Text", "Another Text", "Large Another Text"])
 }

@@ -79,7 +79,7 @@ struct DestinationSearchView: View {
                 }
             }
             .modifier(CollapsibleDestinationViewModifier())
-            .frame(height: selectedOption == .text ? 120 : 64)
+            .frame(height: selectedOption == .text ? 120 : 60)
             .onTapGesture {
                 withAnimation(.snappy) {
                     selectedOption = .text
@@ -111,7 +111,7 @@ struct DestinationSearchView: View {
                 }
             }
             .modifier(CollapsibleDestinationViewModifier())
-            .frame(height: selectedOption == .dates ? 180 : 64)
+            .frame(height: selectedOption == .dates ? 180 : 60)
             .onTapGesture {
                 withAnimation(.snappy) {
                     selectedOption = .dates
@@ -127,12 +127,13 @@ struct DestinationSearchView: View {
                         .font(.title2)
                         .fontWeight(.semibold)
                     
+                    GridPublishers()
                 } else {
                     CollapsedPickerView(title: "Who", description: "Add some information")
                 }
             }
             .modifier(CollapsibleDestinationViewModifier())
-            .frame(height: selectedOption == .authors ? 120 : 64)
+            .frame(height: selectedOption == .authors ? 380 : 60)
             .onTapGesture {
                 withAnimation(.snappy) {
                     selectedOption = .authors
@@ -140,6 +141,25 @@ struct DestinationSearchView: View {
             }
             
             Spacer()
+            
+            Button {
+                
+            } label: {
+                Text("Find")
+                    .foregroundStyle(.black)
+                    .fontWeight(.bold)
+                    .font(.title2)
+                    .padding(.horizontal)
+            }
+            .padding()
+            .frame(width: 210, height: 40)
+            .background {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.orange)
+            }
+            
+            Spacer()
+                .frame(height: 20)
         }
     }
 }

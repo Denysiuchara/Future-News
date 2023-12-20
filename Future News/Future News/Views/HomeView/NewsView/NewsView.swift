@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AllNewsView: View {
+    @State var news: [News]
     @State var isSafe = false
     var imagePath: [String]
     
@@ -32,14 +33,14 @@ struct AllNewsView: View {
             Divider()
             
             // TODO: - Add scrolling with news
-            NewsList(isSafe: $isSafe, imagePath: imagePath)
+            NewsList(isSafe: $isSafe, news: news)
         }
         .scrollIndicators(.hidden)
     }
 }
 
 #Preview {
-    AllNewsView(imagePath: [
+    AllNewsView(news: [], imagePath: [
         "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
         "https://nystudio107.com/img/blog/_1200x675_crop_center-center_82_line/image_optimzation.jpg",
         "https://cc-prod.scene7.com/is/image/CCProdAuthor/d-03-4?$pjpeg$&jpegSize=200&wid=720",

@@ -1,10 +1,6 @@
 
 import Foundation
 
-// https://api.worldnewsapi.com/extract-news-links?api-key=8c25c03b336b45068fe0a37960b99b43
-
-// TODO: - Данные не парсятся и не записываются в модель
-
 class ApiService {
     
     typealias Parameters = [APIURLConfig.APIParameter : String]
@@ -18,9 +14,10 @@ class ApiService {
             return
         }
         
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+            request.timeoutInterval = 180
         
-        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             
             guard error == nil else {
                 onResponse(.failure(ApiServiceError.invalidURL))
@@ -46,16 +43,14 @@ class ApiService {
             }
             
             do {
-                let decoder = JSONDecoder()
-                let decodeData = try decoder.decode(T.self, from: data)
+                let decodeData = try JSONDecoder().decode(T.self, from: data)
                 onResponse(.success(decodeData))
                 print("Do-catch block")
             } catch {
                 print(error.localizedDescription)
                 onResponse(.failure(error))
             }
-        }
-        dataTask.resume()
+        }.resume()
     }
     
     enum ApiServiceError: Error {

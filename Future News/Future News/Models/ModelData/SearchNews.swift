@@ -2,13 +2,13 @@
 import Foundation
 
 
-// MARK: - SearchNewsModel
+// MARK: - SearchNews
 struct SearchNews: Codable {
-    let offset: Int?
-    let number: Int?
-    let available: Int?
-    let news: [News]?
-
+    let offset: Int
+    let number: Int
+    let available: Int
+    let news: [News]
+    
     enum CodingKeys: String, CodingKey {
         case offset = "offset"
         case number = "number"
@@ -18,18 +18,18 @@ struct SearchNews: Codable {
 }
 
 // MARK: - News
-struct News: Codable {
-    let id: Int?
-    let title: String?
-    let text: String?
-    let url: String?
-    let image: String?
-    let publishDate: String?
+struct News: Codable, Identifiable {
+    let id: Int
+    let title: String
+    let text: String
+    let url: String
+    let image: String
+    let publishDate: String
+    let language: String
+    let sourceCountry: String
+    let sentiment: Double
     let author: String?
-    let language: String?
-    let sourceCountry: String?
-    let sentiment: Double?
-
+    
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case title = "title"
