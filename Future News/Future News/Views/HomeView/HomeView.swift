@@ -5,7 +5,6 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var newsVM = NewsViewModel()
     
-    @State private var isChanged = false
     @State private var isSafe = false
     @State private var showDestinationSearchView = false
     @State private var selectedIndex = 0
@@ -49,54 +48,20 @@ struct HomeView: View {
                         // FIXME: - Check if this code works
                         SegmentedView(selectedIndex: $selectedIndex, titles: titles)
                             .padding(.horizontal)
-                            .onChange(of: selectedIndex) { _, _ in
-                                switch selectedIndex {
-                                case 0:
-                                    isChanged = false
-                                    newsVM.fetchSearchNews(parameters: [.text: "All News"])
-                                    isChanged = true
-                                case 1:
-                                    isChanged = false
-                                    newsVM.fetchSearchNews(parameters: [.text: "Business"])
-                                    isChanged = true
-                                case 2:
-                                    isChanged = false
-                                    newsVM.fetchSearchNews(parameters: [.text: "Politics"])
-                                    isChanged = true
-                                case 3:
-                                    isChanged = false
-                                    newsVM.fetchSearchNews(parameters: [.text: "Tech"])
-                                    isChanged = true
-                                case 4:
-                                    isChanged = false
-                                    newsVM.fetchSearchNews(parameters: [.text: "Science"])
-                                    isChanged = true
-                                case 5:
-                                    isChanged = false
-                                    newsVM.fetchSearchNews(parameters: [.text: "Games"])
-                                    isChanged = true
-                                case 6:
-                                    isChanged = false
-                                    newsVM.fetchSearchNews(parameters: [.text: "Sport"])
-                                    isChanged = true
-                                default :
-                                    isChanged = false
-                                    newsVM.fetchSearchNews()
-                                    isChanged = true
-                                }
+                            .onChange(of: selectedIndex) { newSelectedIndex in
+                                loadNews(for: newSelectedIndex)
                             }
                         
                         // FIXME: - Check if isChanged works
                         // TODO: - Add the ability to select news views
-                        if isChanged == true, let news = newsVM.searchNews?.news {
+                        if let news = newsVM.searchNews?.news {
                             AllNewsView(news: news, imagePath: imagePath)
+                                .id(selectedIndex)
                         } else {
                             EmptyNewsView()
-                            ProgressView()
+                                .id(selectedIndex)
                                 .onAppear {
-                                    isChanged = false
-                                    newsVM.fetchSearchNews(parameters: [.text: "All News"])
-                                    isChanged = true
+                                    loadNews(for: selectedIndex)
                                 }
                         }
                     }
@@ -104,6 +69,27 @@ struct HomeView: View {
             }
         }
     }
+    
+    private func loadNews(for index: Int) {
+            switch index {
+            case 0:
+                newsVM.fetchSearchNews(parameters: [.text: "All News"])
+            case 1:
+                newsVM.fetchSearchNews(parameters: [.text: "Business"])
+            case 2:
+                newsVM.fetchSearchNews(parameters: [.text: "Politics"])
+            case 3:
+                newsVM.fetchSearchNews(parameters: [.text: "Tech"])
+            case 4:
+                newsVM.fetchSearchNews(parameters: [.text: "Science"])
+            case 5:
+                newsVM.fetchSearchNews(parameters: [.text: "Games"])
+            case 6:
+                newsVM.fetchSearchNews(parameters: [.text: "Sport"])
+            default:
+                newsVM.fetchSearchNews()
+            }
+        }
 }
 
 #Preview {

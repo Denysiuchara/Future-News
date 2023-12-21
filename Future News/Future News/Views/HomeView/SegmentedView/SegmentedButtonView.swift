@@ -35,6 +35,7 @@ struct SegmentedButtonView: View {
                         .foregroundStyle(index == selectedIndex ? .black : .gray)
                         .fontDesign(.rounded)
                 }
+                .id(selectedIndex)
                 .padding(.horizontal)
                 .padding(.vertical, 8)
                 .background {
