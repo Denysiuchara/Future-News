@@ -10,6 +10,7 @@ class NewsViewModel: ObservableObject {
     typealias Parameters = [APIURLConfig.APIParameter : String]
     
     func fetchSearchNews(parameters: Parameters = [:]) {
+        self.searchNews = nil
         ApiService.getData(path: .searchNews, parameters: parameters)
         { (result: Result<SearchNews, Error>) in
             switch result {
