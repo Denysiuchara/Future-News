@@ -8,8 +8,55 @@
 import SwiftUI
 
 struct SettingsView: View {
+    // TODO: Add theme toggle
+    @State private var isDark = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            Form {
+                Section {
+                    NavigationLink("Notification setting") {
+                        // TODO: - Add Notification
+                    }
+                    
+                    Toggle(isDark ? "Dark Theme" : "Light theme", isOn: $isDark)
+                    
+                    NavigationLink("Сhange application language") {
+                        // TODO: - Add choice language
+                    }
+                    
+                    NavigationLink("Change news language") {
+                        // TODO: - Add choice news language
+                    }
+                    
+                } header: {
+                    Label {
+                        Text("Environment Setting")
+                    } icon: {
+                        Image(systemName: "pencil.circle.fill")
+                    }
+                } footer: {
+                    Divider()
+                }
+
+                
+                Section {
+                    NavigationLink {
+                        // TODO: - Add an introduction
+                    } label: {
+                        Label {
+                            Text("About me!")
+                        } icon: {
+                            Image(systemName: "person")
+                        }
+
+                    }
+
+                } header: {
+                    Text("Other")
+                }
+            }
+        }
     }
 }
 
