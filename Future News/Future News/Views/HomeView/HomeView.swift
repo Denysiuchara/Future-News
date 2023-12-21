@@ -8,23 +8,24 @@ struct HomeView: View {
     @State private var isSafe = false
     @State private var showDestinationSearchView = false
     @State private var selectedIndex = 0
+    @State private var isError = false
     
     // TODO: - Create downloader photos
     let imagePath = [ "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
-        "https://nystudio107.com/img/blog/_1200x675_crop_center-center_82_line/image_optimzation.jpg",
-        "https://cc-prod.scene7.com/is/image/CCProdAuthor/d-03-4?$pjpeg$&jpegSize=200&wid=720",
-        "https://t4.ftcdn.net/jpg/03/96/00/75/360_F_396007562_FPXMDvZROZp0Cnnn4hLX2Zs5zBPyQTFV.jpg",
+                      "https://nystudio107.com/img/blog/_1200x675_crop_center-center_82_line/image_optimzation.jpg",
+                      "https://cc-prod.scene7.com/is/image/CCProdAuthor/d-03-4?$pjpeg$&jpegSize=200&wid=720",
+                      "https://t4.ftcdn.net/jpg/03/96/00/75/360_F_396007562_FPXMDvZROZp0Cnnn4hLX2Zs5zBPyQTFV.jpg",
     ]
     
     let titles: [String] =
-        ["All News",
-         "Business",
-         "Politics",
-         "Tech",
-         "Science",
-         "Games",
-         "Sport"
-        ]
+    ["All News",
+     "Business",
+     "Politics",
+     "Tech",
+     "Science",
+     "Games",
+     "Sport"
+    ]
     
     var body: some View {
         ZStack {
@@ -35,22 +36,46 @@ struct HomeView: View {
                 DestinationSearchView(isShow: $showDestinationSearchView)
             } else {
                 VStack {
-                    SearchView()
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            withAnimation(.bouncy) {
-                                showDestinationSearchView.toggle()
+                    VStack {
+                        SearchView()
+                            .padding(.horizontal)
+                            .onTapGesture {
+                                withAnimation(.bouncy) {
+                                    showDestinationSearchView.toggle()
+                                }
                             }
-                        }
-                    
-                    ScrollView {
+                            .zIndex(1.0)
                         
+                        Text("The quota has been exhausted!")
+                            .foregroundStyle(.white)
+                            .font(.system(size: 15))
+                            .fontDesign(.rounded)
+                            .fontWeight(.semibold)
+                            .background {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.red)
+                                    .frame(width: 250, height: 40, alignment: .bottom)
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(lineWidth: 3)
+                                            .foregroundStyle(Color(.systemGray4))
+                                            .shadow(radius: 3)
+                                    }
+                            }
+                            .offset(y: isError ? 0 : -40)
+                            .animation(.bouncy(duration: 0.7), value: isError)
+                            .animation(.linear) { $0.opacity(isError ? 1 : 0) }
+                            .onChange(of: isError) { _, newValue in
+                                isError = newValue
+                            }
+                    }
+                    ScrollView {
                         // FIXME: - Check if this code works
                         SegmentedView(selectedIndex: $selectedIndex, titles: titles)
                             .padding(.horizontal)
-                            .onChange(of: selectedIndex) { newSelectedIndex in
-                                loadNews(for: newSelectedIndex)
-                            }
+                        //                            .onChange(of: selectedIndex) { newSelectedIndex in
+                        //                                loadNews(for: newSelectedIndex)
+                        //                            }
                         
                         // FIXME: - Check if isChanged works
                         // TODO: - Add the ability to select news views
@@ -60,9 +85,9 @@ struct HomeView: View {
                         } else {
                             EmptyNewsView()
                                 .id(selectedIndex)
-                                .onAppear {
-                                    loadNews(for: selectedIndex)
-                                }
+                            //                                .onAppear {
+                            //                                    loadNews(for: selectedIndex)
+                            //                                }
                         }
                     }
                 }
@@ -71,25 +96,25 @@ struct HomeView: View {
     }
     
     private func loadNews(for index: Int) {
-            switch index {
-            case 0:
-                newsVM.fetchSearchNews(parameters: [.text: "All News"])
-            case 1:
-                newsVM.fetchSearchNews(parameters: [.text: "Business"])
-            case 2:
-                newsVM.fetchSearchNews(parameters: [.text: "Politics"])
-            case 3:
-                newsVM.fetchSearchNews(parameters: [.text: "Tech"])
-            case 4:
-                newsVM.fetchSearchNews(parameters: [.text: "Science"])
-            case 5:
-                newsVM.fetchSearchNews(parameters: [.text: "Games"])
-            case 6:
-                newsVM.fetchSearchNews(parameters: [.text: "Sport"])
-            default:
-                newsVM.fetchSearchNews()
-            }
+        switch index {
+        case 0:
+            newsVM.fetchSearchNews(parameters: [.text: "All News"])
+        case 1:
+            newsVM.fetchSearchNews(parameters: [.text: "Business"])
+        case 2:
+            newsVM.fetchSearchNews(parameters: [.text: "Politics"])
+        case 3:
+            newsVM.fetchSearchNews(parameters: [.text: "Tech"])
+        case 4:
+            newsVM.fetchSearchNews(parameters: [.text: "Science"])
+        case 5:
+            newsVM.fetchSearchNews(parameters: [.text: "Games"])
+        case 6:
+            newsVM.fetchSearchNews(parameters: [.text: "Sport"])
+        default:
+            newsVM.fetchSearchNews()
         }
+    }
 }
 
 #Preview {
