@@ -150,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				94A1DDCC2B20DC0A0067A7C0 /* HomeView.swift */,
+				949BCF562B261A8700ECDD41 /* SearchView */,
 				946940C42B33338300F87C47 /* CustomProgressView */,
 				946940C32B33333500F87C47 /* NewsView */,
 				949BCF532B26195D00ECDD41 /* List */,
@@ -271,7 +272,6 @@
 			children = (
 				949BCF4A2B26046000ECDD41 /* MainView.swift */,
 				949BCF552B261A7900ECDD41 /* SettingsView */,
-				949BCF562B261A8700ECDD41 /* SearchView */,
 				949BCF572B261A9600ECDD41 /* SavedNewsView */,
 				949BCF522B26194A00ECDD41 /* HomeView */,
 			);

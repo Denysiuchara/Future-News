@@ -1,4 +1,5 @@
 
+import Combine
 import Foundation
 
 class NewsViewModel: ObservableObject {
@@ -6,6 +7,25 @@ class NewsViewModel: ObservableObject {
     @Published var extractNews: ExtractNews?
     @Published var extractNewsLinks: ExtractNewsLinks?
     @Published var geoCoordinates: GeoCoordinates?
+    
+    @Published var isFailedStatusCode = false
+    private var cancellables = Set<AnyCancellable>()
+    
+    init() {
+        // Подписываемся на изменения статуса кода
+        ApiService.statusCodeSubject
+            .sink { [weak self] statusCode in
+                guard let self = self else { return }
+                
+                switch statusCode {
+                case 200..<300: self.isFailedStatusCode = false
+                case 402: self.isFailedStatusCode = true
+                case 429: self.isFailedStatusCode = true
+                default: self.isFailedStatusCode = true
+                }
+            }
+            .store(in: &cancellables)
+    }
     
     typealias Parameters = [APIURLConfig.APIParameter : String]
     
@@ -52,7 +72,7 @@ class NewsViewModel: ObservableObject {
             }
         }
     }
-
+    
     func fetchGeoCoordinates(parameters: Parameters = [:]) {
         ApiService.getData(path: .coordinates, parameters: parameters)
         { (result: Result<GeoCoordinates, Error>) in

@@ -1,7 +1,9 @@
-
+import Combine
 import Foundation
 
 class ApiService {
+    
+    static var statusCodeSubject = CurrentValueSubject<Int, Never>(200)
     
     typealias Parameters = [APIURLConfig.APIParameter : String]
 
@@ -26,6 +28,8 @@ class ApiService {
             
             guard let response = response as? HTTPURLResponse else { return }
             
+            statusCodeSubject.send(response.statusCode)
+            
             if response.statusCode == 200 {
                 print("Server available\n")
             } else if response.statusCode == 402 {
@@ -47,7 +51,6 @@ class ApiService {
                 onResponse(.success(decodeData))
                 print("Do-catch block")
             } catch {
-                print(error.localizedDescription)
                 onResponse(.failure(error))
             }
         }.resume()
