@@ -15,67 +15,64 @@ struct NewsDetails: View {
     
     var body: some View {
         ZStack {
+            
             Color.backround
             
             VStack(alignment: .leading) {
+                
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                            .foregroundStyle(.black)
+                    }
+                    
+                    Spacer()
+                    
+                    
+                    // TODO: - Realize "share"
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                    }
+                }
+                .padding(.horizontal)
+                
+                AsyncImage(url: URL(string: news.image)) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                } placeholder: {
+                    Image("news_blank_image")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                }
+                .frame(maxWidth: .infinity)
+                
                 ScrollView {
-                    ZStack {
-                        AsyncImage(url: URL(string: news.image)) { image in
-                            image
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Button{
+                            isSafe.toggle()
+                        } label: {
+                            Image(systemName: isSafe ? "bookmark" : "bookmark.fill")
                                 .resizable()
                                 .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                        } placeholder: {
-                            RoundedRectangle(cornerRadius: 20)
+                                .frame(width: 30, height: 30)
                         }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 250)
-                        .ignoresSafeArea()
-                        
-                        VStack {
-                            HStack {
-                                Button {
-                                    dismiss()
-                                } label: {
-                                    Image(systemName: "x.circle")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 30, height: 30)
-                                        .foregroundStyle(.white)
-                                }
-                                
-                                Spacer()
-                                
-                                
-                                // TODO: - Realize "share"
-                                Button {
-                                    
-                                } label: {
-                                    Image(systemName: "square.and.arrow.up")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 30, height: 30)
-                                }
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical)
-                            
-                            Spacer()
-                            
-                            HStack {
-                                Spacer()
-                                
-                                Button{
-                                    isSafe.toggle()
-                                } label: {
-                                    Image(systemName: isSafe ? "bookmark" : "bookmark.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 30, height: 30)
-                                }
-                                .padding()
-                            }
-                        }
+                        .padding(.horizontal)
                     }
                     
                     Text(news.title)
@@ -132,12 +129,10 @@ struct NewsDetails: View {
                         }
                         .padding(.horizontal)
                     }
-                    .padding()
                 }
             }
             .fontDesign(.rounded)
             .tint(.orange)
-            .ignoresSafeArea(.all, edges: .top)
         }
     }
 }

@@ -8,6 +8,7 @@ struct HomeView: View {
     @State private var isSafe = false
     @State private var showDestinationSearchView = false
     @State private var selectedIndex = 0
+    @State private var isLoading = true
     
     // TODO: - Create downloader photos
     let imagePath = [ "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
@@ -69,22 +70,54 @@ struct HomeView: View {
                     }
                     
                     ScrollView {
-                        // FIXME: - Check if this code works
-                        SegmentedView(selectedIndex: $selectedIndex, titles: titles)
-                            .padding(.horizontal)
-                            .onChange(of: selectedIndex) { newSelectedIndex in
-                                loadNews(for: newSelectedIndex)
+                        VStack {
+                            SegmentedView(selectedIndex: $selectedIndex, titles: titles)
+                                .zIndex(1.0)
+                                .padding(.horizontal)
+                                .onChange(of: selectedIndex) { newSelectedIndex in
+                                    loadNews(for: newSelectedIndex)
+                                }
+                            
+                            HStack {
+                                Text("News is loading. Please wait!")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 15))
+                                    .fontDesign(.rounded)
+                                    .fontWeight(.semibold)
+                                    .padding(.trailing, 10)
+                                
+                                ProgressView()
                             }
+                            .background {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.black)
+                                    .frame(width: 300, height: 25, alignment: .bottom)
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(lineWidth: 3)
+                                            .foregroundStyle(Color(.systemGray4))
+                                            .shadow(radius: 3)
+                                    }
+                            }
+                            .offset(x: isLoading ? 0 : -500)
+                            .animation(.smooth(duration: 1), value: isLoading)
+                            .animation(.linear) { $0.opacity(isLoading ? 1 : 0) }
+                            .onAppear {
+                                isLoading = true
+                            }
+                        }
                         
-                        // FIXME: - Check if isChanged works
-                        // TODO: - Add the ability to select news views
                         if let news = newsVM.searchNews?.news {
                             AllNewsView(news: news, imagePath: imagePath)
                                 .id(selectedIndex)
+                                .onAppear {
+                                    isLoading = false
+                                }
                         } else {
                             EmptyNewsView()
                                 .id(selectedIndex)
                                 .onAppear {
+                                    isLoading = true
                                     loadNews(for: selectedIndex)
                                 }
                         }

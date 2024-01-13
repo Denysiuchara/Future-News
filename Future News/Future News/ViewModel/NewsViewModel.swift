@@ -12,7 +12,6 @@ class NewsViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        // Подписываемся на изменения статуса кода
         ApiService.statusCodeSubject
             .sink { [weak self] statusCode in
                 guard let self = self else { return }

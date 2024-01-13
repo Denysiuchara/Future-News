@@ -16,8 +16,7 @@ class ApiService {
             return
         }
         
-        var request = URLRequest(url: url)
-            request.timeoutInterval = 180
+        let request = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             
