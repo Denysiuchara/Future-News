@@ -3,7 +3,11 @@ import SwiftUI
 
 
 struct HomeView: View {
+    @Environment(\.screenSize) private var screenSize
+    
     @ObservedObject var newsVM = NewsViewModel()
+    
+    @Binding var isAppear: Bool
     
     @State private var isSafe = false
     @State private var showDestinationSearchView = false
@@ -28,7 +32,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            Color(.backround)
+            Color("backgroundColor")
                 .ignoresSafeArea()
             
             if showDestinationSearchView {
@@ -69,58 +73,65 @@ struct HomeView: View {
                             }
                     }
                     
-                    ScrollView {
-                        VStack {
-                            SegmentedView(selectedIndex: $selectedIndex, titles: titles)
-                                .zIndex(1.0)
-                                .padding(.horizontal)
-                                .onChange(of: selectedIndex) { newSelectedIndex in
-                                    loadNews(for: newSelectedIndex)
-                                }
-                            
-                            HStack {
-                                Text("News is loading. Please wait!")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 15))
-                                    .fontDesign(.rounded)
-                                    .fontWeight(.semibold)
-                                    .padding(.trailing, 10)
-                                
-                                ProgressView()
-                            }
-                            .background {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(.black)
-                                    .frame(width: 300, height: 25, alignment: .bottom)
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(lineWidth: 3)
-                                            .foregroundStyle(Color(.systemGray4))
-                                            .shadow(radius: 3)
+                    ZStack {
+                        ScrollView {
+                            VStack {
+                                SegmentedView(selectedIndex: $selectedIndex, titles: titles)
+                                    .zIndex(1.0)
+                                    .padding(.horizontal)
+                                    .onChange(of: selectedIndex) { newSelectedIndex in
+                                        loadNews(for: newSelectedIndex)
                                     }
-                            }
-                            .offset(x: isLoading ? 0 : -500)
-                            .animation(.smooth(duration: 1), value: isLoading)
-                            .animation(.linear) { $0.opacity(isLoading ? 1 : 0) }
-                            .onAppear {
-                                isLoading = true
-                            }
-                        }
-                        
-                        if let news = newsVM.searchNews?.news {
-                            AllNewsView(news: news, imagePath: imagePath)
-                                .id(selectedIndex)
-                                .onAppear {
-                                    isLoading = false
+                                
+                                HStack {
+                                    Text("News is loading. Please wait!")
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 15))
+                                        .fontDesign(.rounded)
+                                        .fontWeight(.semibold)
+                                        .padding(.trailing, 10)
+                                    
+                                    ProgressView()
                                 }
-                        } else {
-                            EmptyNewsView()
-                                .id(selectedIndex)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(.black)
+                                        .frame(width: 300, height: 25, alignment: .bottom)
+                                        .background {
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(lineWidth: 3)
+                                                .foregroundStyle(Color(.systemGray4))
+                                                .shadow(radius: 3)
+                                        }
+                                }
+                                .offset(x: isLoading ? 0 : -(screenSize.height))
+                                .animation(.smooth(duration: 1), value: isLoading)
+                                .animation(.linear) { $0.opacity(isLoading ? 1 : 0) }
                                 .onAppear {
                                     isLoading = true
-                                    loadNews(for: selectedIndex)
                                 }
+                            }
+                            
+                            if let news = newsVM.searchNews?.news {
+                                AllNewsView(news: news, imagePath: imagePath)
+                                    .id(selectedIndex)
+                                    .onAppear {
+                                        isAppear = false
+                                        isLoading = false
+                                    }
+                            } else {
+                                LoadingScreen()
+                                    .id(selectedIndex)
+                                    .onAppear {
+                                        isLoading = true
+//                                        loadNews(for: selectedIndex)
+                                    }
+                                    .blur(radius: isAppear ? 10.0 : 0.0)
+                            }
                         }
+                        .allowsHitTesting(!isAppear)
+                        
+                        AlertView(isAppear: $isAppear)
                     }
                 }
             }
@@ -150,5 +161,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(isAppear: .constant(true))
 }

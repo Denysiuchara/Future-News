@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct NewsList: View {
+    @Environment(\.screenSize) private var screenSize
     @Binding var isSafe: Bool
     
     var news: [News]
     
     @State private var dynamicSize: CGFloat = 20
     @State private var isPresented = false
-    
-    private let screenSize = UIScreen.main.bounds.size
     
     var body: some View {
         

@@ -43,7 +43,7 @@ struct SearchView: View {
         }
         .background {
             RoundedRectangle(cornerRadius: 14)
-                .fill(.backround)
+                .fill(Color("backgroundColor"))
         }
         .padding(.horizontal)
     }

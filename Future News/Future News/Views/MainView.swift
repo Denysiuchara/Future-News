@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
+    @State private var isAppear = false
+    
     var body: some View {
         TabView {
-            HomeView()
+            HomeView(isAppear: $isAppear)
                 .tabItem {
                     Image(systemName: "house.fill")
                 }
@@ -24,6 +26,9 @@ struct MainView: View {
                 .tabItem {
                     Image(systemName: "gearshape")
                 }
+        }
+        .onAppear {
+            isAppear = true
         }
         .tint(.orange)
     }
