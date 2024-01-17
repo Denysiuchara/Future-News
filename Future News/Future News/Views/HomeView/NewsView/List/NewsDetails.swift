@@ -13,6 +13,7 @@ struct NewsDetails: View {
     
     @Binding var isSafe: Bool
     
+    @State private var scrollOffset: CGFloat = 0
     @State private var isCoppied = false
     
     var news: News
@@ -71,35 +72,53 @@ struct NewsDetails: View {
                 .foregroundStyle(.foreground)
                 .padding(.horizontal)
                 
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .foregroundStyle(.newsRow)
+                    
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(.green)
+                        .frame(width: screenSize.width * scrollOffset)
+                        .animation(.easeIn, value: scrollOffset)
+                }
+                .frame(height: 8)
                 
-                AsyncImage(url: URL(string: news.image)) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                } placeholder: {
-                    ZStack {
-                        Image("news_blank_image")
+                VStack {
+                    AsyncImage(url: URL(string: news.image)) { image in
+                        image
                             .resizable()
                             .scaledToFit()
-                        
-                        ProgressView()
+                    } placeholder: {
+                        ZStack {
+                            Image("news_blank_image")
+                                .resizable()
+                                .scaledToFit()
+                            
+                            ProgressView()
+                        }
                     }
+                    .frame(width: screenSize.width)
+                    
+                    Text(news.title)
+                        .padding(.horizontal)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Text(news.author ?? "Unknown author")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .padding(.horizontal)
+                        .frame(width: screenSize.width, alignment: .leading)
+                    
+                    Text(news.publishDate)
+                        .font(.subheadline)
+                        .padding(.horizontal)
+                        .frame(width: screenSize.width, alignment: .leading)
                 }
-                .frame(width: screenSize.width)
                 
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(news.author ?? "Unknown author")
-                            .font(.title3)
-                            .fontWeight(.medium)
-                            .padding(.horizontal)
-                            .frame(width: screenSize.width, alignment: .leading)
-                        
-                        Text(news.publishDate)
-                            .font(.subheadline)
-                            .padding(.horizontal)
-                            .frame(width: screenSize.width, alignment: .leading)
-                        
+                AdvancedScrollView(scrollOffset: $scrollOffset) {
+                    ScrollView {
                         HStack {
                             Text("Source:")
                             
@@ -123,20 +142,12 @@ struct NewsDetails: View {
                                 Image(systemName: isCoppied ? "doc" : "doc.fill")
                             }
                         }
-                        .padding([.horizontal, .top])
-                    }
-                    .frame(width: screenSize.width)
-                    .padding(.vertical)
-                    
-                    Text(news.title)
                         .padding(.horizontal)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    
-                    Text(news.text)
-                        .padding()
+                        .frame(width: screenSize.width)
+                        
+                        Text(news.text)
+                            .padding()
+                    }
                 }
             }
             .fontDesign(.rounded)

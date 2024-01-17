@@ -17,8 +17,14 @@ struct GradientView: View {
     }
     
     var background: some View {
-        LinearGradient(gradient: Gradient(colors: colors), startPoint: start, endPoint: end).edgesIgnoringSafeArea(.all)
-            .animation(Animation.easeInOut(duration: 10).repeatForever(autoreverses: true).speed(0.5))
+        LinearGradient(gradient: Gradient(colors: colors), startPoint: start, endPoint: end)
+            .edgesIgnoringSafeArea(.all)
+            .animation(
+                Animation
+                    .easeInOut(duration: 10)
+                    .repeatForever(autoreverses: true)
+                    .speed(0.5)
+            )
             .onReceive(timer, perform: { _ in
                 self.start = UnitPoint(x: 4, y: 0)
                 self.end = UnitPoint(x: 0, y: 2)
