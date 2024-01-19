@@ -79,29 +79,6 @@ private struct FixedSpacer: View {
     }
 }
 
-struct VisualEffectBlur: UIViewRepresentable {
-    let blur: UIBlurEffect
-
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        return UIVisualEffectView(effect: blur)
-    }
-
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        uiView.effect = blur
-    }
-}
-
-
-struct VisualEffectView: View {
-    var style: UIBlurEffect.Style
-    
-    var body: some View {
-        let blur = UIBlurEffect(style: style)
-        return VisualEffectBlur(blur: blur)
-    }
-}
-
-
 #Preview {
     CardView(isSelected: Binding(projectedValue: .constant(false)), asyncImageName: "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg")
 }

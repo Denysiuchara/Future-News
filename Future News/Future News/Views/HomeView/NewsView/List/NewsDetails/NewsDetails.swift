@@ -26,125 +26,72 @@ struct NewsDetails: View {
             
             VStack(alignment: .leading) {
                 
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                    }
-                    
-                    Spacer()
-                    
-                    
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                    }
-                    .padding(.trailing, 5)
-                    
-                    // TODO: - Realize "share"
-                    Button{
-                        isSafe.toggle()
-                    } label: {
-                        Image(systemName: isSafe ? "bookmark" : "bookmark.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                    }
-                    .padding(.trailing, 5)
-                    
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                    }
-                }
-                .foregroundStyle(.foreground)
-                .padding(.horizontal)
-                
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .foregroundStyle(.newsRow)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(.green)
-                        .frame(width: screenSize.width * scrollOffset)
-                        .animation(.easeIn, value: scrollOffset)
-                }
-                .frame(height: 8)
-                
                 VStack {
-                    AsyncImage(url: URL(string: news.image)) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                    } placeholder: {
-                        ZStack {
-                            Image("news_blank_image")
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "chevron.left")
                                 .resizable()
                                 .scaledToFit()
-                            
-                            ProgressView()
+                                .frame(width: 30, height: 30)
                         }
+                        
+                        Spacer()
+                        
+                        // MARK: - Share button
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                        }
+                        .padding(.trailing, 5)
+                        
+                        
+                        //  MARK: - Save button
+                        Button{
+                            isSafe.toggle()
+                        } label: {
+                            Image(systemName: isSafe ? "bookmark" : "bookmark.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                        }
+                        .padding(.trailing, 5)
+                        
+                        //  MARK: - Call menu button
+                        MenuView(isCoppied: $isCoppied, sourceURL: news.url)
                     }
-                    .frame(width: screenSize.width)
-                    
-                    Text(news.title)
-                        .padding(.horizontal)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Text(news.author ?? "Unknown author")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                        .padding(.horizontal)
-                        .frame(width: screenSize.width, alignment: .leading)
-                    
-                    Text(news.publishDate)
-                        .font(.subheadline)
-                        .padding(.horizontal)
-                        .frame(width: screenSize.width, alignment: .leading)
+                    .foregroundStyle(.foreground)
+                    .padding(.horizontal)
                 }
+                .padding(.bottom)
+                .background {
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .foregroundStyle(.newsRow)
+                        
+                        Rectangle()
+                            .foregroundStyle(Color(#colorLiteral(red: 0.337254902, green: 0.1137254902, blue: 0.7490196078, alpha: 1)))
+                            .frame(width: screenSize.width * scrollOffset)
+                            .animation(.easeIn, value: scrollOffset)
+                    }
+                        .ignoresSafeArea(edges: .top)
+                        .shadow(radius: 10)
+                }
+                    
+                DynamicView(scrollOffset: $scrollOffset,
+                            imageURL: news.image,
+                            title: news.title,
+                            author: news.author,
+                            publishDate: news.publishDate)
+                .padding(.top, 3)
                 
                 AdvancedScrollView(scrollOffset: $scrollOffset) {
                     ScrollView {
-                        HStack {
-                            Text("Source:")
-                            
-                            Text(news.url)
-                                .lineLimit(1)
-                                .underline()
-                                .foregroundStyle(.orange)
-                                .onTapGesture {
-                                    if let url = URL(string: news.url), UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            
-                            // TODO: - Add alert, that the text was copied
-                            Button {
-                                UIPasteboard.general.string = news.url
-                                withAnimation(.bouncy) {
-                                    isCoppied.toggle()
-                                }
-                            } label: {
-                                Image(systemName: isCoppied ? "doc" : "doc.fill")
-                            }
-                        }
-                        .padding(.horizontal)
-                        .frame(width: screenSize.width)
-                        
                         Text(news.text)
                             .padding()
                     }
@@ -152,6 +99,34 @@ struct NewsDetails: View {
             }
             .fontDesign(.rounded)
             .tint(.orange)
+            
+            // MARK: - ALERT
+            HStack {
+                Text("Source was coppied")
+                    .fontWeight(.medium)
+                
+                Image(systemName: isCoppied ? "checkmark.circle" : "x.circle")
+                    .contentTransition(.symbolEffect(.replace))
+                    .foregroundStyle(isCoppied ? .green : .red)
+            }
+            .frame(width: 200, height: 50)
+            .background {
+                VisualEffectView(style: .systemMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .shadow(radius: 10)
+            }
+            .offset(y: -100)
+            .opacity(isCoppied ? 1.0 : 0.0)
+            .frame(maxHeight: screenSize.height, alignment: .bottom)
+            .onChange(of: isCoppied) { _, newValue in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
+                    withAnimation {
+                        if newValue == true {
+                            isCoppied = false
+                        }
+                    }
+                }
+            }
         }
     }
 }
