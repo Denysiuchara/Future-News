@@ -93,7 +93,7 @@ struct NewsDetails: View {
                 AdvancedScrollView(scrollOffset: $scrollOffset) {
                     ScrollView {
                         Text(news.text)
-                            .padding()
+                            .padding(.horizontal)
                     }
                 }
             }
@@ -119,7 +119,7 @@ struct NewsDetails: View {
             .opacity(isCoppied ? 1.0 : 0.0)
             .frame(maxHeight: screenSize.height, alignment: .bottom)
             .onChange(of: isCoppied) { _, newValue in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     withAnimation {
                         if newValue == true {
                             isCoppied = false

@@ -43,6 +43,10 @@ struct AdvancedScrollView<Content: View>: View {
                                     )
                                 }
                             }
+                        
+                        // High quality coding 😎
+                        Text("\n\n")
+                            .font(.system(size: 18))
                     }
                     .scrollIndicators(.hidden)
                     .coordinateSpace(name: "scrollView")

@@ -1,5 +1,5 @@
 //
-//  TestingDynamicView.swift
+//  DynamicView.swift
 //  Future News
 //
 //  Created by Danya Denisiuk on 17.01.2024.
