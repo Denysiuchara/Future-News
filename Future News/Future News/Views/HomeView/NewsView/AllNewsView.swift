@@ -11,13 +11,27 @@ struct AllNewsView: View {
     @Binding var isPresentedPreviewNewsDetails: Bool
     @Binding var isPresentedNewsDetails: Bool
     @State var news: [News]
+    @State private var isSaveNews: [Bool]
     
-    var imagePath: [String]
+    @State private var isSaveForSelectedNews: Bool = false
     
     var onNewsSelected: ((News) -> Void)?
     
-    @State private var isSafeNews = false
-    @State private var dynamicSize: CGFloat = 20
+    // TODO: - Create downloader photos
+    private let imagePath = [
+        "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
+        "https://nystudio107.com/img/blog/_1200x675_crop_center-center_82_line/image_optimzation.jpg",
+        "https://cc-prod.scene7.com/is/image/CCProdAuthor/d-03-4?$pjpeg$&jpegSize=200&wid=720",
+        "https://t4.ftcdn.net/jpg/03/96/00/75/360_F_396007562_FPXMDvZROZp0Cnnn4hLX2Zs5zBPyQTFV.jpg",
+    ]
+    
+    init(isPresentedPreviewNewsDetails: Binding<Bool>, isPresentedNewsDetails: Binding<Bool>, news: [News], onNewsSelected: (@escaping (News) -> Void)) {
+        self._isPresentedPreviewNewsDetails = isPresentedPreviewNewsDetails
+        self._isPresentedNewsDetails = isPresentedNewsDetails
+        self.news = news
+        self.onNewsSelected = onNewsSelected
+        self.isSaveNews = Array(repeating: false, count: news.count)
+    }
     
     var body: some View {
         ScrollView {
@@ -38,19 +52,24 @@ struct AllNewsView: View {
             .padding(.horizontal)
             
             Divider()
-            
             // TODO: - Add scrolling with news
-            ForEach(news.indices) { index in
-                NewsCell(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSafeNews: $isSafeNews, dynamicSize: $dynamicSize, isPresentedNewsDetails: $isPresentedNewsDetails, news: news[index])
-                    .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
-                        print("Start long press")
-                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
-                        withAnimation {
-                            onNewsSelected?(news[index])
-                            self.isPresentedPreviewNewsDetails = true
-                        }
-                        print("Finish long press")
+            ForEach(news.indices, id: \.self) { index in
+                NewsCell(
+                    isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                    isSaveNews: $isSaveNews[index],
+                    isPresentedNewsDetails: $isPresentedNewsDetails,
+                    news: news[index]
+                )
+                .id(index)
+                .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
+                    print("Start long press")
+                    UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
+                    withAnimation {
+                        onNewsSelected?(news[index])
+                        self.isPresentedPreviewNewsDetails = true
                     }
+                    print("Finish long press")
+                }
             }
         }
         .scrollIndicators(.hidden)
@@ -102,12 +121,6 @@ struct AllNewsView: View {
                  sourceCountry: "USA",
                  sentiment: 0.3,
                  author: "David")
-        ],
-        imagePath: [
-            "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
-            "https://nystudio107.com/img/blog/_1200x675_crop_center-center_82_line/image_optimzation.jpg",
-            "https://cc-prod.scene7.com/is/image/CCProdAuthor/d-03-4?$pjpeg$&jpegSize=200&wid=720",
-            "https://t4.ftcdn.net/jpg/03/96/00/75/360_F_396007562_FPXMDvZROZp0Cnnn4hLX2Zs5zBPyQTFV.jpg",
-        ]
+        ], onNewsSelected: { _ in }
     )
 }

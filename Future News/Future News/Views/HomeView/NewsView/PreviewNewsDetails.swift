@@ -11,7 +11,7 @@ struct PreviewNewsDetails: View {
     @Environment(\.screenSize) private var screenSize
     
     @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isSafe: Bool
+    @Binding var isSaveNews: Bool
     @Binding var dynamicSize: CGFloat
     @Binding var isPresentedNewsDetails: Bool
     
@@ -67,15 +67,15 @@ struct PreviewNewsDetails: View {
                 // FIXME: - Пофиксить баг: при нажатии перекрашиваются все row
                 Button {
                     withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        isSafe.toggle()
-                        dynamicSize = isSafe ? 23 : 20
+                        isSaveNews.toggle()
+                        dynamicSize = isSaveNews ? 23 : 20
                     }
                 } label: {
                     Image(systemName: "bookmark.fill")
                         .resizable()
                         .scaledToFit()
                         .frame(width: screenSize.width * 0.07, height: screenSize.width * 0.07)
-                        .foregroundStyle(isSafe ? .orange : .black)
+                        .foregroundStyle(isSaveNews ? .orange : .black)
                 }
                 .frame(width: screenSize.width * 0.1, height: screenSize.width * 0.1)
             }
@@ -150,7 +150,7 @@ struct PreviewNewsDetails: View {
                             height: isPresentedPreviewNewsDetails ? 0.97 : 1),
                      anchor: .center)
         .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSafeNews: $isSafe, news: news)
+            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSaveNews: $isSaveNews, news: news)
         }
         .padding(.bottom)
     }
@@ -159,7 +159,7 @@ struct PreviewNewsDetails: View {
 #Preview {
     PreviewNewsDetails(
         isPresentedPreviewNewsDetails: .constant(false),
-        isSafe: .constant(true),
+        isSaveNews: .constant(true),
         dynamicSize: .constant(20),
         isPresentedNewsDetails: .constant(false),
         news: News(id: 1,

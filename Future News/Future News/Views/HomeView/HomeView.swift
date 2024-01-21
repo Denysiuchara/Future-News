@@ -16,11 +16,8 @@ struct HomeView: View {
     /// Свойство для появления NewsDetails
     @State private var isPresentedNewsDetails = false
     
-    /// Хранилище для выбранного News в AllNewsView
-    @State private var selectedNewsForPreviewDetails: News?
-    
-    /// Свойство описывающее, выбран ли флажок для сохранения новости
-    @State private var isSafeNews = false
+//    /// Хранилище для выбранного News в AllNewsView
+//    @State private var selectedNewsForPreviewDetails: News?
     
     /// Свойство для появления NewsDetails
     @State private var showDestinationSearchView = false
@@ -31,13 +28,8 @@ struct HomeView: View {
     /// Свойство для появления LoadingScreen
     @State private var isLoading = true
     
-    // TODO: - Create downloader photos
-    let imagePath = [
-        "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
-        "https://nystudio107.com/img/blog/_1200x675_crop_center-center_82_line/image_optimzation.jpg",
-        "https://cc-prod.scene7.com/is/image/CCProdAuthor/d-03-4?$pjpeg$&jpegSize=200&wid=720",
-        "https://t4.ftcdn.net/jpg/03/96/00/75/360_F_396007562_FPXMDvZROZp0Cnnn4hLX2Zs5zBPyQTFV.jpg",
-    ]
+    @State private var currentSelectedNews: (selectedNewsForPreviewDetails: News?,
+                                             isSavedNewsForPreviewDetails: Binding<Bool>) = (nil, .constant(false))
     
     let titles: [String] = ["All News",
                             "Business",
@@ -131,8 +123,8 @@ struct HomeView: View {
                             }
                             
                             if let news = newsVM.searchNews?.news {
-                                AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isPresentedNewsDetails: $isPresentedNewsDetails, news: news, imagePath: imagePath) { selectedNews in
-                                    self.selectedNewsForPreviewDetails = selectedNews
+                                AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isPresentedNewsDetails: $isPresentedNewsDetails, news: news) { selectedNews in
+                                    self.currentSelectedNews.selectedNewsForPreviewDetails = selectedNews
                                 }
                                 .id(selectedIndex)
                                 .onAppear {
@@ -160,19 +152,19 @@ struct HomeView: View {
             
             PreviewNewsDetails(
                 isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                isSafe: $isSafeNews,
+                isSaveNews: currentSelectedNews.isSavedNewsForPreviewDetails,
                 dynamicSize: .constant(20),
                 isPresentedNewsDetails: $isPresentedNewsDetails,
-                news: selectedNewsForPreviewDetails ?? News(id: 0,
-                                                            title: "",
-                                                            text: "",
-                                                            url: "",
-                                                            image: "",
-                                                            publishDate: "",
-                                                            language: "",
-                                                            sourceCountry: "",
-                                                            sentiment: 0.0,
-                                                            author: nil)
+                news: currentSelectedNews.selectedNewsForPreviewDetails ?? News(id: 0,
+                                                                                title: "",
+                                                                                text: "",
+                                                                                url: "",
+                                                                                image: "",
+                                                                                publishDate: "",
+                                                                                language: "",
+                                                                                sourceCountry: "",
+                                                                                sentiment: 0.0,
+                                                                                author: nil)
             )
             .opacity(isPresentedPreviewNewsDetails ? 1 : 0.0)
         }

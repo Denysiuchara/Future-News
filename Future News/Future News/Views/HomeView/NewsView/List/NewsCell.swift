@@ -11,11 +11,12 @@ struct NewsCell: View {
     @Environment(\.screenSize) private var screenSize
     
     @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isSafeNews: Bool
-    @Binding var dynamicSize: CGFloat
+    @Binding var isSaveNews: Bool
     @Binding var isPresentedNewsDetails: Bool
     
     var news: News
+    
+    @State private var dynamicSize: CGFloat = 28
     
     var body: some View {
         VStack {
@@ -36,20 +37,20 @@ struct NewsCell: View {
                 
                 Spacer()
                 
-                // FIXME: - Пофиксить баг: при нажатии перекрашиваются все row
                 Button {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 2)
                     withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        isSafeNews.toggle()
-                        dynamicSize = isSafeNews ? 23 : 20
+                        isSaveNews.toggle()
+                        dynamicSize = isSaveNews ? 33 : 28
                     }
                 } label: {
                     Image(systemName: "bookmark.fill")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: screenSize.width * 0.07, height: screenSize.width * 0.07)
-                        .foregroundStyle(isSafeNews ? .orange : .black)
+                        .frame(width: dynamicSize, height: dynamicSize)
+                        .foregroundStyle(isSaveNews ? .orange : .black)
                 }
-                .frame(width: screenSize.width * 0.1, height: screenSize.width * 0.1)
+                .frame(width: 30, height: 30)
             }
             .padding(.horizontal)
             .frame(width: screenSize.width)
@@ -91,7 +92,7 @@ struct NewsCell: View {
             isPresentedNewsDetails.toggle()
         }
         .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSafeNews: $isSafeNews, news: news)
+            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSaveNews: $isSaveNews, news: news)
         }
         .padding(.bottom)
     }
@@ -100,8 +101,7 @@ struct NewsCell: View {
 #Preview {
     NewsCell(
         isPresentedPreviewNewsDetails: .constant(false),
-        isSafeNews: .constant(true),
-        dynamicSize: .constant(20),
+        isSaveNews: .constant(true),
         isPresentedNewsDetails: .constant(false),
         news: News(id: 1,
                    title: "Some Title",
