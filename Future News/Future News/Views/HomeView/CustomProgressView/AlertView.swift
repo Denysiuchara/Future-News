@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AlertView: View {
-    @Binding var isAppear: Bool
+    @Binding var isAppearAlertView: Bool
     
     private let userMessage =
     """
@@ -21,7 +21,7 @@ struct AlertView: View {
     """
     
     var body: some View {
-        if isAppear {
+        if isAppearAlertView {
             withAnimation(.easeIn(duration: 10)) {
                 VStack(spacing: 0) {
                     Text(userMessage)
@@ -38,7 +38,7 @@ struct AlertView: View {
                     
                     Button {
                         withAnimation(.default) {
-                            isAppear.toggle()
+                            isAppearAlertView.toggle()
                         }
                     } label: {
                         Text("Okey")
@@ -58,11 +58,11 @@ struct AlertView: View {
                 }
             }
             .zIndex(100.0)
-            .opacity(isAppear ? 1.0 : 0.0)
+            .opacity(isAppearAlertView ? 1.0 : 0.0)
         }
     }
 }
 
 #Preview {
-    AlertView(isAppear: .constant(true))
+    AlertView(isAppearAlertView: .constant(true))
 }

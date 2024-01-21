@@ -40,7 +40,7 @@ struct CardView: View {
                                 .foregroundStyle(.orange)
                         }
                         .background {
-                            VisualEffectView(style: .systemThinMaterialDark)
+                            VisualEffectView(style: .systemThinMaterialDark, alpha: 1.0)
                                 .opacity(0.7)
                                 .clipShape(Circle())
                                 .frame(width: geo.size.width * 0.4, height: geo.size.height * 0.15)
@@ -56,7 +56,7 @@ struct CardView: View {
                         .frame(width: geo.size.width * 0.83, height: 60, alignment: .leading)
                         .padding()
                         .background {
-                            VisualEffectView(style: .systemThinMaterialDark)
+                            VisualEffectView(style: .systemThinMaterialDark, alpha: 1.0)
                                 .opacity(0.5)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                                 .frame(width: geo.size.width * 0.85, height: geo.size.height * 0.25)

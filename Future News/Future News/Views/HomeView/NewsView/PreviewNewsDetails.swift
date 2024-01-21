@@ -1,17 +1,17 @@
 //
-//  NewsCell.swift
+//  PreviewNewsDetails.swift
 //  Future News
 //
-//  Created by Danya Denisiuk on 20.01.2024.
+//  Created by Danya Denisiuk on 21.01.2024.
 //
 
 import SwiftUI
 
-struct NewsCell: View {
+struct PreviewNewsDetails: View {
     @Environment(\.screenSize) private var screenSize
     
     @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isSafeNews: Bool
+    @Binding var isSafe: Bool
     @Binding var dynamicSize: CGFloat
     @Binding var isPresentedNewsDetails: Bool
     
@@ -19,6 +19,34 @@ struct NewsCell: View {
     
     var body: some View {
         VStack {
+            VStack {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        withAnimation {
+                            self.isPresentedPreviewNewsDetails = false
+                        }
+                    } label: {
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundStyle(.black)
+                            .frame(width: isPresentedPreviewNewsDetails ? 30 : 0,
+                                   height: isPresentedPreviewNewsDetails ? 30 : 0)
+                    }
+                    .padding([.horizontal, .top])
+                    
+                }
+                
+                Divider()
+            }
+            .frame(width: screenSize.width,
+                   height: isPresentedPreviewNewsDetails ? 45 : 0)
+            .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 1 : 0,
+                                height: isPresentedPreviewNewsDetails ? 1 : 0),
+                         anchor: .bottom)
+            
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(news.title)
@@ -39,15 +67,15 @@ struct NewsCell: View {
                 // FIXME: - Пофиксить баг: при нажатии перекрашиваются все row
                 Button {
                     withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        isSafeNews.toggle()
-                        dynamicSize = isSafeNews ? 23 : 20
+                        isSafe.toggle()
+                        dynamicSize = isSafe ? 23 : 20
                     }
                 } label: {
                     Image(systemName: "bookmark.fill")
                         .resizable()
                         .scaledToFit()
                         .frame(width: screenSize.width * 0.07, height: screenSize.width * 0.07)
-                        .foregroundStyle(isSafeNews ? .orange : .black)
+                        .foregroundStyle(isSafe ? .orange : .black)
                 }
                 .frame(width: screenSize.width * 0.1, height: screenSize.width * 0.1)
             }
@@ -77,30 +105,61 @@ struct NewsCell: View {
                     .fontDesign(.rounded)
                     .lineLimit(3)
                     .frame(width: 370, alignment: .topLeading)
+                
+                VStack {
+                    Divider()
+                    
+                    Text(news.text)
+                        .lineLimit(7)
+                        .frame(height: isPresentedPreviewNewsDetails ? 200 : 0, alignment: .topLeading)
+                        .padding(.horizontal)
+                        .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 1 : 0,
+                                            height: isPresentedPreviewNewsDetails ? 1 : 0),
+                                     anchor: .topLeading)
+                    
+                    Button {
+                        isPresentedNewsDetails.toggle()
+                    } label: {
+                        Text("Read the full news")
+                            .foregroundStyle(.black)
+                    }
+                    .padding(7)
+                    .background {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(.orange)
+                    }
+                    .shadow(radius: 4)
+
+                }
+                .frame(width: screenSize.width,
+                       height: isPresentedPreviewNewsDetails ? 250 : 0)
+                .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 1 : 0,
+                                    height: isPresentedPreviewNewsDetails ? 1 : 0),
+                             anchor: .top)
             }
         }
         .background {
             GeometryReader { geo in
-                Rectangle()
+                RoundedRectangle(cornerRadius: isPresentedPreviewNewsDetails ? 20 : 0)
                     .fill(.newsRow)
                     .frame(width: geo.size.width, height: geo.size.height + 10)
                     .shadow(radius: 10)
             }
         }
-        .onTapGesture {
-            isPresentedNewsDetails.toggle()
-        }
+        .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 0.97 : 1,
+                            height: isPresentedPreviewNewsDetails ? 0.97 : 1),
+                     anchor: .center)
         .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSafeNews: $isSafeNews, news: news)
+            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSafeNews: $isSafe, news: news)
         }
         .padding(.bottom)
     }
 }
 
 #Preview {
-    NewsCell(
+    PreviewNewsDetails(
         isPresentedPreviewNewsDetails: .constant(false),
-        isSafeNews: .constant(true),
+        isSafe: .constant(true),
         dynamicSize: .constant(20),
         isPresentedNewsDetails: .constant(false),
         news: News(id: 1,

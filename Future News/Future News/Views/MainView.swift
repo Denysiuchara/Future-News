@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var isAppear = false
+    /// Свойство для появление алерта
+    @State private var isAppearAlertView = false
     
     var body: some View {
         TabView {
-            HomeView(isAppear: $isAppear)
+            HomeView(isAppearAlertView: $isAppearAlertView)
                 .tabItem {
                     Image(systemName: "house.fill")
                 }
@@ -28,7 +29,7 @@ struct MainView: View {
                 }
         }
         .onAppear {
-            isAppear = true
+            isAppearAlertView = true
         }
         .tint(.orange)
     }
