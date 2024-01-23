@@ -45,7 +45,6 @@
 		94A1DDCD2B20DC0A0067A7C0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A1DDCC2B20DC0A0067A7C0 /* HomeView.swift */; };
 		94A1DDCF2B20DC0C0067A7C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94A1DDCE2B20DC0C0067A7C0 /* Assets.xcassets */; };
 		94A1DDD92B20DD9B0067A7C0 /* SearchNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A1DDD82B20DD9B0067A7C0 /* SearchNews.swift */; };
-		94ADF9B32B5569060078A6D3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 94ADF9B22B5569060078A6D3 /* SDWebImageSwiftUI */; };
 		94ADF9C32B557F620078A6D3 /* GIFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADF9C22B557F610078A6D3 /* GIFView.swift */; };
 		94ADF9C52B558C900078A6D3 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADF9C42B558C900078A6D3 /* AlertView.swift */; };
 		94ADF9C72B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADF9C62B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift */; };
@@ -122,7 +121,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94ADF9B32B5569060078A6D3 /* SDWebImageSwiftUI in Frameworks */,
 				942B71E22B38764A00A94E68 /* WrappingHStack in Frameworks */,
 				942B71E42B38766400A94E68 /* WrappingHStack in Frameworks */,
 				94ED72E72B2C86E700D29AE1 /* WrappingHStack in Frameworks */,
@@ -379,7 +377,6 @@
 				942B71E12B38764A00A94E68 /* WrappingHStack */,
 				942B71E32B38766400A94E68 /* WrappingHStack */,
 				948D4C172B5448C3007791D4 /* FLAnimatedImage */,
-				94ADF9B22B5569060078A6D3 /* SDWebImageSwiftUI */,
 			);
 			productName = "Future News";
 			productReference = 94A1DDC72B20DC0A0067A7C0 /* Future News.app */;
@@ -412,7 +409,6 @@
 			packageReferences = (
 				94ED72E52B2C86E700D29AE1 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 				948D4C162B5448C3007791D4 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */,
-				94ADF9B12B5569060078A6D3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 94A1DDC82B20DC0A0067A7C0 /* Products */;
 			projectDirPath = "";
@@ -710,14 +706,6 @@
 				minimumVersion = 1.0.17;
 			};
 		};
-		94ADF9B12B5569060078A6D3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.6;
-			};
-		};
 		94ED72E52B2C86E700D29AE1 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
@@ -743,11 +731,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 948D4C162B5448C3007791D4 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */;
 			productName = FLAnimatedImage;
-		};
-		94ADF9B22B5569060078A6D3 /* SDWebImageSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 94ADF9B12B5569060078A6D3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
-			productName = SDWebImageSwiftUI;
 		};
 		94ED72E62B2C86E700D29AE1 /* WrappingHStack */ = {
 			isa = XCSwiftPackageProductDependency;

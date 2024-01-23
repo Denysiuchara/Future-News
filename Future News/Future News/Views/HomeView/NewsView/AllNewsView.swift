@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct AllNewsView: View {
+    @Environment(\.screenSize) var screenSize
     @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isPresentedNewsDetails: Bool
     @State var news: [News]
+    
+    @State private var isPresentedNewsDetails = false
     @State private var isSaveNews: [Bool]
-    
-    @State private var isSaveForSelectedNews: Bool = false
-    
-    var onNewsSelected: ((News) -> Void)?
+    @State private var indexCurrentNews: Int = 0
     
     // TODO: - Create downloader photos
     private let imagePath = [
@@ -25,61 +24,64 @@ struct AllNewsView: View {
         "https://t4.ftcdn.net/jpg/03/96/00/75/360_F_396007562_FPXMDvZROZp0Cnnn4hLX2Zs5zBPyQTFV.jpg",
     ]
     
-    init(isPresentedPreviewNewsDetails: Binding<Bool>, isPresentedNewsDetails: Binding<Bool>, news: [News], onNewsSelected: (@escaping (News) -> Void)) {
+    init(isPresentedPreviewNewsDetails: Binding<Bool>, news: [News]) {
         self._isPresentedPreviewNewsDetails = isPresentedPreviewNewsDetails
-        self._isPresentedNewsDetails = isPresentedNewsDetails
         self.news = news
-        self.onNewsSelected = onNewsSelected
         self.isSaveNews = Array(repeating: false, count: news.count)
     }
     
     var body: some View {
-        ScrollView {
-            
-            // TODO: - Add more information in CardView, and add destination to tap
-            TabCard(imagePath: imagePath)
-                .frame(height: 300)
-            
-            
-            HStack {
-                Text("Latest news")
-                    .fontDesign(.rounded)
-                    .font(.title)
-                    .padding(.horizontal)
+            ScrollView {
+                // TODO: - Add more information in CardView, and add destination to tap
+                TabCard(imagePath: imagePath)
+                    .frame(height: 300)
                 
-                Spacer()
-            }
-            .padding(.horizontal)
-            
-            Divider()
-            // TODO: - Add scrolling with news
-            ForEach(news.indices, id: \.self) { index in
-                NewsCell(
-                    isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                    isSaveNews: $isSaveNews[index],
-                    isPresentedNewsDetails: $isPresentedNewsDetails,
-                    news: news[index]
-                )
-                .id(index)
-                .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
-                    print("Start long press")
-                    UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
-                    withAnimation {
-                        onNewsSelected?(news[index])
-                        self.isPresentedPreviewNewsDetails = true
+                
+                HStack {
+                    Text("Latest news")
+                        .fontDesign(.rounded)
+                        .font(.title)
+                        .padding(.horizontal)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal)
+                
+                Divider()
+                // TODO: - Add scrolling with news
+                ForEach(0..<news.count, id: \.self) { index in
+                    NewsCell(
+                        isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                        isPresentedNewsDetails: $isPresentedNewsDetails,
+                        isSaveNews: $isSaveNews[index],
+                        news: news[index]
+                    )
+                    .id(index)
+                    .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
+                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
+                        withAnimation {
+                            self.indexCurrentNews = index
+                            print("Index = \(indexCurrentNews)")
+                            self.isPresentedPreviewNewsDetails = true
+                        }
                     }
-                    print("Finish long press")
                 }
             }
-        }
-        .scrollIndicators(.hidden)
+            .allowsHitTesting(!isPresentedPreviewNewsDetails)
+            .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
+            .scrollIndicators(.hidden)
+            
+//            PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+//                               isSaveNews: $isSaveNews[indexCurrentNews],
+//                               isPresentedNewsDetails: $isPresentedNewsDetails,
+//                               news: news[indexCurrentNews])
+//            .opacity(isPresentedPreviewNewsDetails ? 1 : 0)
     }
 }
 
 #Preview {
     AllNewsView(
         isPresentedPreviewNewsDetails: .constant(false),
-        isPresentedNewsDetails: .constant(false),
         news: [
             News(id: 0,
                  title: "First Title Text",
@@ -121,6 +123,6 @@ struct AllNewsView: View {
                  sourceCountry: "USA",
                  sentiment: 0.3,
                  author: "David")
-        ], onNewsSelected: { _ in }
+        ]
     )
 }

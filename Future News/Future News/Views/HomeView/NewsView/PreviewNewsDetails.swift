@@ -12,8 +12,9 @@ struct PreviewNewsDetails: View {
     
     @Binding var isPresentedPreviewNewsDetails: Bool
     @Binding var isSaveNews: Bool
-    @Binding var dynamicSize: CGFloat
     @Binding var isPresentedNewsDetails: Bool
+    
+    @State private var dynamicSize: CGFloat = 28
     
     var news: News
     
@@ -68,7 +69,7 @@ struct PreviewNewsDetails: View {
                 Button {
                     withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
                         isSaveNews.toggle()
-                        dynamicSize = isSaveNews ? 23 : 20
+                        dynamicSize = isSaveNews ? 33 : 28
                     }
                 } label: {
                     Image(systemName: "bookmark.fill")
@@ -150,7 +151,9 @@ struct PreviewNewsDetails: View {
                             height: isPresentedPreviewNewsDetails ? 0.97 : 1),
                      anchor: .center)
         .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSaveNews: $isSaveNews, news: news)
+            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                        isSaveNews: $isSaveNews,
+                        news: news)
         }
         .padding(.bottom)
     }
@@ -160,7 +163,6 @@ struct PreviewNewsDetails: View {
     PreviewNewsDetails(
         isPresentedPreviewNewsDetails: .constant(false),
         isSaveNews: .constant(true),
-        dynamicSize: .constant(20),
         isPresentedNewsDetails: .constant(false),
         news: News(id: 1,
                    title: "Some Title",

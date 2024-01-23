@@ -11,8 +11,10 @@ struct NewsCell: View {
     @Environment(\.screenSize) private var screenSize
     
     @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isSaveNews: Bool
     @Binding var isPresentedNewsDetails: Bool
+    
+    /// Общее состояние для кнопки сохранения
+    @Binding var isSaveNews: Bool
     
     var news: News
     
@@ -95,20 +97,21 @@ struct NewsCell: View {
             NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSaveNews: $isSaveNews, news: news)
         }
         .padding(.bottom)
+
     }
 }
 
 #Preview {
     NewsCell(
         isPresentedPreviewNewsDetails: .constant(false),
+        isPresentedNewsDetails: .constant(false), 
         isSaveNews: .constant(true),
-        isPresentedNewsDetails: .constant(false),
         news: News(id: 1,
                    title: "Some Title",
                    text: "Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text",
                    url: "url",
                    image: "url_image",
-                   publishDate: "12-12-12 12:12",
+                   publishDate: "11-11-11 11:11",
                    language: "sm",
                    sourceCountry: "Some Country",
                    sentiment: 0.1,

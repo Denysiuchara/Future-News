@@ -13,13 +13,7 @@ struct HomeView: View {
     /// Свойство для появления алерта
     @Binding var isAppearAlertView: Bool
     
-    /// Свойство для появления NewsDetails
-    @State private var isPresentedNewsDetails = false
-    
-//    /// Хранилище для выбранного News в AllNewsView
-//    @State private var selectedNewsForPreviewDetails: News?
-    
-    /// Свойство для появления NewsDetails
+    /// Свойство для появления DestinationSearchView
     @State private var showDestinationSearchView = false
     
     /// Свойство описывающее, выбранную тему новостей
@@ -27,9 +21,6 @@ struct HomeView: View {
     
     /// Свойство для появления LoadingScreen
     @State private var isLoading = true
-    
-    @State private var currentSelectedNews: (selectedNewsForPreviewDetails: News?,
-                                             isSavedNewsForPreviewDetails: Binding<Bool>) = (nil, .constant(false))
     
     let titles: [String] = ["All News",
                             "Business",
@@ -82,6 +73,10 @@ struct HomeView: View {
                                 newsVM.isFailedStatusCode = newValue
                             }
                     }
+                    .frame(height: isPresentedPreviewNewsDetails ? 0 : 80)
+                    .scaleEffect(CGSize(width: 1.0,
+                                        height: isPresentedPreviewNewsDetails ? 0 : 1.0),
+                                 anchor: .top)
                     
                     ZStack {
                         ScrollView {
@@ -123,9 +118,7 @@ struct HomeView: View {
                             }
                             
                             if let news = newsVM.searchNews?.news {
-                                AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isPresentedNewsDetails: $isPresentedNewsDetails, news: news) { selectedNews in
-                                    self.currentSelectedNews.selectedNewsForPreviewDetails = selectedNews
-                                }
+                                AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, news: news)
                                 .id(selectedIndex)
                                 .onAppear {
                                     isAppearAlertView = false
@@ -146,27 +139,7 @@ struct HomeView: View {
                         AlertView(isAppearAlertView: $isAppearAlertView)
                     }
                 }
-                .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0.0)
-                .allowsHitTesting(!isPresentedPreviewNewsDetails)
             }
-            
-            PreviewNewsDetails(
-                isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                isSaveNews: currentSelectedNews.isSavedNewsForPreviewDetails,
-                dynamicSize: .constant(20),
-                isPresentedNewsDetails: $isPresentedNewsDetails,
-                news: currentSelectedNews.selectedNewsForPreviewDetails ?? News(id: 0,
-                                                                                title: "",
-                                                                                text: "",
-                                                                                url: "",
-                                                                                image: "",
-                                                                                publishDate: "",
-                                                                                language: "",
-                                                                                sourceCountry: "",
-                                                                                sentiment: 0.0,
-                                                                                author: nil)
-            )
-            .opacity(isPresentedPreviewNewsDetails ? 1 : 0.0)
         }
     }
     
