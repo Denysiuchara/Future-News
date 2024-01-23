@@ -73,10 +73,6 @@ struct HomeView: View {
                                 newsVM.isFailedStatusCode = newValue
                             }
                     }
-                    .frame(height: isPresentedPreviewNewsDetails ? 0 : 80)
-                    .scaleEffect(CGSize(width: 1.0,
-                                        height: isPresentedPreviewNewsDetails ? 0 : 1.0),
-                                 anchor: .top)
                     
                     ZStack {
                         ScrollView {
