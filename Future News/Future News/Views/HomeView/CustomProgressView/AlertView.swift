@@ -30,7 +30,8 @@ struct AlertView: View {
                         .background {
                             GeometryReader { geo in
                                 RoundedRectangle(cornerRadius: 20)
-                                    .fill(.newsRow)
+                                    .fill(.colorSet1)
+                                    .opacity(0.95)
                             }
                         }
                         .padding([.horizontal, .top])
@@ -42,7 +43,6 @@ struct AlertView: View {
                         }
                     } label: {
                         Text("Okey")
-                            .foregroundStyle(.black)
                             .font(.system(size: 20))
                     }
                     .padding()
@@ -50,7 +50,7 @@ struct AlertView: View {
                     .background {
                         GeometryReader { geo in
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(.newsRow)
+                                .fill(.colorSet1)
                         }
                     }
                     .shadow(radius: 10)

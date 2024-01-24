@@ -11,17 +11,17 @@ struct PreviewNewsDetails: View {
     @Environment(\.screenSize) private var screenSize
     
     @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isSaveNews: Bool
     @Binding var isPresentedNewsDetails: Bool
     
     @State private var dynamicSize: CGFloat = 28
     
-    var news: News
+    var selectedNews: News
     
     var body: some View {
         VStack {
             VStack {
                 HStack {
+                    
                     Spacer()
                     
                     Button {
@@ -33,30 +33,24 @@ struct PreviewNewsDetails: View {
                             .resizable()
                             .scaledToFit()
                             .foregroundStyle(.black)
-                            .frame(width: isPresentedPreviewNewsDetails ? 30 : 0,
-                                   height: isPresentedPreviewNewsDetails ? 30 : 0)
+                            .frame(width: 30, height: 30)
                     }
-                    .padding([.horizontal, .top])
-                    
                 }
                 
                 Divider()
             }
-            .frame(width: screenSize.width,
-                   height: isPresentedPreviewNewsDetails ? 45 : 0)
-            .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 1 : 0,
-                                height: isPresentedPreviewNewsDetails ? 1 : 0),
-                         anchor: .bottom)
+            .padding([.horizontal, .top])
+            .frame(width: screenSize.width, height: 45)
             
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(news.title)
+                    Text(selectedNews.title)
                         .font(.system(size: 23))
                         .lineLimit(2)
                         .fontWeight(.bold)
                         .padding(.top, 6)
                     
-                    Text(news.publishDate)
+                    Text(selectedNews.publishDate)
                         .fontDesign(.rounded)
                         .frame(width: screenSize.width * 0.50, height: 20, alignment: .leading)
                         .opacity(0.5)
@@ -64,27 +58,11 @@ struct PreviewNewsDetails: View {
                 }
                 
                 Spacer()
-                
-                // FIXME: - Пофиксить баг: при нажатии перекрашиваются все row
-                Button {
-                    withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        isSaveNews.toggle()
-                        dynamicSize = isSaveNews ? 33 : 28
-                    }
-                } label: {
-                    Image(systemName: "bookmark.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: screenSize.width * 0.07, height: screenSize.width * 0.07)
-                        .foregroundStyle(isSaveNews ? .orange : .black)
-                }
-                .frame(width: screenSize.width * 0.1, height: screenSize.width * 0.1)
             }
             .padding(.horizontal)
-            .frame(width: screenSize.width)
             
             VStack {
-                AsyncImage(url: URL(string: news.image)) { image in
+                AsyncImage(url: URL(string: selectedNews.image)) { image in
                     image
                         .resizable()
                         .scaledToFill()
@@ -101,7 +79,7 @@ struct PreviewNewsDetails: View {
                         .clipped()
                 }
                 
-                Text(news.author ?? "Unknown author")
+                Text(selectedNews.author ?? "Unknown author")
                     .fontWeight(.semibold)
                     .fontDesign(.rounded)
                     .lineLimit(3)
@@ -110,7 +88,7 @@ struct PreviewNewsDetails: View {
                 VStack {
                     Divider()
                     
-                    Text(news.text)
+                    Text(selectedNews.text)
                         .lineLimit(7)
                         .frame(height: isPresentedPreviewNewsDetails ? 200 : 0, alignment: .topLeading)
                         .padding(.horizontal)
@@ -142,37 +120,33 @@ struct PreviewNewsDetails: View {
         .background {
             GeometryReader { geo in
                 RoundedRectangle(cornerRadius: isPresentedPreviewNewsDetails ? 20 : 0)
-                    .fill(.newsRow)
+                    .fill(.colorSet3)
                     .frame(width: geo.size.width, height: geo.size.height + 10)
                     .shadow(radius: 10)
             }
         }
-        .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 0.97 : 1,
-                            height: isPresentedPreviewNewsDetails ? 0.97 : 1),
+        .opacity(isPresentedPreviewNewsDetails ? 1.0 : 0.0)
+        .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 0.96 : 1,
+                            height: isPresentedPreviewNewsDetails ? 0.96 : 1),
                      anchor: .center)
-        .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                        isSaveNews: $isSaveNews,
-                        news: news)
-        }
         .padding(.bottom)
     }
 }
 
 #Preview {
     PreviewNewsDetails(
-        isPresentedPreviewNewsDetails: .constant(false),
-        isSaveNews: .constant(true),
+        isPresentedPreviewNewsDetails: .constant(true),
         isPresentedNewsDetails: .constant(false),
-        news: News(id: 1,
-                   title: "Some Title",
-                   text: "Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text",
-                   url: "url",
-                   image: "url_image",
-                   publishDate: "12-12-12 12:12",
-                   language: "sm",
-                   sourceCountry: "Some Country",
-                   sentiment: 0.1,
-                   author: "Some Author")
+        selectedNews:
+            News(id: 0,
+                 title: "Title",
+                 text: "Text",
+                 url: "",
+                 image: "",
+                 publishDate: "",
+                 language: "",
+                 sourceCountry: "",
+                 sentiment: 0.0,
+                 isSaveNews: true)
     )
 }

@@ -31,7 +31,7 @@ struct MainView: View {
         .onAppear {
             isAppearAlertView = true
         }
-        .tint(.orange)
+        .tint(.colorSet6)
     }
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
-    @Binding var isSelected: Bool
+    
     var asyncImageName: String
     
     var body: some View {
@@ -19,35 +19,18 @@ struct CardView: View {
                         .resizable()
                         .scaledToFill()
                         .frame(width: geo.size.width * 0.90, height: geo.size.height)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
                 } placeholder: {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.gray)
+                    Image("news_blank_image")
+                        .resizable()
+                        .scaledToFill()
                         .frame(width: geo.size.width * 0.90, height: geo.size.height)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
                 }
                 
                 VStack {
-                    HStack {
-                        FixedSpacer(width: geo.size.width * 0.7, height: 1)
-                        
-                        Button {
-                            isSelected.toggle()
-                        } label: {
-                            Image(systemName: isSelected ? "bookmark.fill" : "bookmark")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                                .foregroundStyle(.orange)
-                        }
-                        .background {
-                            VisualEffectView(style: .systemThinMaterialDark, alpha: 1.0)
-                                .opacity(0.7)
-                                .clipShape(Circle())
-                                .frame(width: geo.size.width * 0.4, height: geo.size.height * 0.15)
-                        }
-                    }
                     
-                    FixedSpacer(width: 1, height: geo.size.width * 0.3)
+                    Spacer()
                     
                     Text("**Some color to fill in the string!Some color to fill in the string!Some color to fill**")
                         .fontDesign(.rounded)
@@ -61,6 +44,8 @@ struct CardView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                                 .frame(width: geo.size.width * 0.85, height: geo.size.height * 0.25)
                         }
+                        .padding(.bottom, 25)
+                        
                 }
             }
             .frame(width: geo.size.width)
@@ -68,17 +53,7 @@ struct CardView: View {
     }
 }
 
-private struct FixedSpacer: View {
-    let width: CGFloat
-    let height: CGFloat
-    
-    var body: some View {
-        Rectangle()
-            .fill(.clear)
-            .frame(width: width, height: height)
-    }
-}
-
 #Preview {
-    CardView(isSelected: Binding(projectedValue: .constant(false)), asyncImageName: "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg")
+    CardView(asyncImageName: "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg")
+        .frame(height: 300)
 }

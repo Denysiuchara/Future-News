@@ -168,7 +168,6 @@ struct CollapsibleDestinationViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding()
-            .background(Color("backgroundColor"))
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding()
             .shadow(radius: 10)

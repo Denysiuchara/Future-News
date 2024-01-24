@@ -8,7 +8,10 @@ struct HomeView: View {
     @ObservedObject var newsVM = NewsViewModel()
     
     /// Свойство для появления PreviewNewsDetails
-    @State private var isPresentedPreviewNewsDetails: Bool = false
+    @State private var isPresentedPreviewNewsDetails = false
+    
+    /// Свойство для появления NewsDetails
+    @State private var isPresentedNewsDetails = false
     
     /// Свойство для появления алерта
     @Binding var isAppearAlertView: Bool
@@ -22,6 +25,8 @@ struct HomeView: View {
     /// Свойство для появления LoadingScreen
     @State private var isLoading = true
     
+    @State private var selectedNews: News = News()
+    
     let titles: [String] = ["All News",
                             "Business",
                             "Politics",
@@ -33,7 +38,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            Color("backgroundColor")
+            Color(.colorSet3)
                 .ignoresSafeArea()
             
             if showDestinationSearchView {
@@ -59,18 +64,14 @@ struct HomeView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(.red)
                                     .frame(width: 250, height: 40, alignment: .bottom)
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(lineWidth: 3)
-                                            .foregroundStyle(Color(.systemGray4))
-                                            .shadow(radius: 3)
-                                    }
+                                    .shadow(radius: 3)
                             }
                             .offset(y: newsVM.isFailedStatusCode ? 0 : -40)
                             .animation(.bouncy(duration: 0.7), value: newsVM.isFailedStatusCode)
-                            .animation(.linear) { $0.opacity(newsVM.isFailedStatusCode ? 1 : 0) }
-                            .onChange(of: newsVM.isFailedStatusCode) { _, newValue in
-                                newsVM.isFailedStatusCode = newValue
+                            .animation(.default) { content in
+                                content
+                                    .frame(height: newsVM.isFailedStatusCode ? 15 : 0)
+                                    .opacity(newsVM.isFailedStatusCode ? 1.0 : 0.0)
                             }
                     }
                     
@@ -80,8 +81,8 @@ struct HomeView: View {
                                 SegmentedView(selectedIndex: $selectedIndex, titles: titles)
                                     .zIndex(1.0)
                                     .padding(.horizontal)
-                                    .onChange(of: selectedIndex) { newSelectedIndex in
-                                        loadNews(for: newSelectedIndex)
+                                    .onChange(of: selectedIndex) { _, newValue in
+                                        loadNews(for: newValue)
                                     }
                                 
                                 HStack {
@@ -114,18 +115,21 @@ struct HomeView: View {
                             }
                             
                             if let news = newsVM.searchNews?.news {
-                                AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, news: news)
-                                .id(selectedIndex)
-                                .onAppear {
-                                    isAppearAlertView = false
-                                    isLoading = false
+                                AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                                            isPresentedNewsDetails: $isPresentedNewsDetails, news: news) { news in
+                                    self.selectedNews = news
                                 }
+                                            .id(selectedIndex)
+                                            .onAppear {
+                                                isAppearAlertView = false
+                                                isLoading = false
+                                            }
                             } else {
                                 LoadingScreen()
                                     .id(selectedIndex)
                                     .onAppear {
                                         isLoading = true
-                                        loadNews(for: selectedIndex)
+                                        //                                        loadNews(for: selectedIndex)
                                     }
                                     .blur(radius: isAppearAlertView ? 10.0 : 0.0)
                             }
@@ -135,7 +139,14 @@ struct HomeView: View {
                         AlertView(isAppearAlertView: $isAppearAlertView)
                     }
                 }
+                .blur(radius: isPresentedNewsDetails ? 10.0 : 0.0 )
+                .allowsHitTesting(!isPresentedPreviewNewsDetails)
             }
+            
+            PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                               isPresentedNewsDetails: $isPresentedNewsDetails,
+                               selectedNews: selectedNews)
+            .opacity(isPresentedPreviewNewsDetails ? 1.0 : 0.0)
         }
     }
     

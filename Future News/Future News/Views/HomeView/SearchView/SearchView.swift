@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         HStack {
@@ -21,7 +22,6 @@ struct SearchView: View {
                 
                 Text("Search for news")
                     .font(.caption2)
-                    .foregroundStyle(.gray)
                     .fontDesign(.rounded)
             }
             Spacer()
@@ -30,9 +30,9 @@ struct SearchView: View {
                 
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
-                    .foregroundStyle(.black)
             }
         }
+        .foregroundStyle(colorScheme == .dark ? .black : .white)
         .padding(.horizontal)
         .padding(.vertical, 10)
         .overlay {
@@ -43,7 +43,8 @@ struct SearchView: View {
         }
         .background {
             RoundedRectangle(cornerRadius: 14)
-                .fill(Color("backgroundColor"))
+                .fill(.colorSet5)
+                .opacity(colorScheme == .dark ? 1.0 : 0.6)
         }
         .padding(.horizontal)
     }

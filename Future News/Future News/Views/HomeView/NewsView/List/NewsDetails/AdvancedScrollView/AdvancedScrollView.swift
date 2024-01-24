@@ -74,7 +74,7 @@ struct AdvancedScrollView<Content: View>: View {
                         }
                         .background {
                             Circle()
-                                .fill(.newsRow)
+                                .fill(.colorSet3)
                                 .opacity(0.9)
                         }
                         .animation(.easeInOut, value: scrollOffset)

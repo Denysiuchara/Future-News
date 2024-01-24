@@ -13,10 +13,7 @@ struct NewsCell: View {
     @Binding var isPresentedPreviewNewsDetails: Bool
     @Binding var isPresentedNewsDetails: Bool
     
-    /// Общее состояние для кнопки сохранения
-    @Binding var isSaveNews: Bool
-    
-    var news: News
+    @State var news: News
     
     @State private var dynamicSize: CGFloat = 28
     
@@ -42,15 +39,15 @@ struct NewsCell: View {
                 Button {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 2)
                     withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        isSaveNews.toggle()
-                        dynamicSize = isSaveNews ? 33 : 28
+                        news.isSaveNews.toggle()
+                        dynamicSize = news.isSaveNews ? 33 : 28
                     }
                 } label: {
                     Image(systemName: "bookmark.fill")
                         .resizable()
                         .scaledToFit()
                         .frame(width: dynamicSize, height: dynamicSize)
-                        .foregroundStyle(isSaveNews ? .orange : .black)
+                        .foregroundStyle(news.isSaveNews ? .orange : .black)
                 }
                 .frame(width: 30, height: 30)
             }
@@ -85,7 +82,7 @@ struct NewsCell: View {
         .background {
             GeometryReader { geo in
                 Rectangle()
-                    .fill(.newsRow)
+                    .fill(.colorSet3)
                     .frame(width: geo.size.width, height: geo.size.height + 10)
                     .shadow(radius: 10)
             }
@@ -94,7 +91,7 @@ struct NewsCell: View {
             isPresentedNewsDetails.toggle()
         }
         .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, isSaveNews: $isSaveNews, news: news)
+            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, selectedNews: $news)
         }
         .padding(.bottom)
 
@@ -104,8 +101,7 @@ struct NewsCell: View {
 #Preview {
     NewsCell(
         isPresentedPreviewNewsDetails: .constant(false),
-        isPresentedNewsDetails: .constant(false), 
-        isSaveNews: .constant(true),
+        isPresentedNewsDetails: .constant(false),
         news: News(id: 1,
                    title: "Some Title",
                    text: "Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text",

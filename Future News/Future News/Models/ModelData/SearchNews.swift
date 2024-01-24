@@ -19,16 +19,18 @@ struct SearchNews: Codable {
 
 // MARK: - News
 struct News: Codable, Identifiable {
-    let id: Int
-    let title: String
-    let text: String
-    let url: String
-    let image: String
-    let publishDate: String
-    let language: String
-    let sourceCountry: String
-    let sentiment: Double
-    let author: String?
+    var id: Int
+    var title: String
+    var text: String
+    var url: String
+    var image: String
+    var publishDate: String
+    var language: String
+    var sourceCountry: String
+    var sentiment: Double
+    var author: String?
+    
+    var isSaveNews: Bool = false
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -41,5 +43,36 @@ struct News: Codable, Identifiable {
         case language = "language"
         case sourceCountry = "source_country"
         case sentiment = "sentiment"
+    }
+}
+
+extension News {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.title = try container.decode(String.self, forKey: .title)
+        self.text = try container.decode(String.self, forKey: .text)
+        self.url = try container.decode(String.self, forKey: .url)
+        self.image = try container.decode(String.self, forKey: .image)
+        self.publishDate = try container.decode(String.self, forKey: .publishDate)
+        self.author = try container.decodeIfPresent(String.self, forKey: .author)
+        self.language = try container.decode(String.self, forKey: .language)
+        self.sourceCountry = try container.decode(String.self, forKey: .sourceCountry)
+        self.sentiment = try container.decode(Double.self, forKey: .sentiment)
+    }
+}
+
+extension News {
+    init() {
+        self.id = 0
+        self.title = ""
+        self.text = ""
+        self.url = ""
+        self.image = ""
+        self.publishDate = ""
+        self.language = ""
+        self.sourceCountry = ""
+        self.sentiment = 0.0
+        self.author = nil
     }
 }

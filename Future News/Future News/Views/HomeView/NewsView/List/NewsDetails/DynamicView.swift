@@ -96,7 +96,7 @@ struct DynamicView: View {
                 .background {
                     GeometryReader { contentGeo in
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(.newsRow)
+                            .fill(.colorSet3)
                             .shadow(radius: 5)
                     }
                 }
