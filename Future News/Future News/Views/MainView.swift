@@ -11,22 +11,24 @@ struct MainView: View {
     /// Свойство для появление алерта
     @State private var isAppearAlertView = false
     
+    @State private var tabSelection = 1
+    
     var body: some View {
-        TabView {
-            HomeView(isAppearAlertView: $isAppearAlertView)
-                .tabItem {
-                    Image(systemName: "house.fill")
-                }
-            
-            SavedNewsView()
-                .tabItem {
-                    Image(systemName: "bookmark.fill")
-                }
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gearshape")
-                }
+        TabView(selection: $tabSelection) {
+            Group {
+                HomeView(isAppearAlertView: $isAppearAlertView)
+                    .tag(1)
+                
+                SavedNewsView()
+                    .tag(2)
+                
+                SettingsView()
+                    .tag(3)
+            }
+            .toolbarBackground(.hidden, for: .tabBar)
+        }
+        .overlay(alignment: .bottom) {
+            CustomTabView(tabSelection: $tabSelection)
         }
         .onAppear {
             isAppearAlertView = true
@@ -34,7 +36,6 @@ struct MainView: View {
         .tint(.colorSet6)
     }
 }
-
 
 #Preview {
     MainView()

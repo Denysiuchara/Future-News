@@ -32,6 +32,21 @@ struct News: Codable, Identifiable {
     
     var isSaveNews: Bool = false
     
+    var imageURL: URL {
+        let imagePath = Bundle.main.path(forResource: "news_blank_image", ofType: "jpg")
+        
+        let imageURLInBundle = URL(string: imagePath!)
+        let imageURLInWeb = URL(string: image)
+        
+        return imageURLInWeb ?? imageURLInBundle!
+    }
+    
+    var sourceURL: URL {
+        let endpoint = "https://sites.google.com/d/1j7jgRhJYpc0R6AfvUpDjE2AY1Am4hAg0/p/1nw79WLYVdXM6v1LO4zjT_S0d-jjPl7zZ/edit"
+        
+        return URL(string: url) ?? URL(string: endpoint)!
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case title = "title"

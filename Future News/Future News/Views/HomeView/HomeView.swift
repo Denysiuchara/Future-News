@@ -129,7 +129,7 @@ struct HomeView: View {
                                     .id(selectedIndex)
                                     .onAppear {
                                         isLoading = true
-                                        //                                        loadNews(for: selectedIndex)
+//                                        loadNews(for: selectedIndex)
                                     }
                                     .blur(radius: isAppearAlertView ? 10.0 : 0.0)
                             }
