@@ -7,11 +7,14 @@
 
 import Foundation
 import CoreData
+import Combine
 
-class CoreDataService {
+final class CoreDataService {
     static var shared = CoreDataService()
     
     private init () {}
+    
+    var isCoreDataStackFilled = CurrentValueSubject<Bool, Never>(false)
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DataModel")
@@ -26,7 +29,6 @@ class CoreDataService {
         
         return container
     }()
-    
     
     lazy var context: NSManagedObjectContext = { persistentContainer.viewContext }()
     
@@ -47,5 +49,18 @@ class CoreDataService {
             managedObject.setValue(news.title, forKey: "title")
         
         context.saveContext()
+    }
+    
+    func hasEntities() {
+        let fetchRequest = NewsEntity.fetchRequest()
+        
+        do {
+            let count = try CoreDataService.shared.context.count(for: fetchRequest)
+            print("\(#function): \(count)")
+            isCoreDataStackFilled.send(true)
+        } catch {
+            print("Error counting entities: \(error)")
+            isCoreDataStackFilled.send(false)
+        }
     }
 }

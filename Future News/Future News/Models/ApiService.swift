@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-class ApiService {
+final class ApiService {
     
     static var statusCodeSubject = CurrentValueSubject<Int, Never>(200)
     

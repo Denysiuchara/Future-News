@@ -35,7 +35,7 @@ struct News: Codable, Identifiable {
     var imageURL: URL {
         let imagePath = Bundle.main.path(forResource: "news_blank_image", ofType: "jpg")
         
-        let imageURLInBundle = URL(string: imagePath!)
+        let imageURLInBundle = URL(string: imagePath ?? "")
         let imageURLInWeb = URL(string: image)
         
         return imageURLInWeb ?? imageURLInBundle!

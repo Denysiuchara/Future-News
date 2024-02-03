@@ -36,6 +36,9 @@ struct HomeView: View {
                             "Sport"
                            ]
     
+    @FetchRequest(fetchRequest: NewsEntity.fetch(), animation: .default)
+    private var items: FetchedResults<NewsEntity>
+    
     var body: some View {
         ZStack {
             Color(.colorSet3)
@@ -82,7 +85,7 @@ struct HomeView: View {
                                     .zIndex(1.0)
                                     .padding(.horizontal)
                                     .onChange(of: selectedIndex) { _, newValue in
-                                        loadNews(for: newValue)
+//                                        loadNews(for: newValue)
                                     }
                                 
                                 HStack {
@@ -150,26 +153,26 @@ struct HomeView: View {
         }
     }
     
-    private func loadNews(for index: Int) {
-        switch index {
-        case 0:
-            newsVM.fetchSearchNews(parameters: [.text: "All News"])
-        case 1:
-            newsVM.fetchSearchNews(parameters: [.text: "Business"])
-        case 2:
-            newsVM.fetchSearchNews(parameters: [.text: "Politics"])
-        case 3:
-            newsVM.fetchSearchNews(parameters: [.text: "Tech"])
-        case 4:
-            newsVM.fetchSearchNews(parameters: [.text: "Science"])
-        case 5:
-            newsVM.fetchSearchNews(parameters: [.text: "Games"])
-        case 6:
-            newsVM.fetchSearchNews(parameters: [.text: "Sport"])
-        default:
-            newsVM.fetchSearchNews()
-        }
-    }
+//    private func loadNews(for index: Int) {
+//        switch index {
+//        case 0:
+//            newsVM.fetchSearchNews(parameters: [.text: "All News"])
+//        case 1:
+//            newsVM.fetchSearchNews(parameters: [.text: "Business"])
+//        case 2:
+//            newsVM.fetchSearchNews(parameters: [.text: "Politics"])
+//        case 3:
+//            newsVM.fetchSearchNews(parameters: [.text: "Tech"])
+//        case 4:
+//            newsVM.fetchSearchNews(parameters: [.text: "Science"])
+//        case 5:
+//            newsVM.fetchSearchNews(parameters: [.text: "Games"])
+//        case 6:
+//            newsVM.fetchSearchNews(parameters: [.text: "Sport"])
+//        default:
+//            newsVM.fetchSearchNews()
+//        }
+//    }
 }
 
 #Preview {

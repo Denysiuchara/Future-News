@@ -6,8 +6,17 @@
 //
 
 import Foundation
+import CoreData
 
 extension NewsEntity {
+    
+    static func fetch() -> NSFetchRequest<NewsEntity> {
+        let request = NSFetchRequest<NewsEntity>(entityName: "NewsEntity")
+            request.sortDescriptors = [NSSortDescriptor(keyPath: \NewsEntity.publishDate,
+                                                        ascending: true)]
+        return request
+    }
+    
     
     var author_: String {
         get { author ?? "" }

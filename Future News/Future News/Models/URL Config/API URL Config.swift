@@ -1,7 +1,7 @@
 
 import Foundation
 
-class APIURLConfig {
+final class APIURLConfig {
     private(set) var apiKey = "8c25c03b336b45068fe0a37960b99b43"
     private let startpoint = "https://api.worldnewsapi.com"
     
