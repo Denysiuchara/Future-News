@@ -10,13 +10,13 @@ import SwiftUI
 struct MainView: View {
     /// Свойство для появление алерта
     @State private var isAppearAlertView = false
-    
+    @State private var isAppearDestinationSearchView = false
     @State private var tabSelection = 1
     
     var body: some View {
         TabView(selection: $tabSelection) {
             Group {
-                HomeView(isAppearAlertView: $isAppearAlertView)
+                HomeView(isAppearAlertView: $isAppearAlertView, isAppearDestinationSearchView: $isAppearDestinationSearchView)
                     .tag(1)
                 
                 SavedNewsView()
@@ -29,6 +29,7 @@ struct MainView: View {
         }
         .overlay(alignment: .bottom) {
             CustomTabView(tabSelection: $tabSelection)
+                .offset(y: isAppearDestinationSearchView ? 200 : 0)
         }
         .onAppear {
             isAppearAlertView = true

@@ -4,7 +4,7 @@ import Foundation
 import CoreData
 
 class NewsViewModel: ObservableObject {
-//    @Published var searchNews: SearchNews?
+    @Published var searchNews: SearchNews?
 //    @Published var extractNews: ExtractNews?
 //    @Published var extractNewsLinks: ExtractNewsLinks?
 //    @Published var geoCoordinates: GeoCoordinates?
@@ -98,26 +98,26 @@ class NewsViewModel: ObservableObject {
         isNewDataLoaded = false
     }
     
-//    func fetchSearchNews(parameters: Parameters = [:]) {
-//        self.searchNews = nil
-//        ApiService.getData(path: .searchNews, parameters: parameters)
-//        { (result: Result<SearchNews, Error>) in
-//            switch result {
-//            case .success (let data):
-//                DispatchQueue.main.async {
-//                    self.searchNews = data
-//                    
-//                    let news = data.news
-//                    
-//                    for item in news {
-//                        CoreDataService.shared.setData(item)
-//                    }
-//                }
-//            case .failure(let error):
-//                print("Error: \(error.localizedDescription)")
-//            }
-//        }
-//    }
+    func fetchSearchNews(parameters: Parameters = [:]) {
+        self.searchNews = nil
+        ApiService.getData(path: .searchNews, parameters: parameters)
+        { (result: Result<SearchNews, Error>) in
+            switch result {
+            case .success (let data):
+                DispatchQueue.main.async {
+                    self.searchNews = data
+                    
+                    let news = data.news
+                    
+                    for item in news {
+                        CoreDataService.shared.setData(item)
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
     
 //    func fetchExtractNews(parameters: Parameters = [:]) {
 //        ApiService.getData(path: .extractNews, parameters: parameters)

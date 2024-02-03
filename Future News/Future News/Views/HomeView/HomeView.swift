@@ -7,14 +7,16 @@ struct HomeView: View {
     
     @ObservedObject var newsVM = NewsViewModel()
     
+    /// Свойство для появления алерта
+    @Binding var isAppearAlertView: Bool
+    
+    @Binding var isAppearDestinationSearchView: Bool
+    
     /// Свойство для появления PreviewNewsDetails
     @State private var isPresentedPreviewNewsDetails = false
     
     /// Свойство для появления NewsDetails
     @State private var isPresentedNewsDetails = false
-    
-    /// Свойство для появления алерта
-    @Binding var isAppearAlertView: Bool
     
     /// Свойство для появления DestinationSearchView
     @State private var showDestinationSearchView = false
@@ -46,6 +48,16 @@ struct HomeView: View {
             
             if showDestinationSearchView {
                 DestinationSearchView(isShow: $showDestinationSearchView)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            isAppearDestinationSearchView = true
+                        }
+                    }
+                    .onDisappear {
+                        withAnimation(.bouncy) {
+                            isAppearDestinationSearchView = false
+                        }
+                    }
             } else {
                 VStack {
                     VStack {
@@ -176,5 +188,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(isAppearAlertView: .constant(true))
+    HomeView(isAppearAlertView: .constant(true), isAppearDestinationSearchView: .constant(false))
 }
