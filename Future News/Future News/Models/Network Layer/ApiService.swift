@@ -3,10 +3,10 @@ import Foundation
 
 final class ApiService {
     
-    static var statusCodeSubject = CurrentValueSubject<Int, Never>(200)
-    
     typealias Parameters = [APIURLConfig.APIParameter : String]
 
+    var statusCodeSubject = CurrentValueSubject<Int, Never>(200)
+    
     static func getData<T: Codable>(path: APIURLConfig.APIPath,
                                      parameters: Parameters = [:],
                                      _ onResponse: @escaping (Result<T, Error>) -> Void) {
@@ -25,33 +25,20 @@ final class ApiService {
                 return
             }
             
-            guard let response = response as? HTTPURLResponse else { return }
-            
-            statusCodeSubject.send(response.statusCode)
-            
-            if response.statusCode == 200 {
-                print("Server available\n")
-            } else if response.statusCode == 402 {
-                print("The quota has been exhausted\n")
-                return
-            } else if response.statusCode == 429 {
-                print("Quota of requests per time period exceeded")
-                print("Make sure there was no more than 1request/s or 60requests/min")
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.isSuccess else {
+                onResponse(.failure(ApiServiceError.returnError))
                 return
             }
+            
+            statusCodeSubject.send(httpResponse.statusCode)
             
             guard let data = data else {
                 onResponse(.failure(ApiServiceError.invalidData))
                 return
             }
             
-            do {
-                let decodeData = try JSONDecoder().decode(T.self, from: data)
-                onResponse(.success(decodeData))
-                print("Do-catch block")
-            } catch {
-                onResponse(.failure(error))
-            }
+            onResponse(ApiService.decode(data: data))
+            
         }.resume()
     }
     
@@ -61,5 +48,24 @@ final class ApiService {
         case invalidDecoding
         case feedRSSPick
         case invalidData
+    }
+}
+
+
+extension ApiService {
+    static func decode<T: Decodable>(data: Data) -> Result<T, Error> {
+        do {
+            let decodeData = try JSONDecoder().decode(T.self, from: data)
+            return .success(decodeData)
+        } catch {
+            return .failure(error)
+        }
+    }
+}
+
+
+extension HTTPURLResponse {
+    var isSuccess: Bool {
+        return (200..<300).contains(self.statusCode)
     }
 }
