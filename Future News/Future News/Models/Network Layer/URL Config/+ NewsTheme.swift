@@ -8,7 +8,7 @@
 import Foundation
 
 extension APIURLConfig {
-    enum NewsTheme: String {
+    enum NewsTheme: String, CaseIterable {
         case allNews = "All news"
         case business = "Business"
         case politics = "Politics"

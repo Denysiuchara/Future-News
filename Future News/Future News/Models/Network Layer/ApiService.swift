@@ -3,10 +3,10 @@ import Foundation
 
 final class ApiService {
     
+    static var statusCodeSubject = CurrentValueSubject<Int, Never>(200)
+    
     typealias Parameters = [APIURLConfig.APIParameter : String]
 
-    var statusCodeSubject = CurrentValueSubject<Int, Never>(200)
-    
     static func getData<T: Codable>(path: APIURLConfig.APIPath,
                                      parameters: Parameters = [:],
                                      _ onResponse: @escaping (Result<T, Error>) -> Void) {
@@ -48,24 +48,5 @@ final class ApiService {
         case invalidDecoding
         case feedRSSPick
         case invalidData
-    }
-}
-
-
-extension ApiService {
-    static func decode<T: Decodable>(data: Data) -> Result<T, Error> {
-        do {
-            let decodeData = try JSONDecoder().decode(T.self, from: data)
-            return .success(decodeData)
-        } catch {
-            return .failure(error)
-        }
-    }
-}
-
-
-extension HTTPURLResponse {
-    var isSuccess: Bool {
-        return (200..<300).contains(self.statusCode)
     }
 }

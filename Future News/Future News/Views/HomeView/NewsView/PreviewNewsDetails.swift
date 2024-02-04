@@ -6,16 +6,16 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct PreviewNewsDetails: View {
     @Environment(\.screenSize) private var screenSize
+    @State private var dynamicSize: CGFloat = 28
     
     @Binding var isPresentedPreviewNewsDetails: Bool
     @Binding var isPresentedNewsDetails: Bool
     
-    @State private var dynamicSize: CGFloat = 28
-    
-    var selectedNews: News
+    @State var news: NewsEntity
     
     var body: some View {
         VStack {
@@ -44,13 +44,13 @@ struct PreviewNewsDetails: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(selectedNews.title)
+                    Text(news.title_)
                         .font(.system(size: 23))
                         .lineLimit(2)
                         .fontWeight(.bold)
                         .padding(.top, 6)
                     
-                    Text(selectedNews.publishDate)
+                    Text(news.publishDate_)
                         .fontDesign(.rounded)
                         .frame(width: screenSize.width * 0.50, height: 20, alignment: .leading)
                         .opacity(0.5)
@@ -62,7 +62,7 @@ struct PreviewNewsDetails: View {
             .padding(.horizontal)
             
             VStack {
-                AsyncImage(url: URL(string: selectedNews.image)) { image in
+                AsyncImage(url: news.imageURL_) { image in
                     image
                         .resizable()
                         .scaledToFill()
@@ -79,7 +79,7 @@ struct PreviewNewsDetails: View {
                         .clipped()
                 }
                 
-                Text(selectedNews.author ?? "Unknown author")
+                Text(news.author_)
                     .fontWeight(.semibold)
                     .fontDesign(.rounded)
                     .lineLimit(3)
@@ -88,7 +88,7 @@ struct PreviewNewsDetails: View {
                 VStack {
                     Divider()
                     
-                    Text(selectedNews.text)
+                    Text(news.text_)
                         .lineLimit(7)
                         .frame(height: isPresentedPreviewNewsDetails ? 200 : 0, alignment: .topLeading)
                         .padding(.horizontal)
@@ -131,22 +131,4 @@ struct PreviewNewsDetails: View {
                      anchor: .center)
         .padding(.bottom)
     }
-}
-
-#Preview {
-    PreviewNewsDetails(
-        isPresentedPreviewNewsDetails: .constant(true),
-        isPresentedNewsDetails: .constant(false),
-        selectedNews:
-            News(id: 0,
-                 title: "Title",
-                 text: "Text",
-                 url: "",
-                 image: "",
-                 publishDate: "",
-                 language: "",
-                 sourceCountry: "",
-                 sentiment: 0.0,
-                 isSaveNews: true)
-    )
 }

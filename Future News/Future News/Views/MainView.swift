@@ -40,4 +40,5 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
 }

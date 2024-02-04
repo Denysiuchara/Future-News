@@ -12,14 +12,14 @@ struct DynamicView: View {
     
     @Binding var scrollOffset: CGFloat
     
-    let imageURL: String
+    let imageURL: URL
     let title: String
     let author: String?
     let publishDate: String
     
     @State private var contentHeight: CGFloat = 0
     
-    init(scrollOffset: Binding<CGFloat>, imageURL: String, title: String, author: String?, publishDate: String) {
+    init(scrollOffset: Binding<CGFloat>, imageURL: URL, title: String, author: String?, publishDate: String) {
         self._scrollOffset = scrollOffset
         self.imageURL = imageURL
         self.title = title
@@ -30,7 +30,7 @@ struct DynamicView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: imageURL)) { image in
+            AsyncImage(url: imageURL) { image in
                 image
                     .resizable()
                     .scaledToFill()
@@ -104,10 +104,10 @@ struct DynamicView: View {
     }
 }
 
-#Preview {
-    DynamicView(scrollOffset: .constant(0.0),
-                       imageURL: "https://media.istockphoto.com/id/1311148884/vector/abstract-globe-background.jpg?s=612x612&w=0&k=20&c=9rVQfrUGNtR5Q0ygmuQ9jviVUfrnYHUHcfiwaH5-WFE=",
-                       title: "Some Text for Title",
-                       author: "Author",
-                       publishDate: "20.12.2023 17:51")
-}
+//#Preview {
+//    DynamicView(scrollOffset: .constant(0.0),
+//                       imageURL: "https://media.istockphoto.com/id/1311148884/vector/abstract-globe-background.jpg?s=612x612&w=0&k=20&c=9rVQfrUGNtR5Q0ygmuQ9jviVUfrnYHUHcfiwaH5-WFE=",
+//                       title: "Some Text for Title",
+//                       author: "Author",
+//                       publishDate: "20.12.2023 17:51")
+//}

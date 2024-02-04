@@ -16,7 +16,7 @@ struct NewsDetails: View {
     @State private var scrollOffset: CGFloat = 0
     @State private var isCoppied = false
     
-    @Binding var selectedNews: News
+    @Binding var selectedNews: NewsEntity
     
     var body: some View {
         ZStack {
@@ -54,7 +54,7 @@ struct NewsDetails: View {
                         
                         //  MARK: - Save button
                         Button{
-                            selectedNews.isSaveNews.toggle()
+//                            selectedNews.toggle()
                         } label: {
                             Image(systemName: selectedNews.isSaveNews ? "bookmark.fill" : "bookmark")
                                 .resizable()
@@ -65,7 +65,7 @@ struct NewsDetails: View {
                         .padding(.trailing, 5)
                         
                         //  MARK: - Call menu button
-                        MenuView(isCoppied: $isCoppied, sourceURL: selectedNews.url)
+                        MenuView(isCoppied: $isCoppied, sourceURL: selectedNews.sourceURL_)
                     }
                     .foregroundStyle(.foreground)
                     .padding(.horizontal)
@@ -86,15 +86,15 @@ struct NewsDetails: View {
                 }
                     
                 DynamicView(scrollOffset: $scrollOffset,
-                            imageURL: selectedNews.image,
-                            title: selectedNews.title,
-                            author: selectedNews.author,
-                            publishDate: selectedNews.publishDate)
+                            imageURL: selectedNews.imageURL_,
+                            title: selectedNews.title_,
+                            author: selectedNews.author_,
+                            publishDate: selectedNews.publishDate_)
                 .padding(.top, 3)
                 
                 AdvancedScrollView(scrollOffset: $scrollOffset) {
                     ScrollView {
-                        Text(selectedNews.text)
+                        Text(selectedNews.text_)
                             .padding(.horizontal)
                     }
                 }
@@ -134,19 +134,5 @@ struct NewsDetails: View {
 }
 
 #Preview {
-    NewsDetails(isPresentedPreviewNewsDetails: .constant(false),
-                selectedNews: .constant(
-                    News(
-                        id: 123124132414,
-                        title: "ПВО днем уничтожила управляемую ракету на Днепропетровщине",
-                        text: "В Днепропетровской области днем 20 декабря Воздушные силы уничтожили российскую управляемую авиационную ракету.В Днепровском районе Днепропетровской области подразделением Воздушное командование Восток уничтожено управляемую авиационную ракету Х-59 Что этому предшествовало: Днем 20 декабря Воздушные силы сообщили о масштабной воздушной тревоге из-за угрозы применения Россией баллистического вооружения.В Днепропетровской области днем 20 декабря Воздушные силы уничтожили российскую управляемую авиационную ракету.В Днепровском районе Днепропетровской области подразделением Воздушное командование Восток уничтожено управляемую авиационную ракету Х-59 Что этому предшествовало: Днем 20 декабря Воздушные силы сообщили о масштабной воздушной тревоге из-за угрозы применения Россией баллистического вооружения.В Днепропетровской области днем 20 декабря Воздушные силы уничтожили российскую управляемую авиационную ракету.В Днепровском районе Днепропетровской области подразделением Воздушное командование Восток уничтожено управляемую авиационную ракету Х-59 Что этому предшествовало: Днем 20 декабря Воздушные силы сообщили о масштабной воздушной тревоге из-за угрозы применения Россией баллистического вооружения.В Днепропетровской области днем 20 декабря Воздушные силы уничтожили российскую управляемую авиационную ракету.В Днепровском районе Днепропетровской области подразделением Воздушное командование Восток уничтожено управляемую авиационную ракету Х-59 Что этому предшествовало: Днем 20 декабря Воздушные силы сообщили о масштабной воздушной тревоге из-за угрозы применения Россией баллистического вооружения.В Днепропетровской области днем 20 декабря Воздушные силы уничтожили российскую управляемую авиационную ракету.В Днепровском районе Днепропетровской области подразделением Воздушное командование Восток уничтожено управляемую авиационную ракету Х-59 Что этому предшествовало: Днем 20 декабря Воздушные силы сообщили о масштабной воздушной тревоге из-за угрозы применения Россией баллистического вооружения.В Днепропетровской области днем 20 декабря Воздушные силы уничтожили российскую управляемую авиационную ракету.В Днепровском районе Днепропетровской области подразделением Воздушное командование Восток уничтожено управляемую авиационную ракету Х-59 Что этому предшествовало: Днем 20 декабря Воздушные силы сообщили о масштабной воздушной тревоге из-за угрозы применения Россией баллистического вооружения.В Днепропетровской области днем 20 декабря Воздушные силы уничтожили российскую управляемую авиационную ракету.В Днепровском районе Днепропетровской области подразделением Воздушное командование Восток уничтожено управляемую авиационную ракету Х-59 Что этому предшествовало: Днем 20 декабря Воздушные силы сообщили о масштабной воздушной тревоге из-за угрозы применения Россией баллистического вооружения.",
-                        url: "https://www.facebook.com/pvkshid/posts/pfbid02QU2pc58hJowb1HBAXFUUNDSdL5oKVLxui6guLgRhSzVPgMzpxcXrLsvPhDWTpiqwl",
-                        image: "https://media.istockphoto.com/id/1311148884/vector/abstract-globe-background.jpg?s=612x612&w=0&k=20&c=9rVQfrUGNtR5Q0ygmuQ9jviVUfrnYHUHcfiwaH5-WFE=",
-                        publishDate: "20.12.2023 17:51",
-                        language: "uk",
-                        sourceCountry: "Ukraine",
-                        sentiment: 0.4,
-                        author: "АЛЕКСАНДР ШУМИЛИН")
-                )
-    )
+    NewsDetails(isPresentedPreviewNewsDetails: .constant(false), selectedNews: .constant(NewsEntity()))
 }

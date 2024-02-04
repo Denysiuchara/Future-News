@@ -7,40 +7,57 @@
 
 import SwiftUI
 
-struct ProgressAlert: View {
+struct SegmentedViewContainer: View {
     @Environment(\.screenSize) private var screenSize
+    @ObservedObject private var newsVM = NewsViewModel()
+    @Binding var selectedIndex: Int
+    
+    let titles: [String] = ["All News",
+                            "Business",
+                            "Politics",
+                            "Tech",
+                            "Science",
+                            "Games",
+                            "Sport"
+                           ]
     
     var body: some View {
-        HStack {
-            Text("New Material is loading. Please wait!")
-                .foregroundStyle(.white)
-                .font(.system(size: 15))
-                .fontDesign(.rounded)
-                .fontWeight(.semibold)
-                .padding(.trailing, 10)
-            
-            ProgressView()
-        }
-        .background {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.black)
-                .frame(width: 300, height: 25, alignment: .bottom)
-                .background {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(lineWidth: 3)
-                        .foregroundStyle(Color(.systemGray4))
-                        .shadow(radius: 3)
+        VStack {
+            SegmentedView(selectedIndex: $selectedIndex, titles: titles)
+                .zIndex(1.0)
+                .padding(.horizontal)
+                .onChange(of: selectedIndex) { _, newValue in
+//                    newsVM.fetchNews(theme: )
                 }
-        }
-        .offset(x: isLoading ? 0 : -(screenSize.height))
-        .animation(.smooth(duration: 1), value: isLoading)
-        .animation(.linear) { $0.opacity(isLoading ? 1 : 0) }
-        .onAppear {
-            isLoading = true
+            
+            HStack {
+                Text("News is loading. Please wait!")
+                    .foregroundStyle(.white)
+                    .font(.system(size: 15))
+                    .fontDesign(.rounded)
+                    .fontWeight(.semibold)
+                    .padding(.trailing, 10)
+                
+                ProgressView()
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.black)
+                    .frame(width: 300, height: 25, alignment: .bottom)
+                    .background {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(lineWidth: 3)
+                            .foregroundStyle(Color(.systemGray4))
+                            .shadow(radius: 3)
+                    }
+            }
+            .offset(x: newsVM.isNewDataLoaded ? 0 : -(screenSize.height))
+            .animation(.smooth(duration: 1), value: newsVM.isNewDataLoaded)
+            .animation(.linear) { $0.opacity(newsVM.isNewDataLoaded ? 1 : 0) }
         }
     }
 }
 
 #Preview {
-    ProgressAlert()
+    SegmentedViewContainer(selectedIndex: .constant(0))
 }

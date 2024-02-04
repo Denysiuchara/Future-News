@@ -18,7 +18,7 @@ struct CustomLoadingView: View {
     @State private var rotation: Double = 0.0
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 20)
+        RoundedRectangle(cornerRadius: cornerRadius)
             .trim(from: rotation - 0.3, to: rotation)
             .stroke(style: StrokeStyle(lineWidth: 10,
                                        lineCap: .round,

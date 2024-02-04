@@ -12,8 +12,7 @@ extension NewsEntity {
     
     static func fetch() -> NSFetchRequest<NewsEntity> {
         let request = NSFetchRequest<NewsEntity>(entityName: "NewsEntity")
-            request.sortDescriptors = [NSSortDescriptor(keyPath: \NewsEntity.publishDate,
-                                                        ascending: true)]
+            request.sortDescriptors = [NSSortDescriptor(keyPath: \NewsEntity.publishDate, ascending: true)]
         return request
     }
     
@@ -30,9 +29,12 @@ extension NewsEntity {
     
     var imageURL_: URL {
         get {
-            let imagePath = Bundle.main.path(forResource: "news_blank_image", ofType: "jpg")!
-            
-            return imageURL ?? URL(filePath: imagePath)
+            if let imagePath = Bundle.main.path(forResource: "news_blank_image", ofType: "jpg") {
+                return imageURL ?? URL(fileURLWithPath: imagePath)
+            } else {
+                // Путь к заглушке не найден - вернем imageURL или пустой URL
+                return imageURL ?? URL(fileURLWithPath: "")
+            }
         }
         set { imageURL = newValue }
     }
@@ -64,9 +66,8 @@ extension NewsEntity {
     
     var sourceURL_: URL {
         get {
-            let str = "https://sites.google.com/d/1j7jgRhJYpc0R6AfvUpDjE2AY1Am4hAg0/p/1nw79WLYVdXM6v1LO4zjT_S0d-jjPl7zZ/edit"
-            
-            return sourceURL ?? URL(string: str)!
+            let defaultPath = "https://sites.google.com/d/1j7jgRhJYpc0R6AfvUpDjE2AY1Am4hAg0/p/1nw79WLYVdXM6v1LO4zjT_S0d-jjPl7zZ/edit"
+            return sourceURL ?? URL(string: defaultPath) ?? URL(fileURLWithPath: "")
         }
         set { sourceURL = newValue }
     }
@@ -80,4 +81,25 @@ extension NewsEntity {
         get { title ?? "" }
         set { title = newValue }
     }
+    
+    static func insert(news: News,to context: NSManagedObjectContext) -> NewsEntity {
+        let localNews = NewsEntity(entity: NewsEntity.entity(), insertInto: context)
+            localNews.id = news.id.to()
+            localNews.author = news.author
+            localNews.imageURL = news.imageURL
+            localNews.isSaveNews = news.isSaveNews
+            localNews.language = news.language
+            localNews.publishDate = news.publishDate
+            localNews.sentiment = news.sentiment
+            localNews.sourceCountry = news.sourceCountry
+            localNews.sourceURL = news.sourceURL
+            localNews.text = news.text
+            localNews.title = news.title
+        
+        return localNews
+    }
 }
+
+
+
+

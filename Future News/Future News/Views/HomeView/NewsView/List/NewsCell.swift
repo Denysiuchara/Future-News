@@ -13,7 +13,7 @@ struct NewsCell: View {
     @Binding var isPresentedPreviewNewsDetails: Bool
     @Binding var isPresentedNewsDetails: Bool
     
-    @State var news: News
+    @State var news: NewsEntity
     
     @State private var dynamicSize: CGFloat = 28
     
@@ -21,13 +21,13 @@ struct NewsCell: View {
         VStack {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(news.title)
+                    Text(news.title_)
                         .font(.system(size: 23))
                         .lineLimit(2)
                         .fontWeight(.bold)
                         .padding(.top, 6)
                     
-                    Text(news.publishDate)
+                    Text(news.publishDate_)
                         .fontDesign(.rounded)
                         .frame(width: screenSize.width * 0.50, height: 20, alignment: .leading)
                         .opacity(0.5)
@@ -39,7 +39,6 @@ struct NewsCell: View {
                 Button {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 2)
                     withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        news.isSaveNews.toggle()
                         dynamicSize = news.isSaveNews ? 33 : 28
                     }
                 } label: {
@@ -55,7 +54,7 @@ struct NewsCell: View {
             .frame(width: screenSize.width)
             
             VStack {
-                AsyncImage(url: URL(string: news.image)) { image in
+                AsyncImage(url: news.imageURL_) { image in
                     image
                         .resizable()
                         .scaledToFill()
@@ -91,26 +90,10 @@ struct NewsCell: View {
             isPresentedNewsDetails.toggle()
         }
         .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails, selectedNews: $news)
+            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                        selectedNews: $news)
         }
         .padding(.bottom)
 
     }
-}
-
-#Preview {
-    NewsCell(
-        isPresentedPreviewNewsDetails: .constant(false),
-        isPresentedNewsDetails: .constant(false),
-        news: News(id: 1,
-                   title: "Some Title",
-                   text: "Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text",
-                   url: "url",
-                   image: "url_image",
-                   publishDate: "11-11-11 11:11",
-                   language: "sm",
-                   sourceCountry: "Some Country",
-                   sentiment: 0.1,
-                   author: "Some Author")
-    )
 }

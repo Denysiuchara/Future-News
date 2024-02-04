@@ -10,7 +10,7 @@ import SwiftUI
 struct MenuView: View {
     
     @Binding var isCoppied: Bool
-    var sourceURL: String
+    var sourceURL: URL
     
     var body: some View {
         Menu {
@@ -24,14 +24,14 @@ struct MenuView: View {
         }
     }
     
-    func goToURL(_ url: String) {
-        if let url = URL(string: url), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
+    func goToURL(_ url: URL) {
+        if UIApplication.shared.canOpenURL(sourceURL) {
+            UIApplication.shared.open(sourceURL)
         }
     }
     
     func copyLink() {
-        UIPasteboard.general.string = sourceURL
+        UIPasteboard.general.string = sourceURL.absoluteString
         withAnimation(.bouncy) {
             isCoppied.toggle()
         }
@@ -39,5 +39,5 @@ struct MenuView: View {
 }
 
 #Preview {
-    MenuView(isCoppied: .constant(false), sourceURL: "https://www.facebook.com/pvkshid/posts/pfbid02QU2pc58hJowb1HBAXFUUNDSdL5oKVLxui6guLgRhSzVPgMzpxcXrLsvPhDWTpiqwl")
+    MenuView(isCoppied: .constant(false), sourceURL: URL(string: "https://www.facebook.com/pvkshid/posts/pfbid02QU2pc58hJowb1HBAXFUUNDSdL5oKVLxui6guLgRhSzVPgMzpxcXrLsvPhDWTpiqwl")!)
 }

@@ -6,3 +6,31 @@
 //
 
 import Foundation
+
+extension SignedInteger {
+    func to<T:FixedWidthInteger & SignedInteger>() -> T {
+        return T(self)
+    }
+}
+
+extension Int {
+    //Convert to any FixWidth SigndeInt by generic
+    func to<T:FixedWidthInteger & SignedInteger>() -> T {
+        return T(self)
+    }
+
+}
+
+extension Int64 {
+    //Convert to any FixWidth SigndeInt by generic
+    func to<T:FixedWidthInteger & SignedInteger>() -> T {
+        return T(self)
+    }
+}
+
+extension Int32 {
+    //Convert to any FixWidth SigndeInt by generic
+    func to<T:FixedWidthInteger & SignedInteger>() -> T {
+        return T(self)
+    }
+}

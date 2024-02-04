@@ -8,106 +8,75 @@
 import SwiftUI
 
 struct AllNewsView: View {
-    @Environment(\.screenSize) var screenSize
+    @Environment(\.screenSize) private var screenSize
+    
+    @ObservedObject private var newsVM = NewsViewModel()
+    
+    @FetchRequest(fetchRequest: NewsEntity.fetch(), animation: .easeInOut)
+    private var items: FetchedResults<NewsEntity>
+    
     @Binding var isPresentedPreviewNewsDetails: Bool
     @Binding var isPresentedNewsDetails: Bool
-    @State var news: [News]
- 
-    var onTapNews: ((News) -> ())?
+    @Binding var isAppearAlertView: Bool
     
-    init(isPresentedPreviewNewsDetails: Binding<Bool>, isPresentedNewsDetails: Binding<Bool>, news: [News], onTapNews: ((News) -> ())? = nil) {
-        self._isPresentedPreviewNewsDetails = isPresentedPreviewNewsDetails
-        self._isPresentedNewsDetails = isPresentedNewsDetails
-        self.news = news
-        self.onTapNews = onTapNews
-    }
+    @State private var selectedNews: NewsEntity?
     
     var body: some View {
-        ScrollView {
-            // TODO: - Add more information in CardView, and add destination to tap
-            TabCard()
-                .frame(height: 300)
-            
-            HStack {
-                Text("Latest news")
-                    .fontDesign(.rounded)
-                    .font(.title)
-                    .padding(.horizontal)
+        ZStack(alignment: .top){
+            List {
+                // TODO: - Add more information in CardView, and add destination to tap
+                TabCard()
+                    .frame(width: screenSize.width,
+                           height: screenSize.height * 0.3)
                 
-                Spacer()
-            }
-            .padding(.horizontal)
-            
-            Divider()
-            // TODO: - Add scrolling with news
-            
-            ForEach(0..<news.count, id: \.self) { index in
-                NewsCell(
-                    isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                    isPresentedNewsDetails: $isPresentedNewsDetails,
-                    news: news[index]
-                )
-                .id(index)
-                .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
-                    UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
-                    withAnimation {
-                        self.onTapNews?(news[index])
-                        self.isPresentedPreviewNewsDetails = true
+                HStack {
+                    Text("Latest news")
+                        .fontDesign(.rounded)
+                        .font(.title)
+                        .padding(.horizontal)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal)
+                
+                ForEach(items) { element in
+                    NewsCell(
+                        isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                        isPresentedNewsDetails: $isPresentedNewsDetails,
+                        news: element
+                    )
+                    .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
+                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
+                        withAnimation {
+                            selectedNews = element
+                            self.isPresentedPreviewNewsDetails = true
+                        }
                     }
+                }
+                .listRowBackground(Color.colorSet3)
+            }
+            .listStyle(.inset)
+            .allowsHitTesting(!isPresentedPreviewNewsDetails)
+            .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
+            .scrollIndicators(.hidden)
+            
+            if let news = selectedNews {
+                PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                                   isPresentedNewsDetails: $isPresentedNewsDetails,
+                                   news: news)
+                .opacity(isPresentedPreviewNewsDetails ? 1.0 : 0.0)
+                .onDisappear {
+                    print("PreviewNewsDetails disappear")
+                    selectedNews = nil
                 }
             }
         }
-        .allowsHitTesting(!isPresentedPreviewNewsDetails)
-        .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
-        .scrollIndicators(.hidden)
     }
 }
 
 #Preview {
-    AllNewsView(
-        isPresentedPreviewNewsDetails: .constant(false),
-        isPresentedNewsDetails: .constant(false),
-        news: [
-            News(id: 8987987,
-                 title: "First Title Text",
-                 text: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
-                 url: "url//url//url//url//url//urlurl//url//url",
-                 image: "",
-                 publishDate: "00.00.00 00:00",
-                 language: "en",
-                 sourceCountry: "USA",
-                 sentiment: 0.3,
-                 author: "Anton"),
-            News(id: 123431244,
-                 title: "Second Title Text",
-                 text: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
-                 url: "url//url//url//url//url//urlurl//url//url",
-                 image: "",
-                 publishDate: "11.11.11 11:11",
-                 language: "en",
-                 sourceCountry: "USA",
-                 sentiment: 0.3,
-                 author: "Some Author wit long name"),
-            News(id: 14134343,
-                 title: "Third Title Text",
-                 text: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
-                 url: "url//url//url//url//url//urlurl//url//url",
-                 image: "",
-                 publishDate: "22.22.22 22:22",
-                 language: "en",
-                 sourceCountry: "USA",
-                 sentiment: 0.3,
-                 author: nil),
-            News(id: 123413434,
-                 title: "Fourth Title Text",
-                 text: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
-                 url: "url//url//url//url//url//urlurl//url//url",
-                 image: "",
-                 publishDate: "33.33.33 33:33",
-                 language: "en",
-                 sourceCountry: "USA",
-                 sentiment: 0.3,
-                 author: "David")
-        ]
-    )
+    AllNewsView(isPresentedPreviewNewsDetails: .constant(false),
+                isPresentedNewsDetails: .constant(false),
+                isAppearAlertView: .constant(false))
+    .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
 }
