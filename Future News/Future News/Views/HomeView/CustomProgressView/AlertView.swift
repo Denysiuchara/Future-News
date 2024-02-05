@@ -39,7 +39,7 @@ struct AlertView: View {
                     
                     Button {
                         withAnimation(.default) {
-                            isAppearAlertView.toggle()
+                            isAppearAlertView = false
                         }
                     } label: {
                         Text("Okey")

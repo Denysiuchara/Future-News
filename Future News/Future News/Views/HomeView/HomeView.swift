@@ -5,21 +5,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(\.screenSize) private var screenSize
     
-    @ObservedObject var newsVM = NewsViewModel()
-    
-    /// Свойство для появления алерта
-    @Binding var isAppearAlertView: Bool
-    
-    @Binding var isAppearDestinationSearchView: Bool
-    
-    /// Свойство для появления PreviewNewsDetails
-    @State private var isPresentedPreviewNewsDetails = false
-    
-    /// Свойство для появления NewsDetails
-    @State private var isPresentedNewsDetails = false
-    
-    /// Свойство для появления DestinationSearchView
-    @State private var showDestinationSearchView = false
+    @ObservedObject private var newsVM = NewsViewModel()
     
     /// Свойство описывающее, выбранную тему новостей
     @State private var selectedIndex = 0
@@ -27,44 +13,45 @@ struct HomeView: View {
     @FetchRequest(fetchRequest: NewsEntity.fetch(), animation: .default)
     private var items: FetchedResults<NewsEntity>
     
+    /// Свойство для появления PreviewNewsDetails
+    @Binding var isPresentedPreviewNewsDetails: Bool
+    
+    @Binding var isShowDestinationSV: Bool
+
     var body: some View {
         ZStack {
             Color(.colorSet3)
                 .ignoresSafeArea()
             
-            if showDestinationSearchView {
-                DestinationSearchView(isShow: $showDestinationSearchView)
+            VStack {
+                SearchViewContainer(showDestinationSearchView: $isShowDestinationSV)
+                    .allowsHitTesting(!isPresentedPreviewNewsDetails)
+                    .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
+                
+                SegmentedViewContainer(selectedIndex: $selectedIndex)
+                    .allowsHitTesting(!isPresentedPreviewNewsDetails)
+                    .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
+                
+                AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails)
+            }
+            .sheet(isPresented: $isShowDestinationSV) {
+                DestinationSearchView(isShow: $isShowDestinationSV)
                     .onAppear {
                         withAnimation(.easeInOut(duration: 0.5)) {
-                            isAppearDestinationSearchView = true
+                            isShowDestinationSV = true
                         }
                     }
                     .onDisappear {
                         withAnimation(.bouncy) {
-                            isAppearDestinationSearchView = false
+                            isShowDestinationSV = false
                         }
                     }
-            } else {
-                VStack {
-                    SearchViewContainer(showDestinationSearchView: $showDestinationSearchView)
-                    
-                    SegmentedViewContainer(selectedIndex: $selectedIndex)
-                    
-                    ZStack {
-                        AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                                    isPresentedNewsDetails: $isPresentedNewsDetails,
-                                    isAppearAlertView: $isAppearAlertView)
-                        
-                        AlertView(isAppearAlertView: $isAppearAlertView)
-                    }
-                }
-                .blur(radius: isPresentedNewsDetails ? 10.0 : 0.0 )
-                .allowsHitTesting(!isPresentedPreviewNewsDetails)
             }
         }
     }
 }
 
 #Preview {
-    HomeView(isAppearAlertView: .constant(true), isAppearDestinationSearchView: .constant(false))
+    HomeView(isPresentedPreviewNewsDetails: .constant(false),
+             isShowDestinationSV: .constant(false))
 }

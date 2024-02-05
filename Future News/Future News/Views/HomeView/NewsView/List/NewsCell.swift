@@ -13,7 +13,7 @@ struct NewsCell: View {
     @Binding var isPresentedPreviewNewsDetails: Bool
     @Binding var isPresentedNewsDetails: Bool
     
-    @State var news: NewsEntity
+    @ObservedObject var news: NewsEntity
     
     @State private var dynamicSize: CGFloat = 28
     
@@ -39,16 +39,18 @@ struct NewsCell: View {
                 Button {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 2)
                     withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        dynamicSize = news.isSaveNews ? 33 : 28
+                        news.toggle()
+                        news.objectWillChange.send()
                     }
                 } label: {
                     Image(systemName: "bookmark.fill")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: dynamicSize, height: dynamicSize)
+                        .frame(width: 28, height: 28)
                         .foregroundStyle(news.isSaveNews ? .orange : .black)
                 }
                 .frame(width: 30, height: 30)
+                .buttonStyle(BorderlessButtonStyle())
             }
             .padding(.horizontal)
             .frame(width: screenSize.width)
@@ -75,7 +77,8 @@ struct NewsCell: View {
                     .fontWeight(.semibold)
                     .fontDesign(.rounded)
                     .lineLimit(3)
-                    .frame(width: 370, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .padding(.horizontal)
             }
         }
         .background {
@@ -89,11 +92,12 @@ struct NewsCell: View {
         .onTapGesture {
             isPresentedNewsDetails.toggle()
         }
-        .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                        selectedNews: $news)
-        }
+//        .fullScreenCover(isPresented: $isPresentedNewsDetails) {
+//            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+//                        selectedNews: $news)
+//        }
         .padding(.bottom)
-
     }
 }
+
+

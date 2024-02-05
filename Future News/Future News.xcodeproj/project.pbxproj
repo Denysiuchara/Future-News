@@ -166,6 +166,7 @@
 		9423BC212B24CE8B00D23418 /* SegmentedView */ = {
 			isa = PBXGroup;
 			children = (
+				94B715222B6FCAB700F08B5B /* SegmentedViewContainer.swift */,
 				9423BC1D2B24CB9300D23418 /* SegmentedView.swift */,
 				946940BB2B3330DA00F87C47 /* UnderlineModifier.swift */,
 				946940BD2B3330FD00F87C47 /* SegmentedButtonView.swift */,
@@ -231,7 +232,6 @@
 			isa = PBXGroup;
 			children = (
 				94A1DDCC2B20DC0A0067A7C0 /* HomeView.swift */,
-				94B715222B6FCAB700F08B5B /* SegmentedViewContainer.swift */,
 				949BCF562B261A8700ECDD41 /* SearchView */,
 				946940C42B33338300F87C47 /* CustomProgressView */,
 				946940C32B33333500F87C47 /* NewsView */,

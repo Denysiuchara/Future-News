@@ -24,8 +24,7 @@ struct SegmentedViewContainer: View {
     var body: some View {
         VStack {
             SegmentedView(selectedIndex: $selectedIndex, titles: titles)
-                .zIndex(1.0)
-                .padding(.horizontal)
+                .zIndex(1)
                 .onChange(of: selectedIndex) { _, newValue in
 //                    newsVM.fetchNews(theme: )
                 }
@@ -51,9 +50,12 @@ struct SegmentedViewContainer: View {
                             .shadow(radius: 3)
                     }
             }
-            .offset(x: newsVM.isNewDataLoaded ? 0 : -(screenSize.height))
-            .animation(.smooth(duration: 1), value: newsVM.isNewDataLoaded)
-            .animation(.linear) { $0.opacity(newsVM.isNewDataLoaded ? 1 : 0) }
+            .offset(y: newsVM.isNewDataLoaded ? 0 : -20)
+            .animation(.linear) {
+                $0
+                    .opacity(newsVM.isNewDataLoaded ? 1 : 0)
+                    .frame(height: newsVM.isNewDataLoaded ? 20 : 0)
+            }
         }
     }
 }

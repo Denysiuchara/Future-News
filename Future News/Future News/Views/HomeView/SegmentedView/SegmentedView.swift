@@ -25,8 +25,11 @@ struct SegmentedView: View {
             }
         }
         .background {
-            GeometryReader { geoReader in Color.clear.preference(key: RectPreferenceKey.self,
-                                                                 value: geoReader.frame(in: .global))
+            GeometryReader { geoReader in 
+                Color
+                    .colorSet3
+                    .preference(key: RectPreferenceKey.self,
+                                value: geoReader.frame(in: .global))
                 .onPreferenceChange(RectPreferenceKey.self) {
                     self.setBackgroundFrame(frame: $0)
                 }

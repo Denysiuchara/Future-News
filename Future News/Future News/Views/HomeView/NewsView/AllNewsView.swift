@@ -16,16 +16,15 @@ struct AllNewsView: View {
     private var items: FetchedResults<NewsEntity>
     
     @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isPresentedNewsDetails: Bool
-    @Binding var isAppearAlertView: Bool
     
+    @State private var isPresentedNewsDetails = false
     @State private var selectedNews: NewsEntity?
     
     var body: some View {
-        ZStack(alignment: .top){
+        ZStack(alignment: .top) {
             List {
-                // TODO: - Add more information in CardView, and add destination to tap
                 TabCard()
+                    .listRowBackground(Color.colorSet3)
                     .frame(width: screenSize.width,
                            height: screenSize.height * 0.3)
                 
@@ -38,6 +37,7 @@ struct AllNewsView: View {
                     Spacer()
                 }
                 .padding(.horizontal)
+                .listRowBackground(Color.colorSet3)
                 
                 ForEach(items) { element in
                     NewsCell(
@@ -45,6 +45,7 @@ struct AllNewsView: View {
                         isPresentedNewsDetails: $isPresentedNewsDetails,
                         news: element
                     )
+                    .listRowBackground(Color.colorSet3)
                     .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
                         withAnimation {
@@ -53,9 +54,9 @@ struct AllNewsView: View {
                         }
                     }
                 }
-                .listRowBackground(Color.colorSet3)
             }
             .listStyle(.inset)
+            .scrollContentBackground(.hidden)
             .allowsHitTesting(!isPresentedPreviewNewsDetails)
             .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
             .scrollIndicators(.hidden)
@@ -75,8 +76,6 @@ struct AllNewsView: View {
 }
 
 #Preview {
-    AllNewsView(isPresentedPreviewNewsDetails: .constant(false),
-                isPresentedNewsDetails: .constant(false),
-                isAppearAlertView: .constant(false))
+    AllNewsView(isPresentedPreviewNewsDetails: .constant(false))
     .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
 }

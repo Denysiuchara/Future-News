@@ -98,6 +98,16 @@ extension NewsEntity {
         
         return localNews
     }
+    
+    func toggle() {
+        if self.isSaveNews == true {
+            self.setValue(false, forKey: "isSaveNews")
+        } else {
+            self.setValue(true, forKey: "isSaveNews")
+        }
+        
+        CoreDataService.shared.context.saveContext()
+    }
 }
 
 
