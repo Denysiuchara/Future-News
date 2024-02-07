@@ -13,7 +13,7 @@ struct PreviewNewsDetails: View {
     @State private var dynamicSize: CGFloat = 28
     
     @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isPresentedNewsDetails: Bool
+    @Binding var isActive: Bool
     
     @State var news: NewsEntity
     
@@ -50,7 +50,7 @@ struct PreviewNewsDetails: View {
                         .fontWeight(.bold)
                         .padding(.top, 6)
                     
-                    Text(news.publishDate_)
+                    Text(String(describing: news.publishDate_))
                         .fontDesign(.rounded)
                         .frame(width: screenSize.width * 0.50, height: 20, alignment: .leading)
                         .opacity(0.5)
@@ -97,7 +97,7 @@ struct PreviewNewsDetails: View {
                                      anchor: .topLeading)
                     
                     Button {
-                        isPresentedNewsDetails.toggle()
+                        isActive.toggle()
                     } label: {
                         Text("Read the full news")
                             .foregroundStyle(.black)

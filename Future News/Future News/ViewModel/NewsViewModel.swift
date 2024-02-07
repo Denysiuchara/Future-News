@@ -11,6 +11,8 @@ final class NewsViewModel: ObservableObject {
     
     @Published var isFailedStatusCode = false
 
+    @Published var selectedNews: NewsEntity?
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {

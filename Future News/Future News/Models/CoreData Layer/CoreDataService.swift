@@ -22,7 +22,7 @@ final class CoreDataService {
             entity.imageURL = entity.imageURL_
             entity.isSaveNews = false
             entity.language = "en"
-            entity.publishDate = "2020:20:20 20:20"
+            entity.publishDate = Date()
             entity.sentiment = 0.0
             entity.sourceCountry = ""
             entity.sourceURL = entity.sourceURL_

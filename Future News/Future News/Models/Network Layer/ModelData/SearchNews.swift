@@ -47,6 +47,10 @@ struct News: Codable, Identifiable {
         return URL(string: url) ?? URL(string: endpoint)!
     }
     
+    var convertedPublishDate: Date {
+        self.publishDate.convertToDate()
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case title = "title"
@@ -89,5 +93,23 @@ extension News {
         self.sourceCountry = ""
         self.sentiment = 0.0
         self.author = nil
+    }
+}
+
+extension String {
+    func convertToDate() -> Date {
+        let stringDate = self
+        
+        let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone.current
+        
+        if let date = dateFormatter.date(from: stringDate) {
+            print("isoDateFormatter: -> \(dateFormatter)")
+            return date
+        } else {
+            print("convertToDate() does not converted current string")
+            return Date()
+        }
     }
 }

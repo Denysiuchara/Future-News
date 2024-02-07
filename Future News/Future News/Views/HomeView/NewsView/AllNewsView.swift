@@ -18,10 +18,12 @@ struct AllNewsView: View {
     @Binding var isPresentedPreviewNewsDetails: Bool
     
     @State private var isPresentedNewsDetails = false
-    @State private var selectedNews: NewsEntity?
+    
+    @State private var isActive = false
     
     var body: some View {
         ZStack(alignment: .top) {
+            NavigationView {
             List {
                 TabCard()
                     .listRowBackground(Color.colorSet3)
@@ -39,20 +41,41 @@ struct AllNewsView: View {
                 .padding(.horizontal)
                 .listRowBackground(Color.colorSet3)
                 
-                ForEach(items) { element in
-                    NewsCell(
-                        isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                        isPresentedNewsDetails: $isPresentedNewsDetails,
-                        news: element
-                    )
-                    .listRowBackground(Color.colorSet3)
+                ForEach(items, id: \.self) { element in
+                    
+                    NavigationLink(isActive: $isActive) {
+                        NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                                    selectedNews: newsVM.selectedNews ?? NewsEntity())
+                        .navigationBarBackButtonHidden(true)
+                        .id(element.id_)
+                    } label: {
+                        NewsCell(selectedNews: element)
+                        .id(element.id_)
+                    }
+                    .onTapGesture {
+                        newsVM.selectedNews = element
+                        isActive.toggle()
+                    }
                     .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
                         withAnimation {
-                            selectedNews = element
+                            newsVM.selectedNews = element
                             self.isPresentedPreviewNewsDetails = true
                         }
                     }
+                    
+//                    NewsCell(
+//                        isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+//                        isPresentedNewsDetails: $isPresentedNewsDetails,
+//                        selectedNews: element)
+//                    .listRowBackground(Color.colorSet3)
+//                    .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
+//                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
+//                        withAnimation {
+//                            selectedNews = element
+//                            self.isPresentedPreviewNewsDetails = true
+//                        }
+//                    }
                 }
             }
             .listStyle(.inset)
@@ -60,15 +83,15 @@ struct AllNewsView: View {
             .allowsHitTesting(!isPresentedPreviewNewsDetails)
             .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
             .scrollIndicators(.hidden)
+        }
             
-            if let news = selectedNews {
+            if let news = newsVM.selectedNews {
                 PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                                   isPresentedNewsDetails: $isPresentedNewsDetails,
+                                   isActive: $isActive,
                                    news: news)
                 .opacity(isPresentedPreviewNewsDetails ? 1.0 : 0.0)
-                .onDisappear {
-                    print("PreviewNewsDetails disappear")
-                    selectedNews = nil
+                .onChange(of: isPresentedPreviewNewsDetails) { _, newValue in
+                    if newValue == false { newsVM.selectedNews = nil }
                 }
             }
         }

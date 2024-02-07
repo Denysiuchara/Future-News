@@ -49,8 +49,8 @@ extension NewsEntity {
         set { language = newValue }
     }
     
-    var publishDate_: String {
-        get { publishDate ?? "" }
+    var publishDate_: Date {
+        get { publishDate ?? Date() }
         set { publishDate = newValue }
     }
     
@@ -89,7 +89,7 @@ extension NewsEntity {
             localNews.imageURL = news.imageURL
             localNews.isSaveNews = news.isSaveNews
             localNews.language = news.language
-            localNews.publishDate = news.publishDate
+            localNews.publishDate = news.convertedPublishDate
             localNews.sentiment = news.sentiment
             localNews.sourceCountry = news.sourceCountry
             localNews.sourceURL = news.sourceURL
@@ -109,7 +109,4 @@ extension NewsEntity {
         CoreDataService.shared.context.saveContext()
     }
 }
-
-
-
 

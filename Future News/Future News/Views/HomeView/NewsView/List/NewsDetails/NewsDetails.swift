@@ -16,7 +16,7 @@ struct NewsDetails: View {
     @State private var scrollOffset: CGFloat = 0
     @State private var isCoppied = false
     
-    @Binding var selectedNews: NewsEntity
+    @ObservedObject var selectedNews: NewsEntity
     
     var body: some View {
         ZStack {
@@ -54,7 +54,8 @@ struct NewsDetails: View {
                         
                         //  MARK: - Save button
                         Button{
-//                            selectedNews.toggle()
+                            selectedNews.toggle()
+                            selectedNews.objectWillChange.send()
                         } label: {
                             Image(systemName: selectedNews.isSaveNews ? "bookmark.fill" : "bookmark")
                                 .resizable()
@@ -133,6 +134,6 @@ struct NewsDetails: View {
     }
 }
 
-#Preview {
-    NewsDetails(isPresentedPreviewNewsDetails: .constant(false), selectedNews: .constant(NewsEntity()))
-}
+//#Preview {
+//    NewsDetails(isPresentedPreviewNewsDetails: .constant(false), selectedNews: .constant(NewsEntity()))
+//}

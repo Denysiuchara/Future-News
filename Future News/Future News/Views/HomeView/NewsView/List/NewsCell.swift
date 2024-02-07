@@ -10,10 +10,7 @@ import SwiftUI
 struct NewsCell: View {
     @Environment(\.screenSize) private var screenSize
     
-    @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isPresentedNewsDetails: Bool
-    
-    @ObservedObject var news: NewsEntity
+    @ObservedObject var selectedNews: NewsEntity
     
     @State private var dynamicSize: CGFloat = 28
     
@@ -21,13 +18,13 @@ struct NewsCell: View {
         VStack {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(news.title_)
+                    Text(selectedNews.title_)
                         .font(.system(size: 23))
                         .lineLimit(2)
                         .fontWeight(.bold)
                         .padding(.top, 6)
                     
-                    Text(news.publishDate_)
+                    Text(String(describing: selectedNews.publishDate_))
                         .fontDesign(.rounded)
                         .frame(width: screenSize.width * 0.50, height: 20, alignment: .leading)
                         .opacity(0.5)
@@ -39,15 +36,15 @@ struct NewsCell: View {
                 Button {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 2)
                     withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        news.toggle()
-                        news.objectWillChange.send()
+                        selectedNews.toggle()
+                        selectedNews.objectWillChange.send()
                     }
                 } label: {
                     Image(systemName: "bookmark.fill")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 28, height: 28)
-                        .foregroundStyle(news.isSaveNews ? .orange : .black)
+                        .foregroundStyle(selectedNews.isSaveNews ? .orange : .black)
                 }
                 .frame(width: 30, height: 30)
                 .buttonStyle(BorderlessButtonStyle())
@@ -56,7 +53,7 @@ struct NewsCell: View {
             .frame(width: screenSize.width)
             
             VStack {
-                AsyncImage(url: news.imageURL_) { image in
+                AsyncImage(url: selectedNews.imageURL_) { image in
                     image
                         .resizable()
                         .scaledToFill()
@@ -73,7 +70,7 @@ struct NewsCell: View {
                         .clipped()
                 }
                 
-                Text(news.author ?? "Unknown author")
+                Text(selectedNews.author_)
                     .fontWeight(.semibold)
                     .fontDesign(.rounded)
                     .lineLimit(3)
@@ -89,13 +86,6 @@ struct NewsCell: View {
                     .shadow(radius: 10)
             }
         }
-        .onTapGesture {
-            isPresentedNewsDetails.toggle()
-        }
-//        .fullScreenCover(isPresented: $isPresentedNewsDetails) {
-//            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-//                        selectedNews: $news)
-//        }
         .padding(.bottom)
     }
 }

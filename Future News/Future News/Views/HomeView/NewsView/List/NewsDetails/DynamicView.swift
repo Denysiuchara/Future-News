@@ -15,11 +15,11 @@ struct DynamicView: View {
     let imageURL: URL
     let title: String
     let author: String?
-    let publishDate: String
+    let publishDate: Date
     
     @State private var contentHeight: CGFloat = 0
     
-    init(scrollOffset: Binding<CGFloat>, imageURL: URL, title: String, author: String?, publishDate: String) {
+    init(scrollOffset: Binding<CGFloat>, imageURL: URL, title: String, author: String?, publishDate: Date) {
         self._scrollOffset = scrollOffset
         self.imageURL = imageURL
         self.title = title
@@ -78,7 +78,7 @@ struct DynamicView: View {
                 .padding(.horizontal)
                 .frame(width: screenSize.width, alignment: .leading)
             
-            Text(publishDate)
+            Text(String(describing: publishDate))
                 .minimumScaleFactor(0.9)
                 .font(.footnote)
                 .padding(.horizontal)
