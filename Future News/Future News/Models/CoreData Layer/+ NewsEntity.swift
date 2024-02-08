@@ -82,7 +82,8 @@ extension NewsEntity {
         set { title = newValue }
     }
     
-    static func insert(news: News,to context: NSManagedObjectContext) -> NewsEntity {
+    static func insert(news: News, to context: NSManagedObjectContext) -> NewsEntity {
+        
         let localNews = NewsEntity(entity: NewsEntity.entity(), insertInto: context)
             localNews.id = news.id.to()
             localNews.author = news.author

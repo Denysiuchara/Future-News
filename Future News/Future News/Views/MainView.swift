@@ -13,11 +13,11 @@ struct MainView: View {
     @State private var tabSelection = 1
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             TabView(selection: $tabSelection) {
                 Group {
                     HomeView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails)
-                    .tag(1)
+                        .tag(1)
                     
                     SavedNewsView()
                         .tag(2)

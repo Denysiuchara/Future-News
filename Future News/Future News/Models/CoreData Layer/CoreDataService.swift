@@ -56,8 +56,6 @@ final class CoreDataService {
         }
     }
     
-    var isCoreDataStackFilled = CurrentValueSubject<Bool, Never>(false)
-    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DataModel")
         
@@ -77,32 +75,39 @@ final class CoreDataService {
     lazy var entity: NSEntityDescription = { NSEntityDescription.entity(forEntityName: "NewsEntity", in: context) }()!
     
     func insertData(_ newsList: [News]) {
-        persistentContainer.performBackgroundTask { context in
-            newsList.forEach { news in
-                _ = NewsEntity.insert(news: news, to: context)
+        persistentContainer.performBackgroundTask { [weak self] context in
+            guard let self = self else {
+                print("Class deinit")
+                return
             }
-            context.saveContext()
+            
+            newsList.forEach { news in
+                if self.checkIfExists(id: news.id, in: context) {
+                    _ = NewsEntity.insert(news: news, to: context)
+                } else {
+                    print("Ignoring news item")
+                }
+            }
         }
     }
     
-    func hasEntities() {
-        let fetchRequest = NewsEntity.fetchRequest()
+    func checkIfExists(id: Int, in context: NSManagedObjectContext) -> Bool {
+        
+        let request: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %d", Int32(id))
         
         do {
-            let count = try CoreDataService.shared.context.count(for: fetchRequest)
-            print("\(#function): \(count)")
-            isCoreDataStackFilled.send(true)
+            let count = try context.count(for: request)
+            return count == 0
         } catch {
-            print("Error counting entities: \(error)")
-            isCoreDataStackFilled.send(false)
+            print("\(#function) \(error.localizedDescription)")
+            return false
         }
     }
 }
 
 
-
-
-var textForPreview = 
+fileprivate var textForPreview =
 """
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,

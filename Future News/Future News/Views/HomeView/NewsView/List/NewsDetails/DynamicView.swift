@@ -34,37 +34,30 @@ struct DynamicView: View {
                 image
                     .resizable()
                     .scaledToFill()
-                    .animation(.default) { content in
+                    .animation(.easeInOut) { content in
                         content
-                            .scaleEffect(scrollOffset >= 0.05 && scrollOffset <= 1 ? 0 : 1, anchor: .bottom)
-                            .frame(width: scrollOffset >= 0.05 && scrollOffset <= 1 ? 0 : screenSize.width,
-                                   height: scrollOffset >= 0.05 && scrollOffset <= 1 ? 0 : screenSize.height * 0.30)
+                            .scaleEffect(isScrollOffsetChanging() ? 0 : 1, anchor: .bottom)
+                            .frame(width: isScrollOffsetChanging() ? 0 : screenSize.width * 0.96,
+                                   height: isScrollOffsetChanging() ? 0 : screenSize.height * 0.30)
                     }
                     .clipped()
                     
             } placeholder: {
-                ZStack {
-                    Image("news_blank_image")
-                        .resizable()
-                        .scaledToFill()
-                        .animation(.default) { content in
-                            content
-                                .scaleEffect(scrollOffset >= 0.05 && scrollOffset <= 1 ? 0 : 1, anchor: .bottom)
-                                .frame(width: scrollOffset >= 0.05 && scrollOffset <= 1 ? 0 : screenSize.width,
-                                       height: scrollOffset >= 0.05 && scrollOffset <= 1 ? 0 : screenSize.height * 0.30)
-                        }
-                        .clipped()
-                    
-                    ProgressView()
-                }
+                Image("news_blank_image")
+                    .resizable()
+                    .scaledToFill()
+                    .animation(.easeInOut) { content in
+                        content
+                            .scaleEffect(isScrollOffsetChanging() ? 0 : 1, anchor: .bottom)
+                            .frame(width: isScrollOffsetChanging() ? 0 : screenSize.width * 0.96,
+                                   height: isScrollOffsetChanging() ? 0 : screenSize.height * 0.30)
+                    }
+                    .clipped()
             }
-            .animation(.easeIn) { content in
-                content
-                    .opacity(scrollOffset >= 0.05 && scrollOffset <= 1 ? 0.0 : 1)
-            }
+            .opacity(isScrollOffsetChanging() ? 0.0 : 1)
             
             Text(title)
-                .lineLimit(scrollOffset >= 0.05 && scrollOffset <= 1 ? 1 : 3)
+                .lineLimit(isScrollOffsetChanging() ? 1 : 3)
                 .minimumScaleFactor(0.9)
                 .font(.title3)
                 .fontWeight(.bold)
@@ -84,13 +77,12 @@ struct DynamicView: View {
                 .padding(.horizontal)
                 .frame(width: screenSize.width, alignment: .leading)
         }
-        .padding(.vertical)
         .animation(.default) { content in
             content
                 .frame(height: contentHeight)
                 .onChange(of: scrollOffset) { _, newValue in
                     withAnimation {
-                        self.contentHeight = newValue > 0.05 && newValue <= 1.0 ? (screenSize.height * 0.10) : (screenSize.height * 0.45)
+                        self.contentHeight = isScrollOffsetChanging() ? (screenSize.height * 0.10) : (screenSize.height * 0.45)
                     }
                 }
                 .background {
@@ -102,12 +94,24 @@ struct DynamicView: View {
                 }
         }
     }
+    
+    private func isScrollOffsetChanging() -> Bool {
+        scrollOffset >= 0.05 && scrollOffset <= 1
+    }
 }
 
-//#Preview {
-//    DynamicView(scrollOffset: .constant(0.0),
-//                       imageURL: "https://media.istockphoto.com/id/1311148884/vector/abstract-globe-background.jpg?s=612x612&w=0&k=20&c=9rVQfrUGNtR5Q0ygmuQ9jviVUfrnYHUHcfiwaH5-WFE=",
-//                       title: "Some Text for Title",
-//                       author: "Author",
-//                       publishDate: "20.12.2023 17:51")
-//}
+#Preview {
+    Group {
+        DynamicView(scrollOffset: .constant(0.0),
+                    imageURL: URL(string:  "https://media.istockphoto.com/id/1311148884/vector/abstract-globe-background.jpg?s=612x612&w=0&k=20&c=9rVQfrUGNtR5Q0ygmuQ9jviVUfrnYHUHcfiwaH5-WFE=")!,
+                    title: "Some Text for Title",
+                    author: "Author",
+                    publishDate: Date())
+        
+        DynamicView(scrollOffset: .constant(0.05),
+                    imageURL: URL(string:  "https://media.istockphoto.com/id/1311148884/vector/abstract-globe-background.jpg?s=612x612&w=0&k=20&c=9rVQfrUGNtR5Q0ygmuQ9jviVUfrnYHUHcfiwaH5-WFE=")!,
+                    title: "Some Text for Title",
+                    author: "Author",
+                    publishDate: Date())
+    }
+}

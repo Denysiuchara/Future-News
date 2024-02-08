@@ -25,16 +25,15 @@ struct HomeView: View {
             
             VStack {
                 SearchViewContainer(showDestinationSearchView: $showDestinationSearchView)
-                    .allowsHitTesting(!isPresentedPreviewNewsDetails)
-                    .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
                 
                 SegmentedViewContainer(selectedIndex: $selectedIndex)
-                    .allowsHitTesting(!isPresentedPreviewNewsDetails)
-                    .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
                 
                 AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails)
             }
         }
+//        .onAppear {
+//            newsVM.fetchNews(theme: .allNews)
+//        }
     }
 }
 

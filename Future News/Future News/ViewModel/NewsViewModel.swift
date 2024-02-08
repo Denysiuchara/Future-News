@@ -31,7 +31,6 @@ final class NewsViewModel: ObservableObject {
     func fetchNews(theme: ThemeParameter,
                    parameters: AdditionalParameters = [:]) {
         
-        CoreDataService.shared.hasEntities()
         isNewDataLoaded = true
         
         var complexParameters: AdditionalParameters = [.text: theme.rawValue]
@@ -50,7 +49,6 @@ final class NewsViewModel: ObservableObject {
             }
         }
         
-        CoreDataService.shared.hasEntities()
         isNewDataLoaded = false
     }
 }

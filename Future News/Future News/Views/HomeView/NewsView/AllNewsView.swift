@@ -17,14 +17,13 @@ struct AllNewsView: View {
     
     @Binding var isPresentedPreviewNewsDetails: Bool
     
-    @State private var isPresentedNewsDetails = false
-    
     @State private var isActive = false
     
     var body: some View {
         ZStack(alignment: .top) {
             List {
                 TabCard()
+                    .listRowSeparator(.hidden)
                     .listRowBackground(Color.colorSet3)
                     .frame(width: screenSize.width,
                            height: screenSize.height * 0.3)
@@ -33,63 +32,56 @@ struct AllNewsView: View {
                     Text("Latest news")
                         .fontDesign(.rounded)
                         .font(.title)
-                        .padding(.horizontal)
                     
                     Spacer()
                 }
-                .padding(.horizontal)
                 .listRowBackground(Color.colorSet3)
                 
                 ForEach(items, id: \.self) { element in
                     
-                    NavigationLink(isActive: $isActive) {
-                        NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                                    selectedNews: newsVM.selectedNews ?? NewsEntity())
-                        .navigationBarBackButtonHidden(true)
-                        .id(element.id_)
-                    } label: {
+                    ZStack {
                         NewsCell(selectedNews: element)
-                        .id(element.id_)
-                    }
-                    .onTapGesture {
-                        newsVM.selectedNews = element
-                        isActive.toggle()
-                    }
-                    .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
-                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
-                        withAnimation {
-                            newsVM.selectedNews = element
-                            self.isPresentedPreviewNewsDetails = true
+                        //FIXME: - Incorrected data
+                            .sheet(isPresented: $isPresentedPreviewNewsDetails) {
+                                PreviewNewsDetails(news: element)
+                                    .presentationBackground(.colorSet3)
+                                    .presentationDetents([.height(650)])
+                            }
+                            .onTapGesture {
+                                newsVM.selectedNews = element
+                                isActive.toggle()
+                            }
+                            .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
+                                UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
+                                newsVM.selectedNews = element
+                                self.isPresentedPreviewNewsDetails = true
+                            }
+                            .id(element.id_)
+                        
+                        NavigationLink(isActive: $isActive) {
+                            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                                        selectedNews: newsVM.selectedNews ?? NewsEntity())
+                            .navigationBarBackButtonHidden(true)
+                            .id(element.id_)
+                        } label: {
+                            EmptyView()
                         }
+                        .opacity(0.0)
                     }
-                    .sheet(isPresented: $isPresentedPreviewNewsDetails) {
-                        PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                                           isActive: $isActive,
-                                           news: element)
-                    }
+                    .listRowBackground(Color.colorSet3)
+                    .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.inset)
+            .listRowSpacing(10)
             .scrollContentBackground(.hidden)
             .scrollIndicators(.hidden)
-            .allowsHitTesting(!isPresentedPreviewNewsDetails)
-            .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
-
-            
-//            if let news = newsVM.selectedNews {
-//                PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-//                                   isActive: $isActive,
-//                                   news: news)
-//                .opacity(isPresentedPreviewNewsDetails ? 1.0 : 0.0)
-//                .onChange(of: isPresentedPreviewNewsDetails) { _, newValue in
-//                    if newValue == false { newsVM.selectedNews = nil }
-//                }
-//            }
         }
     }
 }
 
 #Preview {
-    AllNewsView(isPresentedPreviewNewsDetails: .constant(false))
-    .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
+    AllNewsView(isPresentedPreviewNewsDetails: .constant(true))
+        .environment(\.managedObjectContext,
+                      CoreDataService.preview.previewContainer!.viewContext)
 }

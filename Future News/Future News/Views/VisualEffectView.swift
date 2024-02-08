@@ -22,7 +22,7 @@ struct VisualEffectBlur: UIViewRepresentable {
     let alpha: CGFloat
 
     func makeUIView(context: Context) -> UIVisualEffectView {
-        var blurEffectView =  UIVisualEffectView(effect: blur)
+        let blurEffectView =  UIVisualEffectView(effect: blur)
             blurEffectView.alpha = alpha
         
         return blurEffectView

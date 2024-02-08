@@ -10,10 +10,9 @@ import CoreData
 
 struct PreviewNewsDetails: View {
     @Environment(\.screenSize) private var screenSize
-    @State private var dynamicSize: CGFloat = 28
+    @Environment(\.dismiss) private var dismiss
     
-    @Binding var isPresentedPreviewNewsDetails: Bool
-    @Binding var isActive: Bool
+    @State private var dynamicSize: CGFloat = 28
     
     @State var news: NewsEntity
     
@@ -25,9 +24,7 @@ struct PreviewNewsDetails: View {
                     Spacer()
                     
                     Button {
-                        withAnimation {
-                            self.isPresentedPreviewNewsDetails = false
-                        }
+                        dismiss()
                     } label: {
                         Image(systemName: "x.circle")
                             .resizable()
@@ -39,8 +36,9 @@ struct PreviewNewsDetails: View {
                 
                 Divider()
             }
-            .padding([.horizontal, .top])
-            .frame(width: screenSize.width, height: 45)
+            .padding([.horizontal])
+            .frame(maxWidth: .infinity)
+            .frame(height: 45)
             
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
@@ -83,52 +81,18 @@ struct PreviewNewsDetails: View {
                     .fontWeight(.semibold)
                     .fontDesign(.rounded)
                     .lineLimit(3)
-                    .frame(width: 370, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .padding(.horizontal)
                 
                 VStack {
                     Divider()
                     
                     Text(news.text_)
-                        .lineLimit(7)
-                        .frame(height: isPresentedPreviewNewsDetails ? 200 : 0, alignment: .topLeading)
+                        .lineLimit(9)
+                        .frame(height: 200, alignment: .topLeading)
                         .padding(.horizontal)
-                        .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 1 : 0,
-                                            height: isPresentedPreviewNewsDetails ? 1 : 0),
-                                     anchor: .topLeading)
-                    
-                    Button {
-                        isActive.toggle()
-                    } label: {
-                        Text("Read the full news")
-                            .foregroundStyle(.black)
-                    }
-                    .padding(7)
-                    .background {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(.orange)
-                    }
-                    .shadow(radius: 4)
-
                 }
-                .frame(width: screenSize.width,
-                       height: isPresentedPreviewNewsDetails ? 250 : 0)
-                .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 1 : 0,
-                                    height: isPresentedPreviewNewsDetails ? 1 : 0),
-                             anchor: .top)
             }
         }
-        .background {
-            GeometryReader { geo in
-                RoundedRectangle(cornerRadius: isPresentedPreviewNewsDetails ? 20 : 0)
-                    .fill(.colorSet3)
-                    .frame(width: geo.size.width, height: geo.size.height + 10)
-                    .shadow(radius: 10)
-            }
-        }
-        .opacity(isPresentedPreviewNewsDetails ? 1.0 : 0.0)
-        .scaleEffect(CGSize(width: isPresentedPreviewNewsDetails ? 0.96 : 1,
-                            height: isPresentedPreviewNewsDetails ? 0.96 : 1),
-                     anchor: .center)
-        .padding(.bottom)
     }
 }

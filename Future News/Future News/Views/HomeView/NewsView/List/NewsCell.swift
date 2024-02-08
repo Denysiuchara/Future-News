@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NewsCell: View {
     @Environment(\.screenSize) private var screenSize
-    
     @ObservedObject var selectedNews: NewsEntity
     
     @State private var dynamicSize: CGFloat = 28
@@ -26,7 +25,9 @@ struct NewsCell: View {
                     
                     Text(String(describing: selectedNews.publishDate_))
                         .fontDesign(.rounded)
-                        .frame(width: screenSize.width * 0.50, height: 20, alignment: .leading)
+                        .frame(width: screenSize.width * 0.50,
+                               height: 20,
+                               alignment: .leading)
                         .opacity(0.5)
                         .font(.system(size: 13))
                 }
@@ -50,7 +51,7 @@ struct NewsCell: View {
                 .buttonStyle(BorderlessButtonStyle())
             }
             .padding(.horizontal)
-            .frame(width: screenSize.width)
+            .frame(width: screenSize.width * 0.96)
             
             VStack {
                 AsyncImage(url: selectedNews.imageURL_) { image in
@@ -58,15 +59,15 @@ struct NewsCell: View {
                         .resizable()
                         .scaledToFill()
                         .shadow(radius: 10)
-                        .frame(width: screenSize.width - (screenSize.width * 0.05),
-                               height: screenSize.width - (screenSize.width * 0.36))
+                        .frame(width: screenSize.width * 0.90,
+                               height: screenSize.width * 0.50)
                         .clipped()
                 } placeholder: {
                     Image("news_blank_image")
                         .resizable()
                         .scaledToFill()
-                        .frame(width: screenSize.width - (screenSize.width * 0.05),
-                               height: screenSize.width - (screenSize.width * 0.36))
+                        .frame(width: screenSize.width * 0.90,
+                               height: screenSize.width * 0.50)
                         .clipped()
                 }
                 
@@ -80,13 +81,12 @@ struct NewsCell: View {
         }
         .background {
             GeometryReader { geo in
-                Rectangle()
+                RoundedRectangle(cornerRadius: 10)
                     .fill(.colorSet3)
                     .frame(width: geo.size.width, height: geo.size.height + 10)
-                    .shadow(radius: 10)
+                    .shadow(radius: 7)
             }
         }
-        .padding(.bottom)
     }
 }
 
