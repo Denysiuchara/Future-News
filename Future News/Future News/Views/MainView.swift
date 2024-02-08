@@ -10,30 +10,30 @@ import SwiftUI
 struct MainView: View {
     
     @State private var isPresentedPreviewNewsDetails = false
-    @State private var showDestinationSearchView = false
     @State private var tabSelection = 1
     
     var body: some View {
-        TabView(selection: $tabSelection) {
-            Group {
-                HomeView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                         isShowDestinationSV: $showDestinationSearchView)
+        NavigationView {
+            TabView(selection: $tabSelection) {
+                Group {
+                    HomeView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails)
                     .tag(1)
-                
-                SavedNewsView()
-                    .tag(2)
-                
-                SettingsView()
-                    .tag(3)
+                    
+                    SavedNewsView()
+                        .tag(2)
+                    
+                    SettingsView()
+                        .tag(3)
+                }
+                .toolbarBackground(.hidden, for: .tabBar)
             }
-            .toolbarBackground(.hidden, for: .tabBar)
+            .overlay(alignment: .bottom) {
+                CustomTabView(tabSelection: $tabSelection)
+                    .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
+                    .offset(y: isPresentedPreviewNewsDetails ? 200 : 0)
+            }
+            .tint(.colorSet6)
         }
-        .overlay(alignment: .bottom) {
-            CustomTabView(tabSelection: $tabSelection)
-                .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
-                .offset(y: showDestinationSearchView || isPresentedPreviewNewsDetails ? 200 : 0)
-        }
-        .tint(.colorSet6)
     }
 }
 

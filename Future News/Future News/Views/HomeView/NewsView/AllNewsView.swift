@@ -23,7 +23,6 @@ struct AllNewsView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            NavigationView {
             List {
                 TabCard()
                     .listRowBackground(Color.colorSet3)
@@ -63,37 +62,29 @@ struct AllNewsView: View {
                             self.isPresentedPreviewNewsDetails = true
                         }
                     }
-                    
-//                    NewsCell(
-//                        isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-//                        isPresentedNewsDetails: $isPresentedNewsDetails,
-//                        selectedNews: element)
-//                    .listRowBackground(Color.colorSet3)
-//                    .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
-//                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
-//                        withAnimation {
-//                            selectedNews = element
-//                            self.isPresentedPreviewNewsDetails = true
-//                        }
-//                    }
+                    .sheet(isPresented: $isPresentedPreviewNewsDetails) {
+                        PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+                                           isActive: $isActive,
+                                           news: element)
+                    }
                 }
             }
             .listStyle(.inset)
             .scrollContentBackground(.hidden)
+            .scrollIndicators(.hidden)
             .allowsHitTesting(!isPresentedPreviewNewsDetails)
             .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
-            .scrollIndicators(.hidden)
-        }
+
             
-            if let news = newsVM.selectedNews {
-                PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                                   isActive: $isActive,
-                                   news: news)
-                .opacity(isPresentedPreviewNewsDetails ? 1.0 : 0.0)
-                .onChange(of: isPresentedPreviewNewsDetails) { _, newValue in
-                    if newValue == false { newsVM.selectedNews = nil }
-                }
-            }
+//            if let news = newsVM.selectedNews {
+//                PreviewNewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
+//                                   isActive: $isActive,
+//                                   news: news)
+//                .opacity(isPresentedPreviewNewsDetails ? 1.0 : 0.0)
+//                .onChange(of: isPresentedPreviewNewsDetails) { _, newValue in
+//                    if newValue == false { newsVM.selectedNews = nil }
+//                }
+//            }
         }
     }
 }

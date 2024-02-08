@@ -41,6 +41,9 @@ struct SearchViewContainer: View {
                         .opacity(newsVM.isFailedStatusCode ? 1.0 : 0.0)
                 }
         }
+        .sheet(isPresented: $showDestinationSearchView) {
+            DestinationSearchView(isShow: $showDestinationSearchView)
+        }
     }
 }
 

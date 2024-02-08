@@ -16,15 +16,15 @@ struct HomeView: View {
     /// Свойство для появления PreviewNewsDetails
     @Binding var isPresentedPreviewNewsDetails: Bool
     
-    @Binding var isShowDestinationSV: Bool
-
+    @State private var showDestinationSearchView = false
+    
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color(.colorSet3)
                 .ignoresSafeArea()
             
             VStack {
-                SearchViewContainer(showDestinationSearchView: $isShowDestinationSV)
+                SearchViewContainer(showDestinationSearchView: $showDestinationSearchView)
                     .allowsHitTesting(!isPresentedPreviewNewsDetails)
                     .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
                 
@@ -34,24 +34,10 @@ struct HomeView: View {
                 
                 AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails)
             }
-            .sheet(isPresented: $isShowDestinationSV) {
-                DestinationSearchView(isShow: $isShowDestinationSV)
-                    .onAppear {
-                        withAnimation(.easeInOut(duration: 0.5)) {
-                            isShowDestinationSV = true
-                        }
-                    }
-                    .onDisappear {
-                        withAnimation(.bouncy) {
-                            isShowDestinationSV = false
-                        }
-                    }
-            }
         }
     }
 }
 
 #Preview {
-    HomeView(isPresentedPreviewNewsDetails: .constant(false),
-             isShowDestinationSV: .constant(false))
+    HomeView(isPresentedPreviewNewsDetails: .constant(false))
 }
