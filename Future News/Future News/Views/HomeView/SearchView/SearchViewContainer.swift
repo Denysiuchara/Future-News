@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchViewContainer: View {
-    @ObservedObject private var newsVM = NewsViewModel()
+    @EnvironmentObject var newsVM: NewsViewModel
     @Binding var showDestinationSearchView: Bool
     
     var body: some View {

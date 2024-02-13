@@ -9,13 +9,10 @@ import SwiftUI
 
 struct AllNewsView: View {
     @Environment(\.screenSize) private var screenSize
+    @EnvironmentObject var newsVM: NewsViewModel
     
-    @ObservedObject private var newsVM = NewsViewModel()
-    
-    @FetchRequest(fetchRequest: NewsEntity.fetch(), animation: .easeInOut)
+    @FetchRequest(fetchRequest: NewsEntity.fetchIncrementallyPublishDate(), animation: .easeInOut)
     private var items: FetchedResults<NewsEntity>
-    
-    @Binding var isPresentedPreviewNewsDetails: Bool
     
     @State private var isActive = false
     
@@ -38,36 +35,12 @@ struct AllNewsView: View {
                 .listRowBackground(Color.colorSet3)
                 
                 ForEach(items, id: \.self) { element in
-                    
-                    ZStack {
                         NewsCell(selectedNews: element)
-                        //FIXME: - Incorrected data
-                            .sheet(isPresented: $isPresentedPreviewNewsDetails) {
-                                PreviewNewsDetails(news: element)
-                                    .presentationBackground(.colorSet3)
-                                    .presentationDetents([.height(650)])
-                            }
                             .onTapGesture {
                                 newsVM.selectedNews = element
                                 isActive.toggle()
                             }
-                            .onLongPressGesture(minimumDuration: 0.3, maximumDistance: 15) {
-                                UIImpactFeedbackGenerator(style: .heavy).impactOccurred(intensity: 2)
-                                newsVM.selectedNews = element
-                                self.isPresentedPreviewNewsDetails = true
-                            }
                             .id(element.id_)
-                        
-                        NavigationLink(isActive: $isActive) {
-                            NewsDetails(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails,
-                                        selectedNews: newsVM.selectedNews ?? NewsEntity())
-                            .navigationBarBackButtonHidden(true)
-                            .id(element.id_)
-                        } label: {
-                            EmptyView()
-                        }
-                        .opacity(0.0)
-                    }
                     .listRowBackground(Color.colorSet3)
                     .listRowSeparator(.hidden)
                 }
@@ -76,12 +49,22 @@ struct AllNewsView: View {
             .listRowSpacing(10)
             .scrollContentBackground(.hidden)
             .scrollIndicators(.hidden)
+            .background {
+                NavigationLink(isActive: $isActive) {
+                    NewsDetails(selectedNews: newsVM.selectedNews ?? NewsEntity())
+                    .navigationBarBackButtonHidden(true)
+                } label: {
+                    EmptyView()
+                }
+                .opacity(0.0)
+            }
         }
     }
 }
 
 #Preview {
-    AllNewsView(isPresentedPreviewNewsDetails: .constant(true))
+    AllNewsView()
+        .environmentObject(NewsViewModel())
         .environment(\.managedObjectContext,
                       CoreDataService.preview.previewContainer!.viewContext)
 }

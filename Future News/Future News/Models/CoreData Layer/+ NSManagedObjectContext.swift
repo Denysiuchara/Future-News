@@ -14,7 +14,7 @@ extension NSManagedObjectContext {
             do {
                 try self.save()
             } catch let nserror as NSError {
-                print("Unresolved error \(nserror), \(nserror.userInfo)")
+                assert(false, "saveContext() error \(nserror), \(nserror.userInfo)")
             }
         }
     }

@@ -10,12 +10,19 @@ import CoreData
 
 extension NewsEntity {
     
-    static func fetch() -> NSFetchRequest<NewsEntity> {
+    static func fetchIncrementallyPublishDate() -> NSFetchRequest<NewsEntity> {
         let request = NSFetchRequest<NewsEntity>(entityName: "NewsEntity")
             request.sortDescriptors = [NSSortDescriptor(keyPath: \NewsEntity.publishDate, ascending: true)]
         return request
     }
     
+    static func fetchSaveNews() -> NSFetchRequest<NewsEntity> {
+        let request = NSFetchRequest<NewsEntity>(entityName: "NewsEntity")
+            request.sortDescriptors = [ NSSortDescriptor(keyPath: \NewsEntity.publishDate, ascending: true) ]
+            request.predicate = NSPredicate(format: "isSaveNews == true")
+        
+        return request
+    }
     
     var author_: String {
         get { author ?? "" }

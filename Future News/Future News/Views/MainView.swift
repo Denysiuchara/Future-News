@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct MainView: View {
-    
-    @State private var isPresentedPreviewNewsDetails = false
+    @EnvironmentObject var newsVM: NewsViewModel
     @State private var tabSelection = 1
     
     var body: some View {
         NavigationStack {
             TabView(selection: $tabSelection) {
                 Group {
-                    HomeView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails)
+                    HomeView()
+                        .environmentObject(newsVM)
                         .tag(1)
                     
                     SavedNewsView()
+                        .environmentObject(newsVM)
                         .tag(2)
                     
                     SettingsView()
@@ -29,8 +30,6 @@ struct MainView: View {
             }
             .overlay(alignment: .bottom) {
                 CustomTabView(tabSelection: $tabSelection)
-                    .blur(radius: isPresentedPreviewNewsDetails ? 10 : 0)
-                    .offset(y: isPresentedPreviewNewsDetails ? 200 : 0)
             }
             .tint(.colorSet6)
         }
@@ -40,4 +39,5 @@ struct MainView: View {
 #Preview {
     MainView()
         .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
+        .environmentObject(NewsViewModel())
 }

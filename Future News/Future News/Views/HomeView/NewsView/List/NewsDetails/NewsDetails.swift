@@ -11,17 +11,16 @@ struct NewsDetails: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.screenSize) private var screenSize
     
-    @Binding var isPresentedPreviewNewsDetails: Bool
+    @ObservedObject var selectedNews: NewsEntity
     
     @State private var scrollOffset: CGFloat = 0
     @State private var isCoppied = false
     
-    @ObservedObject var selectedNews: NewsEntity
-    
     var body: some View {
         ZStack {
             
-            Color("backgroundColor")
+            Color(.colorSet3)
+                .opacity(0.5)
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
@@ -29,7 +28,6 @@ struct NewsDetails: View {
                 VStack {
                     HStack {
                         Button {
-                            isPresentedPreviewNewsDetails = false
                             dismiss()
                         } label: {
                             Image(systemName: "chevron.left")
@@ -82,8 +80,8 @@ struct NewsDetails: View {
                             .frame(width: screenSize.width * scrollOffset)
                             .animation(.easeIn, value: scrollOffset)
                     }
-                        .ignoresSafeArea(edges: .top)
-                        .shadow(radius: 10)
+                    .ignoresSafeArea(edges: .top)
+                    .shadow(radius: 10)
                 }
                     
                 DynamicView(scrollOffset: $scrollOffset,
@@ -134,6 +132,6 @@ struct NewsDetails: View {
     }
 }
 
-//#Preview {
-//    NewsDetails(isPresentedPreviewNewsDetails: .constant(false), selectedNews: .constant(NewsEntity()))
-//}
+
+
+

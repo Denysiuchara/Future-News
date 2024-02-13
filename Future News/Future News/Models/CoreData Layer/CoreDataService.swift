@@ -20,7 +20,7 @@ final class CoreDataService {
             entity.author = "Some Author"
             entity.id = i.to()
             entity.imageURL = entity.imageURL_
-            entity.isSaveNews = false
+            entity.isSaveNews = true
             entity.language = "en"
             entity.publishDate = Date()
             entity.sentiment = 0.0
@@ -43,9 +43,9 @@ final class CoreDataService {
     private init (inMemory: Bool = false) {
         if inMemory {
             self.previewContainer = NSPersistentContainer(name: "DataModel")
-            previewContainer?.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-            previewContainer?.viewContext.automaticallyMergesChangesFromParent = true
-            previewContainer?.loadPersistentStores { (storeDescription, error) in
+                 previewContainer?.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+                 previewContainer?.viewContext.automaticallyMergesChangesFromParent = true
+                 previewContainer?.loadPersistentStores { (storeDescription, error) in
                 
                 if let nserror = error as NSError? {
                     fatalError("\(nserror.userInfo)")
@@ -65,7 +65,7 @@ final class CoreDataService {
             container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             
             if let nserror = error as? NSError {
-                fatalError("persistentContainer error \(nserror), \(nserror.userInfo)")
+                assert(false, "persistentContainer \(nserror), \(nserror.userInfo)")
             }
         }
         
@@ -119,7 +119,7 @@ final class CoreDataService {
             if items.count == 1 {
                 return items[0]
             } else {
-                assert(false, "fetchNews() -> В базе данніх больше одного элемента")
+                assert(false, "fetchNews() -> В базе данных больше одного элемента")
             }
         } catch {
             throw error
