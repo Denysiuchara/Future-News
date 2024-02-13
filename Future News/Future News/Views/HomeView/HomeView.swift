@@ -27,13 +27,14 @@ struct HomeView: View {
                 SearchViewContainer(showDestinationSearchView: $showDestinationSearchView)
                 
                 SegmentedViewContainer(selectedIndex: $selectedIndex)
+                    .environmentObject(newsVM)
                 
                 AllNewsView(isPresentedPreviewNewsDetails: $isPresentedPreviewNewsDetails)
             }
         }
-//        .onAppear {
-//            newsVM.fetchNews(theme: .allNews)
-//        }
+        .onAppear {
+            newsVM.fetchNews(theme: .allNews)
+        }
     }
 }
 

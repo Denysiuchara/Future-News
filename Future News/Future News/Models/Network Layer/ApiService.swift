@@ -7,6 +7,8 @@ final class ApiService {
     
     typealias Parameters = [APIURLConfig.APIParameter : String]
 
+    private static var cancellables = Set<AnyCancellable>()
+    
     static func getData<T: Codable>(path: APIURLConfig.APIPath,
                                      parameters: Parameters = [:],
                                      _ onResponse: @escaping (Result<T, Error>) -> Void) {

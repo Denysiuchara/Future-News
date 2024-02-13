@@ -56,6 +56,8 @@ final class CoreDataService {
         }
     }
     
+    // FIXME: - Пофиксить проблему связанную из persistentContainer и insertData() так как performBackgroundTask использует другой поток
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DataModel")
         
@@ -63,7 +65,7 @@ final class CoreDataService {
             container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             
             if let nserror = error as? NSError {
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                fatalError("persistentContainer error \(nserror), \(nserror.userInfo)")
             }
         }
         
@@ -94,14 +96,33 @@ final class CoreDataService {
     func checkIfExists(id: Int, in context: NSManagedObjectContext) -> Bool {
         
         let request: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
-            request.predicate = NSPredicate(format: "id == %d", Int32(id))
+            request.predicate = NSPredicate(format: "id == %d", id)
         
         do {
             let count = try context.count(for: request)
             return count == 0
         } catch {
-            print("\(#function) \(error.localizedDescription)")
+            assert(false, "checkIfExists() -> Some was wrong in checkIfExists")
             return false
+        }
+    }
+    
+    
+    func fetchNews(with id: Int, in context: NSManagedObjectContext) throws -> NewsEntity {
+        
+        let request: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %d", id)
+        
+        do {
+            let items = try context.fetch(request)
+            
+            if items.count == 1 {
+                return items[0]
+            } else {
+                assert(false, "fetchNews() -> В базе данніх больше одного элемента")
+            }
+        } catch {
+            throw error
         }
     }
 }
