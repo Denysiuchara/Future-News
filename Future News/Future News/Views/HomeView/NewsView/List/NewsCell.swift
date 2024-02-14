@@ -70,6 +70,7 @@ struct NewsCell: View {
                                height: screenSize.width * 0.50)
                         .clipped()
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 
                 Text(selectedNews.author_)
                     .fontWeight(.semibold)

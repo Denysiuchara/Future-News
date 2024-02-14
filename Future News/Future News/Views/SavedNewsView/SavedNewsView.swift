@@ -30,7 +30,7 @@ struct SavedNewsView: View {
                     
                     Spacer()
                     
-                    Button{
+                    Button {
                         withAnimation {
                             togglingForm.toggle()
                         }
@@ -40,11 +40,27 @@ struct SavedNewsView: View {
                             .scaledToFill()
                             .frame(width: 30, height: 30)
                     }
+                    .opacity(!items.isEmpty ? 1.0 : 0.0)
                     .accentColor(.black)
                     .padding([.top, .trailing])
                 }
+                .padding(.bottom)
+                .background {
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(.colorSet3)
+                        .shadow(radius: 5)
+                        .ignoresSafeArea()
+                }
                 
-                Divider()
+                if items.isEmpty {
+                    VStack {
+                        Text("😕")
+                            .font(.system(size: 80))
+                        Text("You haven't saved any news...")
+                            .font(.system(size: 23))
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                }
                 
                 if togglingForm {
                     List(items) { item in

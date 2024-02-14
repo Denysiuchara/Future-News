@@ -20,7 +20,7 @@ final class CoreDataService {
             entity.author = "Some Author"
             entity.id = i.to()
             entity.imageURL = entity.imageURL_
-            entity.isSaveNews = true
+            entity.isSaveNews = false
             entity.language = "en"
             entity.publishDate = Date()
             entity.sentiment = 0.0
@@ -61,7 +61,6 @@ final class CoreDataService {
         let container = NSPersistentContainer(name: "DataModel")
         
         container.loadPersistentStores { storeDescription, error in
-            container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             
             if let nserror = error as? NSError {
                 assert(false, "persistentContainer \(nserror), \(nserror.userInfo)")
@@ -71,7 +70,13 @@ final class CoreDataService {
         return container
     }()
     
-    lazy var context: NSManagedObjectContext = { persistentContainer.viewContext }()
+    lazy var context: NSManagedObjectContext = {
+        let context = persistentContainer.viewContext
+            context.automaticallyMergesChangesFromParent = true
+            context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
+        return context
+    }()
     
     lazy var entity: NSEntityDescription = { NSEntityDescription.entity(forEntityName: "NewsEntity", in: context) }()!
     
