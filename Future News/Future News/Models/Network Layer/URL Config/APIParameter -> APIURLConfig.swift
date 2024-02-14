@@ -61,7 +61,7 @@ extension APIURLConfig {
         /// The number of news to return in range [1,100]
         ///
         /// Type: number
-        case number = "number "
+        case number = "number"
         
         // MARK: - EXTRACT-NEWS PARAMETERS
         case url = "url"
