@@ -56,7 +56,6 @@ final class CoreDataService {
         }
     }
     
-    // FIXME: - Пофиксить проблему связанную из persistentContainer и insertData() так как performBackgroundTask использует другой поток
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DataModel")
@@ -90,6 +89,8 @@ final class CoreDataService {
                     print("Ignoring news item")
                 }
             }
+            
+            context.saveContext()
         }
     }
     

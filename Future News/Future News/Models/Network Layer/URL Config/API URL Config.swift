@@ -28,8 +28,8 @@ final class APIURLConfig {
         var queryItems: [URLQueryItem] = [
             URLQueryItem(name: "api-key", value: apiKey),
             URLQueryItem(name: "number", value: "100"),
-            URLQueryItem(name: "language", value: Locale.current.language.languageCode?.identifier)
-//            URLQueryItem(name: "earliest-publish-date", value: Date().convertToString())
+            URLQueryItem(name: "language", value: Locale.current.language.languageCode?.identifier),
+            URLQueryItem(name: "earliest-publish-date", value: Date().convertToString())
         ]
         
         for (name, value) in parameters {

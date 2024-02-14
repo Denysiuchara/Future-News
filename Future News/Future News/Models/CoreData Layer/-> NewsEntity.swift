@@ -12,13 +12,13 @@ extension NewsEntity {
     
     static func fetchIncrementallyPublishDate() -> NSFetchRequest<NewsEntity> {
         let request = NSFetchRequest<NewsEntity>(entityName: "NewsEntity")
-            request.sortDescriptors = [NSSortDescriptor(keyPath: \NewsEntity.publishDate, ascending: true)]
+            request.sortDescriptors = [NSSortDescriptor(keyPath: \NewsEntity.publishDate, ascending: false)]
         return request
     }
     
     static func fetchSaveNews() -> NSFetchRequest<NewsEntity> {
         let request = NSFetchRequest<NewsEntity>(entityName: "NewsEntity")
-            request.sortDescriptors = [ NSSortDescriptor(keyPath: \NewsEntity.publishDate, ascending: true) ]
+            request.sortDescriptors = [ NSSortDescriptor(keyPath: \NewsEntity.publishDate, ascending: false) ]
             request.predicate = NSPredicate(format: "isSaveNews == true")
         
         return request

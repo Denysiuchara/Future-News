@@ -23,22 +23,18 @@ extension Date {
         let currentDate = Date()
         let delta = currentDate - self
         
-        if delta.year != 0 {
-            return "\(delta.year ?? 0) year's ago"
+        if let year = delta.year, year != 0 {
+            return "\(year) year\(year == 1 ? "" : "s") ago"
+        } else if let month = delta.month, month != 0 {
+            return "\(month) month\(month == 1 ? "" : "s") ago"
+        } else if let day = delta.day, day != 0 {
+            return "\(day) day\(day == 1 ? "" : "s") ago"
+        } else if let hour = delta.hour, hour != 0 {
+            return "\(hour) hour\(hour == 1 ? "" : "s") ago"
+        } else if let minute = delta.minute, minute != 0 {
+            return "\(minute) minute\(minute == 1 ? "" : "s") ago"
         } else {
-            if delta.month != 0 {
-                return "\(delta.month ?? 0) month ago"
-            } else {
-                if delta.hour != 0 {
-                    return "\(delta.hour ?? 0) hour's ago"
-                } else {
-                    if delta.minute != 0 {
-                        return "\(delta.minute ?? 0) minute ago"
-                    } else {
-                        return "recent"
-                    }
-                }
-            }
+            return "recent"
         }
     }
 }

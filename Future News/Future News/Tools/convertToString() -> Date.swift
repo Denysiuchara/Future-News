@@ -8,9 +8,9 @@
 import Foundation
 
 extension Date {
-    func convertToString() -> String {
+    func convertToString(value: Int = -2, component: Calendar.Component = .day) -> String {
         
-        guard let modifiedDate = Calendar.current.date(byAdding: .day, value: -2, to: self) else {
+        guard let modifiedDate = Calendar.current.date(byAdding: component, value: value, to: self) else {
             return ""
         }
         
