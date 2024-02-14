@@ -88,7 +88,7 @@ struct NewsDetails: View {
                             imageURL: selectedNews.imageURL_,
                             title: selectedNews.title_,
                             author: selectedNews.author_,
-                            publishDate: selectedNews.publishDate_)
+                            publishDate: selectedNews.publishDate_.publishingDifference())
                 .padding(.top, 3)
                 
                 AdvancedScrollView(scrollOffset: $scrollOffset) {

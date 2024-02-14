@@ -60,7 +60,7 @@ fileprivate struct HorizontalViewRow: View {
                     .font(.system(size: 17))
                     .lineLimit(2)
                 
-                Text(String(describing: item.publishDate_))
+                Text(item.publishDate_.publishingDifference())
                     .font(.system(size: 15))
             }
         }
@@ -110,7 +110,7 @@ fileprivate struct VerticalViewRow: View {
                     .font(.system(size: 17))
                     .lineLimit(2)
                 
-                Text(String(describing: item.publishDate_))
+                Text(item.publishDate_.publishingDifference())
                     .font(.system(size: 15))
             }
         }

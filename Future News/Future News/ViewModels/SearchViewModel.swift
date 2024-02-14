@@ -5,14 +5,10 @@
 //  Created by Danya Denisiuk on 13.02.2024.
 //
 
+import Foundation
 import SwiftUI
+import Combine
 
-struct SearchViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-#Preview {
-    SearchViewModel()
+final class SearchViewModel: ObservableObject {
+    
 }

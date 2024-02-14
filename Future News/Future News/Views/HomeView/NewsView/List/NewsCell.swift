@@ -23,7 +23,7 @@ struct NewsCell: View {
                         .fontWeight(.bold)
                         .padding(.top, 6)
                     
-                    Text(String(describing: selectedNews.publishDate_))
+                    Text(selectedNews.publishDate_.publishingDifference())
                         .fontDesign(.rounded)
                         .frame(width: screenSize.width * 0.50,
                                height: 20,

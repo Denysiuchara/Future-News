@@ -15,11 +15,15 @@ struct DynamicView: View {
     let imageURL: URL
     let title: String
     let author: String?
-    let publishDate: Date
+    let publishDate: String
     
     @State private var contentHeight: CGFloat = 0
     
-    init(scrollOffset: Binding<CGFloat>, imageURL: URL, title: String, author: String?, publishDate: Date) {
+    init(scrollOffset: Binding<CGFloat>,
+         imageURL: URL,
+         title: String,
+         author: String?,
+         publishDate: String) {
         self._scrollOffset = scrollOffset
         self.imageURL = imageURL
         self.title = title
@@ -71,7 +75,7 @@ struct DynamicView: View {
                 .padding(.horizontal)
                 .frame(width: screenSize.width, alignment: .leading)
             
-            Text(String(describing: publishDate))
+            Text(publishDate)
                 .minimumScaleFactor(0.9)
                 .font(.footnote)
                 .padding(.horizontal)
@@ -106,12 +110,12 @@ struct DynamicView: View {
                     imageURL: URL(string:  "https://media.istockphoto.com/id/1311148884/vector/abstract-globe-background.jpg?s=612x612&w=0&k=20&c=9rVQfrUGNtR5Q0ygmuQ9jviVUfrnYHUHcfiwaH5-WFE=")!,
                     title: "Some Text for Title",
                     author: "Author",
-                    publishDate: Date())
+                    publishDate: "1 minute ago")
         
         DynamicView(scrollOffset: .constant(0.05),
                     imageURL: URL(string:  "https://media.istockphoto.com/id/1311148884/vector/abstract-globe-background.jpg?s=612x612&w=0&k=20&c=9rVQfrUGNtR5Q0ygmuQ9jviVUfrnYHUHcfiwaH5-WFE=")!,
                     title: "Some Text for Title",
                     author: "Author",
-                    publishDate: Date())
+                    publishDate: "1 minute ago")
     }
 }
