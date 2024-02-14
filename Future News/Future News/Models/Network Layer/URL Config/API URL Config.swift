@@ -25,7 +25,12 @@ final class APIURLConfig {
     
     private func createQueryItems(_ parameters: [APIParameter: String]) -> [URLQueryItem] {
         print("APIURLConfig: createQueryItems(): Вызов метода")
-        var queryItems: [URLQueryItem] = [URLQueryItem(name: "api-key", value: apiKey)]
+        var queryItems: [URLQueryItem] = [
+            URLQueryItem(name: "api-key", value: apiKey),
+            URLQueryItem(name: "number", value: "100"),
+            URLQueryItem(name: "language", value: Locale.current.language.languageCode?.identifier)
+//            URLQueryItem(name: "earliest-publish-date", value: Date().convertToString())
+        ]
         
         for (name, value) in parameters {
             queryItems.append(URLQueryItem(name: name.rawValue, value: value))

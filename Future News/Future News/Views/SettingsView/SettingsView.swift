@@ -21,10 +21,6 @@ struct SettingsView: View {
                     
                     Toggle(isDark ? "Dark Theme" : "Light theme", isOn: $isDark)
                     
-                    NavigationLink("Сhange application language") {
-                        // TODO: - Add choice language
-                    }
-                    
                     NavigationLink("Change news language") {
                         // TODO: - Add choice news language
                     }

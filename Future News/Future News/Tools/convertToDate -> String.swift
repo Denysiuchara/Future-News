@@ -16,7 +16,6 @@ extension String {
             dateFormatter.timeZone = TimeZone.current
         
         if let date = dateFormatter.date(from: stringDate) {
-            print("isoDateFormatter: -> \(dateFormatter)")
             return date
         } else {
             print("convertToDate() does not converted current string")
