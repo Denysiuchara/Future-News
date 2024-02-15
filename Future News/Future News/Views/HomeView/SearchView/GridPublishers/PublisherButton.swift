@@ -8,27 +8,29 @@
 import SwiftUI
 
 struct PublisherButton: View {
-    @Binding var publisherData: PublisherData
+    @State var sourseName: String
+    @State private var isTapped: Bool = false
+    @State private var color: Color = Color.white.opacity(0.1)
     
     let action: () -> Void
     
     var body: some View {
         Button {
-            publisherData.isTapped.toggle()
+            isTapped.toggle()
 
-            if publisherData.isTapped {
-                publisherData.randomColor = Color.random()
+            if isTapped {
+                color = Color.random()
                 action()
             } else {
-                publisherData.randomColor = Color.white.opacity(0.1)
+                color = Color.white.opacity(0.1)
             }
         } label: {
-            Text(publisherData.subject)
+            Text(sourseName)
                 .padding(10)
                 .foregroundStyle(.white)
                 .background {
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(publisherData.isTapped ? publisherData.randomColor : .black.opacity(0.2))
+                        .fill(isTapped ? color : .black.opacity(0.2))
                 }
                 .fontWeight(.black)
                 .fontDesign(.rounded)
