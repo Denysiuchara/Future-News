@@ -16,6 +16,8 @@ struct AllNewsView: View {
     
     @State private var isActive = false
     
+    @Binding var selectedIndex: Int
+    
     var body: some View {
         ZStack(alignment: .top) {
             List {
@@ -48,7 +50,6 @@ struct AllNewsView: View {
             .listStyle(.inset)
             .listRowSpacing(10)
             .scrollContentBackground(.hidden)
-            .scrollIndicators(.hidden)
             .background {
                 NavigationLink(isActive: $isActive) {
                     NewsDetails(selectedNews: newsVM.selectedNews ?? NewsEntity())
@@ -58,12 +59,15 @@ struct AllNewsView: View {
                 }
                 .opacity(0.0)
             }
+            .refreshable {
+                newsVM.fetchNews(titleNumber: selectedIndex)
+            }
         }
     }
 }
 
 #Preview {
-    AllNewsView()
+    AllNewsView(selectedIndex: .constant(0))
         .environmentObject(NewsViewModel())
         .environment(\.managedObjectContext,
                       CoreDataService.preview.previewContainer!.viewContext)

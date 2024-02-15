@@ -9,7 +9,7 @@ struct Future_NewsApp: App {
         WindowGroup {
             MainView()
                 .onAppear {
-                    newsVM.fetchNews(theme: .allNews)
+                    newsVM.fetchNews()
                 }
                 .environmentObject(newsVM)
                 .environment(\.managedObjectContext,

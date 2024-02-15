@@ -6,7 +6,6 @@ struct HomeView: View {
     @Environment(\.screenSize) private var screenSize
     @EnvironmentObject var newsVM: NewsViewModel
     
-    /// Свойство описывающее, выбранную тему новостей
     @State private var selectedIndex = 0
     
     @State private var showDestinationSearchView = false
@@ -20,10 +19,10 @@ struct HomeView: View {
                 SearchViewContainer(showDestinationSearchView: $showDestinationSearchView)
                     .environmentObject(newsVM)
                 
-                SegmentedViewContainer(selectedIndex: $selectedIndex)
+                SegmentedViewContainer()
                     .environmentObject(newsVM)
                 
-                AllNewsView()
+                AllNewsView(selectedIndex: $selectedIndex)
                     .environmentObject(newsVM)
             }
         }

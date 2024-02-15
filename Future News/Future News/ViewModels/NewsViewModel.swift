@@ -5,7 +5,10 @@ import SwiftUI
 
 final class NewsViewModel: ObservableObject {
     
-    /// Свойство отвечающее за информацию для view загружены ли данные или нет
+    typealias AdditionalParameters = [APIURLConfig.APIParameter : String]
+    typealias Theme = APIURLConfig.NewsTheme
+    typealias TitleNumber = Int
+    
     @Published var isNewDataLoaded = false
     
     @Published var onError: Error?
@@ -14,9 +17,13 @@ final class NewsViewModel: ObservableObject {
     
     @Published var selectedNews: NewsEntity?
     
+    @Published var titlesTopic: [String]
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {
+        titlesTopic = Theme.allCases.map { $0.rawValue }
+        
         ApiService.statusCodeSubject
             .sink { [weak self] statusCode in
                 guard let self = self else { return }
@@ -26,11 +33,8 @@ final class NewsViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    typealias AdditionalParameters = [APIURLConfig.APIParameter : String]
-    typealias ThemeParameter = APIURLConfig.NewsTheme
-    
-    func fetchNews(theme: ThemeParameter,
-                   parameters: AdditionalParameters = [:]) {
+    func fetchNews(with parameters: AdditionalParameters = [:],
+                   titleNumber: TitleNumber = 0) {
         
         DispatchQueue.main.async {
             withAnimation {
@@ -38,7 +42,7 @@ final class NewsViewModel: ObservableObject {
             }
         }
         
-        var complexParameters: AdditionalParameters = [.text: theme.rawValue]
+        var complexParameters: AdditionalParameters = [.text: titlesTopic[titleNumber]]
             complexParameters.merge(parameters) { (_, new) in new }
         
         print("Complex Parameters: \(complexParameters)")
@@ -63,16 +67,6 @@ final class NewsViewModel: ObservableObject {
                 }
                 assert(false, "Error: in fetchNews(theme:, parameters) -> \(error.localizedDescription)")
             }
-        }
-    }
-    
-    
-    func findNews(with id: Int) -> NewsEntity {
-        do {
-            let item = try CoreDataService.shared.fetchNews(with: id, in: CoreDataService.shared.context)
-            return item
-        } catch {
-            assert(false, "findNews(with:) -> \(error.localizedDescription)")
         }
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9413C1C72B7E61D500465930 /* ProgressAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9413C1C62B7E61D500465930 /* ProgressAlertView.swift */; };
 		94154ECF2B3898C700F1238B /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94154ECE2B3898C700F1238B /* GradientView.swift */; };
 		941972712B530AFB008644FF /* Task List in Resources */ = {isa = PBXBuildFile; fileRef = 941972702B530AFB008644FF /* Task List */; };
 		942397CF2B5BF29E00DDD587 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942397CE2B5BF29E00DDD587 /* NewsCell.swift */; };
@@ -74,6 +75,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9413C1C62B7E61D500465930 /* ProgressAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressAlertView.swift; sourceTree = "<group>"; };
 		94154ECE2B3898C700F1238B /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		941972702B530AFB008644FF /* Task List */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Task List"; sourceTree = "<group>"; };
 		942397CE2B5BF29E00DDD587 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 				942B6AFE2B654C3800F2FED7 /* CustomTabView.swift */,
 				94154ECE2B3898C700F1238B /* GradientView.swift */,
 				945313B62B5AD37A0015FF05 /* VisualEffectView.swift */,
+				9413C1C62B7E61D500465930 /* ProgressAlertView.swift */,
 				949BCF552B261A7900ECDD41 /* SettingsView */,
 				949BCF572B261A9600ECDD41 /* SavedNewsView */,
 				949BCF522B26194A00ECDD41 /* HomeView */,
@@ -518,6 +521,7 @@
 				949BCF512B26051600ECDD41 /* SettingsView.swift in Sources */,
 				944933632B6D4C11005473B0 /* saveContext() -> NSManagedObjectContext.swift in Sources */,
 				945313B52B5ACFB10015FF05 /* MenuView.swift in Sources */,
+				9413C1C72B7E61D500465930 /* ProgressAlertView.swift in Sources */,
 				94BF249E2B221A2A0034F9D8 /* API URL Config.swift in Sources */,
 				94154ECF2B3898C700F1238B /* GradientView.swift in Sources */,
 				94399FAD2B2A06A900FAE319 /* GridPublishers.swift in Sources */,
