@@ -8,33 +8,19 @@
 import SwiftUI
 import WrappingHStack
 
-struct PublisherData {
-    let subject: String
-    var isTapped: Bool
-    var randomColor: Color
-}
+
+// TODO: - продумать как передавать значение в selectedPublishers внутри замыкания PublisherButton, главное требование, чтобы значение можно было как добавить так и удалить
 
 struct GridPublishers: View {
-    @State private var publisherData: [PublisherData]
+    @EnvironmentObject var newsVM: NewsViewModel
     
-    let subjects = ["TSN.UA", "Wall Stree Journal", "BBC",
-                    "RBC", "Censor", "The New York Times",
-                    "Aljazeera", "CNN", "Washigton Post",
-                    "CNBC", "ABC News"]
-    
-    init() {
-        self._publisherData = State(initialValue: subjects.map {
-                                        PublisherData(subject: $0,
-                                                      isTapped: false,
-                                                      randomColor: Color.white.opacity(0.1))
-                                    })
-    }
+    @Binding var selectedPublishers: Set<String>
     
     var body: some View {
         WrappingHStack(alignment: .leading) {
-            ForEach(publisherData.indices, id: \.self) { index in
-                PublisherButton(publisherData: $publisherData[index]) {
-                    print(subjects[index])
+            ForEach(newsVM.newsSources.indices, id: \.self) { index in
+                PublisherButton(sourseName: newsVM.newsSources[index].name) {
+                    
                 }
             }
         }
@@ -42,5 +28,6 @@ struct GridPublishers: View {
 }
 
 #Preview {
-    GridPublishers()
+    GridPublishers(selectedPublishers: .constant([]))
+        .environmentObject(NewsViewModel())
 }

@@ -9,19 +9,20 @@ import SwiftUI
 
 enum DestinationSearchOptions {
     case text
-    case authors
+    case sources
     case dates
 }
 
 struct DestinationSearchView: View {
+    @EnvironmentObject var newsVM: NewsViewModel
+    
     @Binding var isShow: Bool
     
-    @State private var destination = ""
-    
     @State private var selectedOption: DestinationSearchOptions = .text
-    
+    @State private var destination = ""
     @State private var startDate = Date()
     @State private var endDate = Date()
+    @State private var selectedPublishers: Set<String> = []
     
     var body: some View {
         VStack {
@@ -121,22 +122,23 @@ struct DestinationSearchView: View {
             
             // MARK: - Publisher's selection
             VStack(alignment: .leading) {
-                if selectedOption == .authors {
+                if selectedOption == .sources {
                     Text("Selecting publisher's")
                         .padding(.top)
                         .font(.title2)
                         .fontWeight(.semibold)
                     
-                    GridPublishers()
+                    GridPublishers(selectedPublishers: $selectedPublishers)
+                        .environmentObject(newsVM)
                 } else {
-                    CollapsedPickerView(title: "Who", description: "Add some information")
+                    CollapsedPickerView(title: "Who", description: "News Sources")
                 }
             }
             .modifier(CollapsibleDestinationViewModifier())
-            .frame(height: selectedOption == .authors ? 380 : 60)
+            .frame(height: selectedOption == .sources ? 380 : 60)
             .onTapGesture {
                 withAnimation(.snappy) {
-                    selectedOption = .authors
+                    selectedOption = .sources
                 }
             }
             
@@ -176,4 +178,5 @@ struct CollapsibleDestinationViewModifier: ViewModifier {
 
 #Preview {
     DestinationSearchView(isShow: .constant(false))
+        .environmentObject(NewsViewModel())
 }

@@ -19,10 +19,13 @@ final class NewsViewModel: ObservableObject {
     
     @Published var titlesTopic: [String]
     
+    @Published var newsSources: [(name: String, source: String)]
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {
         titlesTopic = Theme.allCases.map { $0.rawValue }
+        newsSources = APIURLConfig.sources.prefix(15).shuffled()
         
         ApiService.statusCodeSubject
             .sink { [weak self] statusCode in

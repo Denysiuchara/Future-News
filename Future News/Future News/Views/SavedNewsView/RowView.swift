@@ -68,6 +68,7 @@ fileprivate struct HorizontalViewRow: View {
         .background {
             RoundedRectangle(cornerRadius: 7)
                 .fill(.colorSet3)
+                .shadow(radius: 3)
         }
     }
 }
@@ -118,6 +119,7 @@ fileprivate struct VerticalViewRow: View {
         .background {
             RoundedRectangle(cornerRadius: 7)
                 .fill(.colorSet3)
+                .shadow(radius: 3)
         }
     }
 }

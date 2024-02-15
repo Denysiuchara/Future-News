@@ -43,10 +43,12 @@ struct SearchViewContainer: View {
         }
         .sheet(isPresented: $showDestinationSearchView) {
             DestinationSearchView(isShow: $showDestinationSearchView)
+                .environmentObject(newsVM)
         }
     }
 }
 
 #Preview {
     SearchViewContainer(showDestinationSearchView: .constant(false))
+        .environmentObject(NewsViewModel())
 }

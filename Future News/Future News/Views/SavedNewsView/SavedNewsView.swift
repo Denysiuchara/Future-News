@@ -84,7 +84,9 @@ struct SavedNewsView: View {
                     }
                 } else {
                     ScrollView {
-                        LazyVGrid(columns: [ GridItem(.flexible()), GridItem(.flexible()) ], spacing: 10) {
+                        LazyVGrid(columns: [ GridItem(.flexible()),
+                                             GridItem(.flexible()) ],
+                                  spacing: 10) {
                             ForEach(items, id: \.self) { item in
                                 RowView(item: item, rowViewOrientation: .horizontal)
                                     .onTapGesture {
@@ -106,9 +108,6 @@ struct SavedNewsView: View {
                     }
                 }
             }
-        }
-        .refreshable {
-            
         }
     }
 }
