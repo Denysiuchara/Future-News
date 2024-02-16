@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DateViewSection: View {
+    @Binding var isStartDateSelected: Bool
     @Binding var selectedOption: DestinationSearchOptions
     @Binding var startDate: Date
     @Binding var endDate: Date
@@ -21,17 +22,13 @@ struct DateViewSection: View {
                     .fontWeight(.semibold)
                 
                 VStack {
-                    DatePicker("From",
-                               selection: $startDate,
-                               in: ...endDate,
-                               displayedComponents: .date)
+                    DatePicker("From", selection: $startDate, in: ...endDate, displayedComponents: .date)
+                        .onChange(of: startDate) { isStartDateSelected = false }
                     
                     Divider()
                     
-                    DatePicker("To",
-                               selection: $endDate,
-                               in: startDate...,
-                               displayedComponents: .date)
+                    DatePicker("To", selection: $endDate, in: startDate..., displayedComponents: .date)
+                        .onChange(of: startDate) { isStartDateSelected = false }
                 }
                 .foregroundStyle(.gray)
                 .font(.subheadline)
@@ -52,7 +49,8 @@ struct DateViewSection: View {
 }
 
 #Preview {
-    DateViewSection(selectedOption: .constant(.dates),
+    DateViewSection(isStartDateSelected: .constant(true),
+                    selectedOption: .constant(.dates),
                     startDate: .constant(Date()),
                     endDate: .constant(Date()))
 }

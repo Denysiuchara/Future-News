@@ -23,7 +23,7 @@ struct SegmentedViewContainer: View {
                     }
                 }
             
-            ProgressAlertView(isNewDataLoaded: $newsVM.isNewDataLoaded)
+            ProgressAlert(isNewDataLoaded: $newsVM.isNewDataLoaded)
         }
     }
 }

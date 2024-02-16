@@ -3,8 +3,6 @@ import Foundation
 
 final class ApiService {
     
-    static var statusCodeSubject = CurrentValueSubject<Int, Never>(200)
-    
     typealias Parameters = [APIURLConfig.APIParameter : String]
 
     private static var cancellables = Set<AnyCancellable>()
@@ -31,8 +29,6 @@ final class ApiService {
                 onResponse(.failure(ApiServiceError.returnError))
                 return
             }
-            
-            statusCodeSubject.send(httpResponse.statusCode)
             
             guard let data = data else {
                 onResponse(.failure(ApiServiceError.invalidData))

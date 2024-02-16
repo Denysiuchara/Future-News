@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+extension Set {
+    mutating func toggle(value: Element) {
+        if self.contains(value) {
+            self.remove(value)
+            print("Toggle method: Removed value: \(value)")
+        } else {
+            self.insert(value)
+            print("Toggle method: Inserted value: \(value)")
+        }
+    }
+}

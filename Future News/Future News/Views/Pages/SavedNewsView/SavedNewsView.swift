@@ -23,34 +23,9 @@ struct SavedNewsView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
-                HStack {
-                    Text("Saved news")
-                        .font(.largeTitle)
-                        .padding([.top, .leading])
-                    
-                    Spacer()
-                    
-                    Button {
-                        withAnimation {
-                            togglingForm.toggle()
-                        }
-                    } label: {
-                        Image(systemName: togglingForm ? "list.bullet.circle" : "square.grid.2x2")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 30, height: 30)
-                    }
-                    .opacity(!items.isEmpty ? 1.0 : 0.0)
-                    .accentColor(.black)
-                    .padding([.top, .trailing])
-                }
-                .padding(.bottom)
-                .background {
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(.colorSet3)
-                        .shadow(radius: 5)
-                        .ignoresSafeArea()
-                }
+                HeaderView(isNewDataLoaded: $newsVM.isNewDataLoaded,
+                           togglingForm: $togglingForm,
+                           buttonOpacity: !items.isEmpty ? 1.0 : 0.0)
                 
                 if items.isEmpty {
                     VStack {

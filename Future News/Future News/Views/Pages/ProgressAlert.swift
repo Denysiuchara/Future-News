@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProgressAlertView: View {
+struct ProgressAlert: View {
     @Binding var isNewDataLoaded: Bool
     
     var body: some View {
@@ -42,5 +42,5 @@ struct ProgressAlertView: View {
 }
 
 #Preview {
-    ProgressAlertView(isNewDataLoaded: .constant(true))
+    ProgressAlert(isNewDataLoaded: .constant(true))
 }
