@@ -17,13 +17,15 @@ struct PublisherButton: View {
     var body: some View {
         Button {
             isTapped.toggle()
-
+            
             if isTapped {
                 color = Color.random()
-                action()
             } else {
                 color = Color.white.opacity(0.1)
             }
+            
+            action()
+            
         } label: {
             Text(sourseName)
                 .padding(10)

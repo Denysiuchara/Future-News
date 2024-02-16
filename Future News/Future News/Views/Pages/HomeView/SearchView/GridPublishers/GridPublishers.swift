@@ -20,7 +20,7 @@ struct GridPublishers: View {
         WrappingHStack(alignment: .leading) {
             ForEach(newsVM.newsSources.indices, id: \.self) { index in
                 PublisherButton(sourseName: newsVM.newsSources[index].name) {
-                    
+                    selectedPublishers.toggle(value: newsVM.newsSources[index].source)
                 }
             }
         }
