@@ -59,45 +59,43 @@ final class NewsViewModel: ObservableObject {
                 DispatchQueue.main.sync {
                     self.onError = error
                 }
-                assert(false, "Error: in fetchNews(theme:, parameters) -> \(error.localizedDescription)")
+                print("Error in fetchRequest(): \(error)")
+//                assert(false, "Error: in fetchNews(theme:, parameters) -> \(error.localizedDescription)")
             }
         }
     }
     
     
-    func predicateFormulation(destination: String,
-                              startDate: Date,
-                              endDate: Date,
-                              selectedPublishers: Set<String>) -> NSCompoundPredicate {
-        
-        var predicates: [NSPredicate] = []
-        
-        let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        // Убрать это приведение типа и оставить только перевод его в NSDate
-        if let formattedStartDate = dateFormatter.date(from: startDate.convertToString()),
-           let formattedEndDate = dateFormatter.date(from: endDate.convertToString()) {
-            // Фильтрация по дате публикации
-            let datePredicate = NSPredicate(format: "publishDate >= %@ AND publishDate <= %@",
-                                            formattedStartDate as NSDate,
-                                            formattedEndDate as NSDate)
-            predicates.append(datePredicate)
-        }
-        
-        // Фильтрация по значению destination
-        predicates.append(NSPredicate(format: "text CONTAINS[c] '\(destination)' OR title CONTAINS[c] '\(destination)'"))
-        
-        // Фильтрация по выбранным издателям
-        if !selectedPublishers.isEmpty {
-            let publisherPredicates = selectedPublishers.map { NSPredicate(format: "sourceURL == %@", "https://www.\($0)") }
-            
-            let compoundPublisherPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: publisherPredicates)
-            
-            predicates.append(compoundPublisherPredicate)
-        }
-        
-        // Объединение и возврат всех предикатов
-        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-    }
+//    func predicateFormulation(destination: String,
+//                              startDate: Date,
+//                              endDate: Date,
+//                              selectedPublishers: Set<String>) -> NSCompoundPredicate {
+//        
+//        var predicates: [NSPredicate] = []
+//        
+//        let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        
+//        // Убрать это приведение типа и оставить только перевод его в NSDate
+//        if let formattedStartDate = dateFormatter.date(from: startDate.convertToString()),
+//           let formattedEndDate = dateFormatter.date(from: endDate.convertToString()) {
+//            // Фильтрация по дате публикации
+//            let datePredicate = NSPredicate(format: "publishDate >= %@ AND publishDate <= %@",
+//                                            formattedStartDate as NSDate,
+//                                            formattedEndDate as NSDate)
+//            predicates.append(datePredicate)
+//        }
+//        
+//        // Фильтрация по значению destination
+//        predicates.append(NSPredicate(format: "text CONTAINS[c] '\(destination)' OR title CONTAINS[c] '\(destination)'"))
+//        
+//        // Фильтрация по выбранным издателям
+//        if !selectedPublishers.isEmpty {
+//            let publisherPredicates = selectedPublishers.map { NSPredicate(format: "sourceURL == %@", "https://www.\($0)") }
+//            
+//            let compoundPublisherPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: publisherPredicates)
+//            
+//            predicates.append(compoundPublisherPredicate)
+//        }
+//    }
 }

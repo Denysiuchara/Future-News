@@ -33,11 +33,21 @@ final class APIURLConfig {
         ]
         
         if !isCustomDate {
-            queryItems.append(URLQueryItem(name: "earliest-publish-date", value: Date().convertToString()))
+            queryItems
+                .append(
+                    URLQueryItem(
+                        name: "earliest-publish-date",
+                        value: Date()
+                                .convertToString()
+                                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                    )
+                )
         }
         
         for (name, value) in parameters {
-            queryItems.append(URLQueryItem(name: name.rawValue, value: value))
+            let encodeValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            
+            queryItems.append(URLQueryItem(name: name.rawValue, value: encodeValue))
         }
         
         print("APIURLConfig: changeAPIKey(): Сгенерировал элементы запроса: \(queryItems)")
@@ -45,3 +55,5 @@ final class APIURLConfig {
         return queryItems
     }
 }
+
+

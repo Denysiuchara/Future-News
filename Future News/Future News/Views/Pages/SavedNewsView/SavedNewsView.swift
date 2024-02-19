@@ -23,7 +23,10 @@ struct SavedNewsView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
-                HeaderView(isNewDataLoaded: $newsVM.isNewDataLoaded,
+  
+                HeaderView(text: "Saved News",
+                           isAppearDismissButton: false,
+                           isNewDataLoaded: $newsVM.isNewDataLoaded,
                            togglingForm: $togglingForm,
                            buttonOpacity: !items.isEmpty ? 1.0 : 0.0)
                 

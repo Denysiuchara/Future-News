@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct HeaderView: View {
+    @Environment(\.dismiss) private var dismiss
     
+    var text: String
+    var isAppearDismissButton: Bool
     @Binding var isNewDataLoaded: Bool
     @Binding var togglingForm: Bool
     @State var buttonOpacity: Double
@@ -17,11 +20,27 @@ struct HeaderView: View {
     
     var body: some View {
         VStack {
+            if isAppearDismissButton {
+                HStack {
+                    Button {
+                        withAnimation {
+                            dismiss()
+                        }
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                            .imageScale(.large)
+                            .foregroundStyle(.black)
+                    }
+                    .padding(.leading)
+                    
+                    Spacer()
+                }
+            }
+            
             HStack {
-                Text("Saved news")
+                Text(text)
                     .font(.largeTitle)
                     .padding([.top, .leading])
-                
                 
                 Spacer()
                 
@@ -39,6 +58,11 @@ struct HeaderView: View {
                 .accentColor(.black)
                 .padding([.top, .trailing])
             }
+            .background {
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(.colorSet3)
+            }
+
             
             if isAppearProgressAlert {
                 ProgressAlert(isNewDataLoaded: $isNewDataLoaded)
@@ -55,5 +79,9 @@ struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView(isNewDataLoaded: .constant(true), togglingForm: .constant(true), buttonOpacity: 1.0)
+    HeaderView(text: "SomeText",
+               isAppearDismissButton: true,
+               isNewDataLoaded: .constant(true),
+               togglingForm: .constant(true),
+               buttonOpacity: 1.0)
 }
