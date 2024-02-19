@@ -36,67 +36,34 @@ struct ResultView: View {
                                isAppearProgressAlert: true)
                     
                     if togglingForm {
-                        List(items) { item in
-                            RowView(item: item, rowViewOrientation: .vertical)
-                                .listRowBackground(Color.clear)
-                                .onTapGesture {
-                                    newsVM.selectedNews = item
-                                    isActive.toggle()
-                                }
-                                .listRowSeparator(.hidden)
-                        }
-                        .listStyle(.plain)
-                        .background {
-                            NavigationLink(isActive: $isActive) {
-                                NewsDetails(selectedNews: newsVM.selectedNews ?? NewsEntity())
-                                    .navigationBarBackButtonHidden(true)
-                            } label: {
-                                EmptyView()
-                            }
-                            .opacity(0.0)
-                        }
+                        TableStyleView(items: _items, isActive: $isActive)
+                            .environmentObject(newsVM)
                     } else {
-                        ScrollView {
-                            LazyVGrid(columns: [ GridItem(.flexible()),
-                                                 GridItem(.flexible()) ],
-                                      spacing: 10) {
-                                ForEach(items, id: \.self) { item in
-                                    RowView(item: item, rowViewOrientation: .horizontal)
-                                        .onTapGesture {
-                                            newsVM.selectedNews = item
-                                            isActive.toggle()
-                                        }
-                                }
-                            }
-                                      .padding(.horizontal, 7)
-                        }
-                        .background {
-                            NavigationLink(isActive: $isActive) {
-                                NewsDetails(selectedNews: newsVM.selectedNews ?? NewsEntity())
-                                    .navigationBarBackButtonHidden(true)
-                            } label: {
-                                EmptyView()
-                            }
-                            .opacity(0.0)
-                        }
+                        CollectionStyleView(items: _items, isActive: $isActive)
+                            .environmentObject(newsVM)
                     }
                 }
             }
         }
-        .task {
-            items.nsPredicate = newsVM.predicateFormulation(destination: destination,
-                                                            startDate: startDate,
-                                                            endDate: endDate,
-                                                            selectedPublishers: selectedPublishers)
+        // FIXME: - Исправить блок кода. Криво создается запрос + не применяются настройки предиката
+        .onAppear {
+            items.nsPredicate = newsVM
+                .predicateFormulation(
+                    destination: destination,
+                    startDate: startDate,
+                    endDate: endDate,
+                    selectedPublishers: selectedPublishers
+                )
             
             newsVM.fetchNews(
                 with: [
                     .text : destination,
+                    .sort: "publish-time",
                     .latestPublishDate : endDate.convertToString(),
                     .earliestPublishDate : startDate.convertToString(),
-                    .authors : selectedPublishers.joined(separator: ", ")
-                ]
-            )
+                    .newsSources : selectedPublishers.map { "https://www.\($0)" }.joined(separator: ",")
+                ],
+                isCustomDate: true)
         }
     }
 }

@@ -9,11 +9,11 @@ final class APIURLConfig {
     
     private init() {}
     
-    func createURL(path: APIPath, parameters: [APIParameter: String] = [:]) throws -> URL {
+    func createURL(path: APIPath, parameters: [APIParameter: String] = [:], isCustomDate: Bool = false) throws -> URL {
 
         guard var components = URLComponents(string: startpoint) else { throw APIConfiqError.invalidComponents }
                   components.path = path.rawValue
-                  components.queryItems = createQueryItems(parameters)
+                  components.queryItems = createQueryItems(parameters, isCustomDate: isCustomDate)
         
         guard let url = components.url else { throw APIConfiqError.invalidURL }
         
@@ -23,14 +23,18 @@ final class APIURLConfig {
     }
     
     
-    private func createQueryItems(_ parameters: [APIParameter: String]) -> [URLQueryItem] {
+    private func createQueryItems(_ parameters: [APIParameter: String], isCustomDate: Bool = false) -> [URLQueryItem] {
         print("APIURLConfig: createQueryItems(): Вызов метода")
+        
         var queryItems: [URLQueryItem] = [
             URLQueryItem(name: "api-key", value: apiKey),
             URLQueryItem(name: "number", value: "100"),
             URLQueryItem(name: "language", value: Locale.current.language.languageCode?.identifier),
-            URLQueryItem(name: "earliest-publish-date", value: Date().convertToString())
         ]
+        
+        if !isCustomDate {
+            queryItems.append(URLQueryItem(name: "earliest-publish-date", value: Date().convertToString()))
+        }
         
         for (name, value) in parameters {
             queryItems.append(URLQueryItem(name: name.rawValue, value: value))

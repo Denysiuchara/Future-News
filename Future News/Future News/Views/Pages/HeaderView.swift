@@ -16,26 +16,29 @@ struct HeaderView: View {
     var isAppearProgressAlert: Bool = false
     
     var body: some View {
-        HStack {
-            Text("Saved news")
-                .font(.largeTitle)
-                .padding([.top, .leading])
-            
-            Spacer()
-            
-            Button {
-                withAnimation {
-                    togglingForm.toggle()
+        VStack {
+            HStack {
+                Text("Saved news")
+                    .font(.largeTitle)
+                    .padding([.top, .leading])
+                
+                
+                Spacer()
+                
+                Button {
+                    withAnimation {
+                        togglingForm.toggle()
+                    }
+                } label: {
+                    Image(systemName: togglingForm ? "list.bullet.circle" : "square.grid.2x2")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 30, height: 30)
                 }
-            } label: {
-                Image(systemName: togglingForm ? "list.bullet.circle" : "square.grid.2x2")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 30, height: 30)
+                .opacity(buttonOpacity)
+                .accentColor(.black)
+                .padding([.top, .trailing])
             }
-            .opacity(buttonOpacity)
-            .accentColor(.black)
-            .padding([.top, .trailing])
             
             if isAppearProgressAlert {
                 ProgressAlert(isNewDataLoaded: $isNewDataLoaded)

@@ -38,49 +38,11 @@ struct SavedNewsView: View {
                 }
                 
                 if togglingForm {
-                    List(items) { item in
-                        RowView(item: item, rowViewOrientation: .vertical)
-                            .listRowBackground(Color.clear)
-                            .onTapGesture {
-                                newsVM.selectedNews = item
-                                isActive.toggle()
-                            }
-                            .listRowSeparator(.hidden)
-                    }
-                    .listStyle(.plain)
-                    .background {
-                        NavigationLink(isActive: $isActive) {
-                            NewsDetails(selectedNews: newsVM.selectedNews ?? NewsEntity())
-                            .navigationBarBackButtonHidden(true)
-                        } label: {
-                            EmptyView()
-                        }
-                        .opacity(0.0)
-                    }
+                    TableStyleView(items: _items, isActive: $isActive)
+                        .environmentObject(newsVM)
                 } else {
-                    ScrollView {
-                        LazyVGrid(columns: [ GridItem(.flexible()),
-                                             GridItem(.flexible()) ],
-                                  spacing: 10) {
-                            ForEach(items, id: \.self) { item in
-                                RowView(item: item, rowViewOrientation: .horizontal)
-                                    .onTapGesture {
-                                        newsVM.selectedNews = item
-                                        isActive.toggle()
-                                    }
-                            }
-                        }
-                        .padding(.horizontal, 7)
-                    }
-                    .background {
-                        NavigationLink(isActive: $isActive) {
-                            NewsDetails(selectedNews: newsVM.selectedNews ?? NewsEntity())
-                            .navigationBarBackButtonHidden(true)
-                        } label: {
-                           EmptyView()
-                        }
-                        .opacity(0.0)
-                    }
+                    CollectionStyleView(items: _items, isActive: $isActive)
+                        .environmentObject(newsVM)
                 }
             }
         }

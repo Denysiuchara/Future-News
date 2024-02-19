@@ -83,7 +83,7 @@ struct DestinationSearchView: View {
                 Spacer()
                 
                 Button {
-                    if !destination.isEmpty && !isStartDateSelected && !selectedPublishers.isEmpty {
+                    if !destination.isEmpty || !isStartDateSelected || !selectedPublishers.isEmpty {
                         isShowResultView.toggle()
                     } else {
                         withAnimation {

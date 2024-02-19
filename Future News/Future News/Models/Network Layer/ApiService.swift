@@ -4,14 +4,19 @@ import Foundation
 final class ApiService {
     
     typealias Parameters = [APIURLConfig.APIParameter : String]
-
+    
     private static var cancellables = Set<AnyCancellable>()
     
     static func getData<T: Codable>(path: APIURLConfig.APIPath,
-                                     parameters: Parameters = [:],
-                                     _ onResponse: @escaping (Result<T, Error>) -> Void) {
-
-        guard let url = try? APIURLConfig.shared.createURL(path: path, parameters: parameters) else {
+                                    parameters: Parameters = [:],
+                                    isCustomDate: Bool = false,
+                                    _ onResponse: @escaping (Result<T, Error>) -> Void) {
+        
+        
+        guard let url = try? APIURLConfig.shared.createURL(path: path,
+                                                           parameters: parameters,
+                                                           isCustomDate: isCustomDate)
+        else {
             onResponse(.failure(ApiServiceError.invalidURL))
             return
         }

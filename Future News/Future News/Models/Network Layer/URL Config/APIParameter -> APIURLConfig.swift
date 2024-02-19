@@ -47,7 +47,7 @@ extension APIURLConfig {
         /// Filter news by radius around a certain location. Format is "latitude,longitude,radius in kilometers"
         case locationFilter = "location-filter"
         
-        /// The sorting criteria (publish-time or sentiment).
+        /// The sorting criteria (publish-time, sentiment, relevance).
         case sort = "sort"
         
         /// Whether to sort ascending or descending (ASC or DESC).
