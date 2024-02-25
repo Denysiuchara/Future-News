@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ResultView: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var newsVM: NewsViewModel
     
     @FetchRequest private var items: FetchedResults<NewsEntity>
@@ -27,10 +28,10 @@ struct ResultView: View {
         self._selectedPublishers = State(initialValue: selectedPublishers)
         
         let request = NewsEntity.fetchIncrementallyPublishDate()
-        request.predicate = NSPredicate.predicateFormulation(destination: destination,
-                                                             startDate: startDate,
-                                                             endDate: endDate,
-                                                             selectedPublishers: selectedPublishers)
+            request.predicate = NSPredicate.predicateFormulation(destination: destination,
+                                                                 startDate: startDate,
+                                                                 endDate: endDate,
+                                                                 selectedPublishers: selectedPublishers)
         _items = FetchRequest(fetchRequest: request, animation: .default)
     }
     
@@ -44,12 +45,12 @@ struct ResultView: View {
             NavigationView {
                 VStack(alignment: .leading) {
                     
-                    HeaderView(text: "Result:",
+                    HeaderView(titleText: "Result:",
                                isAppearDismissButton: true,
                                isNewDataLoaded: $newsVM.isNewDataLoaded,
                                togglingForm: $togglingForm,
                                buttonOpacity: !items.isEmpty ? 1.0 : 0.0,
-                               isAppearProgressAlert: true)
+                               isAppearProgressAlert: true)  { dismiss() }
                     
                     if togglingForm {
                         TableStyleView(items: _items, isActive: $isActive)
@@ -61,21 +62,32 @@ struct ResultView: View {
                 }
             }
         }
-        // FIXME: - Исправить блок кода. Криво создается запрос + не применяются настройки предиката
         .onAppear {
-            //            items.nsPredicate = newsVM
-            //                .predicateFormulation(
-            //                    destination: destination,
-            //                    startDate: startDate,
-            //                    endDate: endDate,
-            //                    selectedPublishers: selectedPublishers
-            //                )
+            #warning("Данные показываются только тогда когда повторно открываешь view ResultView.")
+            // Скорее всего нужно сделать так чтобы TableStyleView и CollectionStyleView перерисовались по окончанию загрузки данных из сети.
             
-            /*
-        https://api.worldnewsapi.com/search-news?api-key=8c25c03b336b45068fe0a37960b99b43&number=100&language=en&news-sources=https%253A%252F%252Fwww.cbc.ca,https%253A%252F%252Fwww.cnn.com,https%253A%252F%252Fwww.bbc.co.uk&latest-publish-date=2023-02-20%2019:30:00&earliest-publish-date=2023-02-17%2019:30:00&text=Ukraine%20
-            */
+            // Либо сделать так чтобы при нажании на кнопку "Find" в DestinationSearcView:
+            //      1. загружались данные с помощью метода fetchNews();
+            //      2. затем отображалось сколько новостей нашло(просто писалось на кнопке)
+            //      3. затем кнопка меняла надпись на "Перейти к новостям"
+            //      4. вызывался fullScreenCover()
+            //      5. метод predicateFormulation() вызывался при инициализации ResultView, а не при появлении на экране
             
-            newsVM.fetchNews(
+            appearingMethod()
+        }
+    }
+    
+    private func appearingMethod() {
+//        items.nsPredicate = NSPredicate
+//            .predicateFormulation(
+//                destination: destination,
+//                startDate: startDate,
+//                endDate: endDate,
+//                selectedPublishers: selectedPublishers
+//            )
+        
+        newsVM
+            .fetchNews(
                 with: [
                     .text : destination,
                     .sort: "publish-time",
@@ -84,42 +96,6 @@ struct ResultView: View {
                     .newsSources : selectedPublishers.map { "https://www.\($0)" }.joined(separator: ",")
                 ],
                 isCustomDate: true)
-        }
-    }
-}
-
-extension NSPredicate {
-    static func predicateFormulation(destination: String,
-                                     startDate: Date,
-                                     endDate: Date,
-                                     selectedPublishers: Set<String>) -> NSCompoundPredicate {
-        
-        var predicates: [NSPredicate] = []
-        
-        // Фильтрация по дате публикации
-        let datePredicate = NSPredicate(format: "publishDate >= %@ AND publishDate <= %@",
-                                        startDate as CVarArg,
-                                        endDate as CVarArg)
-        predicates.append(datePredicate)
-        
-        // Фильтрация по значению destination
-        if !destination.isEmpty {
-            predicates.append(NSPredicate(format: "text CONTAINS[c] %@ OR title CONTAINS[c] %@",
-                                          destination,
-                                          destination))
-        }
-        
-        // Фильтрация по выбранным издателям
-        if !selectedPublishers.isEmpty {
-            let publisherPredicates = selectedPublishers.map { NSPredicate(format: "sourceURL == %@", "https://www.\($0)") }
-            
-            let compoundPublisherPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: publisherPredicates)
-            
-            predicates.append(compoundPublisherPredicate)
-        }
-        
-        // Объединение и возврат всех предикатов
-        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }
 

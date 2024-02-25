@@ -33,7 +33,7 @@ struct News: Codable, Identifiable {
     
     var imageURL: URL {
         guard let imageBundlePath = Bundle.main.path(forResource: "news-placeholder", ofType: "jpg") else {
-            assert(false , "Cannot find news_blank_image")
+            assert(false , "Cannot find news-placeholder")
         }
         
         let imageURLInBundle = URL(string: imageBundlePath)

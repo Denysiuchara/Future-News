@@ -7,16 +7,14 @@ struct HomeView: View {
     @EnvironmentObject var newsVM: NewsViewModel
     
     @State private var selectedIndex = 0
-    
-    @State private var showDestinationSearchView = false
-    
+
     var body: some View {
         ZStack(alignment: .top) {
             Color(.colorSet3)
                 .ignoresSafeArea()
             
             VStack {
-                SearchViewContainer(showDestinationSearchView: $showDestinationSearchView)
+                SearchViewContainer()
                     .environmentObject(newsVM)
                 
                 SegmentedViewContainer()

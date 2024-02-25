@@ -14,15 +14,15 @@ enum DestinationSearchOptions {
 }
 
 struct DestinationSearchView: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var newsVM: NewsViewModel
-    
-    @Binding var isShow: Bool
     
     @State private var isShowResultView = false
     @State private var isStartDateSelected = false
     @State private var isConditionMet = true
     @State private var selectedOption: DestinationSearchOptions = .text
     
+    // MARK: - property for textField and picker's
     @State private var destination = ""
     @State private var startDate = Date()
     @State private var endDate = Date()
@@ -38,9 +38,7 @@ struct DestinationSearchView: View {
             VStack {
                 HStack {
                     Button {
-                        withAnimation(.snappy) {
-                            isShow.toggle()
-                        }
+                        dismiss()
                     } label: {
                         Image(systemName: "xmark.circle")
                             .imageScale(.large)
@@ -48,20 +46,6 @@ struct DestinationSearchView: View {
                     }
                     
                     Spacer()
-                    
-                    if !destination.isEmpty || !selectedPublishers.isEmpty {
-                        Button {
-                            destination = ""
-                            selectedPublishers = []
-                            startDate = Date()
-                            endDate = Date()
-                        } label: {
-                            Text("Clear All")
-                        }
-                        .foregroundStyle(.black)
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                    }
                 }
                 .padding()
                 
@@ -83,7 +67,10 @@ struct DestinationSearchView: View {
                 Spacer()
                 
                 Button {
-                    if !destination.isEmpty || !isStartDateSelected || !selectedPublishers.isEmpty {
+                    if (!destination.isEmpty && !isStartDateSelected && !selectedPublishers.isEmpty) // Если все поля заполнены
+                        || (!destination.isEmpty && !isStartDateSelected) // Если заполнена поисковая строка и выбрана дата
+                        || (!destination.isEmpty && !selectedPublishers.isEmpty) // Если заполнена поисковая строка и выбраны источники
+                    {
                         isShowResultView.toggle()
                     } else {
                         withAnimation {
@@ -143,17 +130,19 @@ struct DestinationSearchView: View {
         }
     }
     
+    
+    #warning("Не отрабатывают обе вибрации, а только одна")
     /// Функция для создания сильного тактильного фидбека
-    func heavyFeedback() {
+    private func heavyFeedback() {
         let heavyFeedback = UIImpactFeedbackGenerator(style: .heavy)
             heavyFeedback.prepare()
             heavyFeedback.impactOccurred()
     }
 
     /// Функция для создания слабого тактильного фидбека
-    func lightFeedback() {
+    private func lightFeedback() {
         let lightFeedback = UIImpactFeedbackGenerator(style: .light)
-        lightFeedback.prepare()
+            lightFeedback.prepare()
             lightFeedback.impactOccurred()
     }
 }
@@ -169,7 +158,7 @@ struct CollapsibleDestinationViewModifier: ViewModifier {
 }
 
 #Preview {
-    DestinationSearchView(isShow: .constant(false))
+    DestinationSearchView()
         .environmentObject(NewsViewModel())
 }
 

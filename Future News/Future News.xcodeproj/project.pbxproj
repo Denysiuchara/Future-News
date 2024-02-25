@@ -54,6 +54,8 @@
 		94A1DDCD2B20DC0A0067A7C0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A1DDCC2B20DC0A0067A7C0 /* HomeView.swift */; };
 		94A1DDCF2B20DC0C0067A7C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94A1DDCE2B20DC0C0067A7C0 /* Assets.xcassets */; };
 		94A1DDD92B20DD9B0067A7C0 /* SearchNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A1DDD82B20DD9B0067A7C0 /* SearchNews.swift */; };
+		94ADC39D2B8B99B0004B38DD /* news-placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 94ADC39C2B8B99B0004B38DD /* news-placeholder.jpg */; };
+		94ADC39F2B8B9E4A004B38DD /* predicateFormulation() -> NSPredicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADC39E2B8B9E4A004B38DD /* predicateFormulation() -> NSPredicate.swift */; };
 		94ADF9C72B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADF9C62B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift */; };
 		94ADF9CA2B55955E0078A6D3 /* screenSize -> EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADF9C92B55955E0078A6D3 /* screenSize -> EnvironmentValues.swift */; };
 		94B715182B6FBEFA00F08B5B /* to() -> Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B715172B6FBEFA00F08B5B /* to() -> Int.swift */; };
@@ -130,6 +132,8 @@
 		94A1DDCC2B20DC0A0067A7C0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		94A1DDCE2B20DC0C0067A7C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		94A1DDD82B20DD9B0067A7C0 /* SearchNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNews.swift; sourceTree = "<group>"; };
+		94ADC39C2B8B99B0004B38DD /* news-placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "news-placeholder.jpg"; path = "../../../../.Trash/news-placeholder.jpg"; sourceTree = "<group>"; };
+		94ADC39E2B8B9E4A004B38DD /* predicateFormulation() -> NSPredicate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "predicateFormulation() -> NSPredicate.swift"; sourceTree = "<group>"; };
 		94ADF9BD2B556ED00078A6D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		94ADF9C62B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSizeEnvironmentKey.swift; sourceTree = "<group>"; };
 		94ADF9C92B55955E0078A6D3 /* screenSize -> EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "screenSize -> EnvironmentValues.swift"; sourceTree = "<group>"; };
@@ -201,6 +205,7 @@
 				9449335D2B6D3930005473B0 /* CoreDataService.swift */,
 				944933602B6D4BFC005473B0 /* -> NewsEntity.swift */,
 				944933622B6D4C11005473B0 /* saveContext() -> NSManagedObjectContext.swift */,
+				94ADC39E2B8B9E4A004B38DD /* predicateFormulation() -> NSPredicate.swift */,
 			);
 			path = "CoreData Layer";
 			sourceTree = "<group>";
@@ -329,6 +334,7 @@
 				94ADF9C82B5594930078A6D3 /* Extensions */,
 				94ADF9BC2B556EA10078A6D3 /* Preview Content */,
 				94612A812B55B7A50001808E /* dragon.gif */,
+				94ADC39C2B8B99B0004B38DD /* news-placeholder.jpg */,
 				94A1DDCE2B20DC0C0067A7C0 /* Assets.xcassets */,
 			);
 			path = "Future News";
@@ -509,6 +515,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94ADC39D2B8B99B0004B38DD /* news-placeholder.jpg in Resources */,
 				941972712B530AFB008644FF /* Task List in Resources */,
 				94612A822B55B7A50001808E /* dragon.gif in Resources */,
 				94A1DDCF2B20DC0C0067A7C0 /* Assets.xcassets in Resources */,
@@ -531,6 +538,7 @@
 				94A1DDCD2B20DC0A0067A7C0 /* HomeView.swift in Sources */,
 				940D48E12B83A7A40094D635 /* CollectionStyleView.swift in Sources */,
 				942397CF2B5BF29E00DDD587 /* NewsCell.swift in Sources */,
+				94ADC39F2B8B9E4A004B38DD /* predicateFormulation() -> NSPredicate.swift in Sources */,
 				943BFDD02B233FCA00B2E677 /* ApiService.swift in Sources */,
 				94BF24A72B221C860034F9D8 /* ExtractNews.swift in Sources */,
 				942B6AFF2B654C3800F2FED7 /* CustomTabView.swift in Sources */,
@@ -730,7 +738,6 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -764,7 +771,6 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

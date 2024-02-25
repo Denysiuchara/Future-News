@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchViewContainer: View {
     @EnvironmentObject var newsVM: NewsViewModel
-    @Binding var showDestinationSearchView: Bool
+    @State var showDestinationSearchView: Bool = false
     
     var body: some View {
         VStack {
@@ -42,13 +42,13 @@ struct SearchViewContainer: View {
                 }
         }
         .sheet(isPresented: $showDestinationSearchView) {
-            DestinationSearchView(isShow: $showDestinationSearchView)
+            DestinationSearchView()
                 .environmentObject(newsVM)
         }
     }
 }
 
 #Preview {
-    SearchViewContainer(showDestinationSearchView: .constant(false))
+    SearchViewContainer()
         .environmentObject(NewsViewModel())
 }

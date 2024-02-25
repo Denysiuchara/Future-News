@@ -24,7 +24,7 @@ struct SavedNewsView: View {
             
             VStack(alignment: .leading) {
   
-                HeaderView(text: "Saved News",
+                HeaderView(titleText: "Saved News",
                            isAppearDismissButton: false,
                            isNewDataLoaded: $newsVM.isNewDataLoaded,
                            togglingForm: $togglingForm,

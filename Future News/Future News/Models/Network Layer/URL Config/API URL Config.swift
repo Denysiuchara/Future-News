@@ -45,9 +45,12 @@ final class APIURLConfig {
         }
         
         for (name, value) in parameters {
-            let encodeValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            
-            queryItems.append(URLQueryItem(name: name.rawValue, value: encodeValue))
+            #warning("Проверить как работает этот селектор")
+            if !value.isEmpty {
+                let encodeValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                
+                queryItems.append(URLQueryItem(name: name.rawValue, value: encodeValue))
+            }
         }
         
         print("APIURLConfig: changeAPIKey(): Сгенерировал элементы запроса: \(queryItems)")

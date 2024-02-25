@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchViewSection: View {
     @Binding var selectedOption: DestinationSearchOptions
     @Binding var destination: String
+    @State private var isAppearResetButton = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -26,6 +27,30 @@ struct SearchViewSection: View {
                     TextField("Search destinations", text: $destination)
                         .fontDesign(.rounded)
                         .font(.subheadline)
+                        .onChange(of: destination) { _, _ in
+                            if !destination.isEmpty {
+                                withAnimation {
+                                    isAppearResetButton = true
+                                }
+                            } else {
+                                withAnimation {
+                                    isAppearResetButton = false
+                                }
+                            }
+                        }
+                    
+                        Button {
+                            destination = ""
+                        } label: {
+                            Image(systemName: "trash")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                        }
+                        .opacity(isAppearResetButton ? 1.0 : 0.0)
+                        .foregroundStyle(.black)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
                 }
                 .frame(height: 44)
                 .padding(.horizontal)

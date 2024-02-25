@@ -89,8 +89,9 @@ final class CoreDataService {
             newsList.forEach { news in
                 if self.checkIfExists(id: news.id, in: context) {
                     _ = NewsEntity.insert(news: news, to: context)
+                    print("\(#function) New data inserted")
                 } else {
-                    print("Ignoring news item")
+                    print("\(#function) Ignoring news item")
                 }
             }
             
