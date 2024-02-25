@@ -26,7 +26,7 @@ final class ApiService {
         URLSession.shared.dataTask(with: request) { data, response, error in
             
             guard error == nil else {
-                onResponse(.failure(ApiServiceError.invalidURL))
+                onResponse(.failure(ApiServiceError.returnError))
                 return
             }
             
@@ -49,7 +49,7 @@ final class ApiService {
         case invalidURL
         case returnError
         case invalidDecoding
-        case feedRSSPick
         case invalidData
+        case unneededResponse
     }
 }

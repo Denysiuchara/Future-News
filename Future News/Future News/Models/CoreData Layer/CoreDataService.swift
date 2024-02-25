@@ -23,7 +23,6 @@ final class CoreDataService {
             entity.isSaveNews = false
             entity.language = "en"
             entity.publishDate = Date()
-            entity.sentiment = 0.0
             entity.sourceCountry = ""
             entity.sourceURL = entity.sourceURL_
             entity.text = textForPreview

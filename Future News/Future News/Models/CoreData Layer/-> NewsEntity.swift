@@ -35,14 +35,7 @@ extension NewsEntity {
     }
     
     var imageURL_: URL {
-        get {
-            if let imagePath = Bundle.main.path(forResource: "news_blank_image", ofType: "jpg") {
-                return imageURL ?? URL(fileURLWithPath: imagePath)
-            } else {
-                // Путь к заглушке не найден - вернем imageURL или пустой URL
-                return imageURL ?? URL(fileURLWithPath: "")
-            }
-        }
+        get { imageURL! }
         set { imageURL = newValue }
     }
     
@@ -59,11 +52,6 @@ extension NewsEntity {
     var publishDate_: Date {
         get { publishDate ?? Date() }
         set { publishDate = newValue }
-    }
-    
-    var sentiment_: Double {
-        get { sentiment }
-        set { sentiment = newValue }
     }
     
     var sourceCountry_: String {
@@ -98,7 +86,6 @@ extension NewsEntity {
             localNews.isSaveNews = news.isSaveNews
             localNews.language = news.language
             localNews.publishDate = news.convertedPublishDate
-            localNews.sentiment = news.sentiment
             localNews.sourceCountry = news.sourceCountry
             localNews.sourceURL = news.sourceURL
             localNews.text = news.text

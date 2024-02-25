@@ -47,7 +47,7 @@ struct DynamicView: View {
                     .clipped()
                     
             } placeholder: {
-                Image("news_blank_image")
+                Image("news-placeholder")
                     .resizable()
                     .scaledToFill()
                     .animation(.easeInOut) { content in

@@ -21,7 +21,7 @@ struct CardView: View {
                         .frame(width: geo.size.width * 0.90, height: geo.size.height)
                         .clipShape(RoundedRectangle(cornerRadius: 15))
                 } placeholder: {
-                    Image("news_blank_image")
+                    Image("news-placeholder")
                         .resizable()
                         .scaledToFill()
                         .frame(width: geo.size.width * 0.90, height: geo.size.height)

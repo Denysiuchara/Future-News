@@ -13,7 +13,7 @@ extension ApiService {
             let decodeData = try JSONDecoder().decode(T.self, from: data)
             return .success(decodeData)
         } catch {
-            return .failure(error)
+            return .failure(ApiServiceError.invalidDecoding)
         }
     }
 }

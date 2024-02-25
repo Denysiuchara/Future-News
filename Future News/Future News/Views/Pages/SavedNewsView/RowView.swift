@@ -40,7 +40,7 @@ fileprivate struct HorizontalViewRow: View {
                     .frame(width: 90, height: 90)
                     .clipped()
             } placeholder: {
-                Image("news_blank_image")
+                Image("news-placeholder")
                     .resizable()
                     .scaledToFill()
                     .shadow(radius: 10)
@@ -89,7 +89,7 @@ fileprivate struct VerticalViewRow: View {
                     .padding(.horizontal)
                     .clipped()
             } placeholder: {
-                Image("news_blank_image")
+                Image("news-placeholder")
                     .resizable()
                     .scaledToFill()
                     .shadow(radius: 10)

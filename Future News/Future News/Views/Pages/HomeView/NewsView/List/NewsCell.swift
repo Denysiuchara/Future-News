@@ -63,7 +63,7 @@ struct NewsCell: View {
                                height: screenSize.width * 0.50)
                         .clipped()
                 } placeholder: {
-                    Image("news_blank_image")
+                    Image("news-placeholder")
                         .resizable()
                         .scaledToFill()
                         .frame(width: screenSize.width * 0.90,
