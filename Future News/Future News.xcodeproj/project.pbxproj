@@ -35,6 +35,8 @@
 		945313B72B5AD37A0015FF05 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945313B62B5AD37A0015FF05 /* VisualEffectView.swift */; };
 		94612A822B55B7A50001808E /* dragon.gif in Resources */ = {isa = PBXBuildFile; fileRef = 94612A812B55B7A50001808E /* dragon.gif */; };
 		9468E4612B8CC68800F09308 /* PrepareSearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9468E4602B8CC68800F09308 /* PrepareSearchButton.swift */; };
+		9468E46A2B8CD75100F09308 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9468E4692B8CD75100F09308 /* Localizable.xcstrings */; };
+		9468E46C2B8CF78A00F09308 /* urlEncode() -> String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9468E46B2B8CF78A00F09308 /* urlEncode() -> String.swift */; };
 		946940BC2B3330DA00F87C47 /* UnderlineModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946940BB2B3330DA00F87C47 /* UnderlineModifier.swift */; };
 		946940BE2B3330FD00F87C47 /* SegmentedButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946940BD2B3330FD00F87C47 /* SegmentedButtonView.swift */; };
 		946940C02B33311A00F87C47 /* RectPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946940BF2B33311A00F87C47 /* RectPreferenceKey.swift */; };
@@ -112,6 +114,8 @@
 		945313B62B5AD37A0015FF05 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		94612A812B55B7A50001808E /* dragon.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = dragon.gif; sourceTree = "<group>"; };
 		9468E4602B8CC68800F09308 /* PrepareSearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareSearchButton.swift; sourceTree = "<group>"; };
+		9468E4692B8CD75100F09308 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		9468E46B2B8CF78A00F09308 /* urlEncode() -> String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "urlEncode() -> String.swift"; sourceTree = "<group>"; };
 		946940BB2B3330DA00F87C47 /* UnderlineModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineModifier.swift; sourceTree = "<group>"; };
 		946940BD2B3330FD00F87C47 /* SegmentedButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedButtonView.swift; sourceTree = "<group>"; };
 		946940BF2B33311A00F87C47 /* RectPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectPreferenceKey.swift; sourceTree = "<group>"; };
@@ -339,6 +343,7 @@
 				94612A812B55B7A50001808E /* dragon.gif */,
 				94ADC39C2B8B99B0004B38DD /* news-placeholder.jpg */,
 				94A1DDCE2B20DC0C0067A7C0 /* Assets.xcassets */,
+				9468E4692B8CD75100F09308 /* Localizable.xcstrings */,
 			);
 			path = "Future News";
 			sourceTree = "<group>";
@@ -370,6 +375,7 @@
 				94EB3C332B7D307F00B2D569 /* convertToDate -> String.swift */,
 				94EB3C352B7D30DC00B2D569 /* convertToString() -> Date.swift */,
 				94D1B07A2B7F9CB5006B64E3 /* toggle() -> Set.swift */,
+				9468E46B2B8CF78A00F09308 /* urlEncode() -> String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -520,6 +526,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94ADC39D2B8B99B0004B38DD /* news-placeholder.jpg in Resources */,
+				9468E46A2B8CD75100F09308 /* Localizable.xcstrings in Resources */,
 				941972712B530AFB008644FF /* Task List in Resources */,
 				94612A822B55B7A50001808E /* dragon.gif in Resources */,
 				94A1DDCF2B20DC0C0067A7C0 /* Assets.xcassets in Resources */,
@@ -577,6 +584,7 @@
 				943EC2042B28A9B60023BA08 /* DestinationSearchView.swift in Sources */,
 				94BF24A92B221CA00034F9D8 /* ExtractNewsLinks.swift in Sources */,
 				948B97552B583E3D009237D7 /* AdvancedScrollView.swift in Sources */,
+				9468E46C2B8CF78A00F09308 /* urlEncode() -> String.swift in Sources */,
 				949BCF4D2B26048E00ECDD41 /* SearchView.swift in Sources */,
 				949BCF512B26051600ECDD41 /* SettingsView.swift in Sources */,
 				944933632B6D4C11005473B0 /* saveContext() -> NSManagedObjectContext.swift in Sources */,

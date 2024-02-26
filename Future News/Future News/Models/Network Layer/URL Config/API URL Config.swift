@@ -45,9 +45,12 @@ final class APIURLConfig {
         }
         
         for (name, value) in parameters {
-            #warning("Проверить как работает этот селектор")
-            if !value.isEmpty {
+            if !value.isEmpty && name != .text {
                 let encodeValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                
+                queryItems.append(URLQueryItem(name: name.rawValue, value: encodeValue))
+            } else if !value.isEmpty && name == .text {
+                let encodeValue = value.urlEncode()
                 
                 queryItems.append(URLQueryItem(name: name.rawValue, value: encodeValue))
             }

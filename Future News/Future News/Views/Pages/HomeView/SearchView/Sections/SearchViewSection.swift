@@ -60,7 +60,8 @@ struct SearchViewSection: View {
                         .foregroundStyle(Color(.systemGray4))
                 }
             } else {
-                CollapsedPickerView(title: "What we looking for?", description: "Add destination")
+                CollapsedPickerView(title: "What we looking for?",
+                                    description: NSLocalizedString("Add destination", comment: ""))
             }
         }
         .modifier(CollapsibleDestinationViewModifier())

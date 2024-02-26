@@ -68,7 +68,7 @@ struct DynamicView: View {
                 .padding(.horizontal)
                 .frame(width: screenSize.width, alignment: .leading)
             
-            Text(author ?? "Unknown author")
+            Text(author ?? NSLocalizedString("Unknown author", comment: ""))
                 .minimumScaleFactor(0.9)
                 .font(.subheadline)
                 .fontWeight(.medium)

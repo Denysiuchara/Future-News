@@ -23,7 +23,8 @@ struct NewsSourcesViewSection: View {
                 GridPublishers(selectedPublishers: $selectedPublishers)
                     .environmentObject(newsVM)
             } else {
-                CollapsedPickerView(title: "Who", description: "News Sources")
+                CollapsedPickerView(title: NSLocalizedString("Who", comment: ""),
+                                    description: NSLocalizedString("News Sources", comment: ""))
             }
         }
         .modifier(CollapsibleDestinationViewModifier())

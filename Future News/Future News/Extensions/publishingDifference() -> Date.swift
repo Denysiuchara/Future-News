@@ -20,21 +20,59 @@ extension Date {
     }
     
     func publishingDifference() -> String {
+        
+        let agoKey = NSLocalizedString("ago", comment: "")
+        
         let currentDate = Date()
         let delta = currentDate - self
         
         if let year = delta.year, year != 0 {
-            return "\(year) year\(year == 1 ? "" : "s") ago"
+            switch year {
+            case 1:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("year_singular", comment: ""), year)) \(agoKey)"
+            case 2...4:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("year_plural_2_4", comment: ""), year)) \(agoKey)"
+            default:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("year_plural_5_10", comment: ""), year)) \(agoKey)"
+            }
         } else if let month = delta.month, month != 0 {
-            return "\(month) month\(month == 1 ? "" : "s") ago"
+            switch month {
+            case 1:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("month_singular", comment: ""), month)) \(agoKey)"
+            case 2...4:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("month_plural_2_4", comment: ""), month)) \(agoKey)"
+            default:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("month_plural_5_10", comment: ""), month)) \(agoKey)"
+            }
         } else if let day = delta.day, day != 0 {
-            return "\(day) day\(day == 1 ? "" : "s") ago"
+            switch day {
+            case 1:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("day_singular", comment: ""), day)) \(agoKey)"
+            case 2...4:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("day_plural_2_4", comment: ""), day)) \(agoKey)"
+            default:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("day_plural_5_10", comment: ""), day)) \(agoKey)"
+            }
         } else if let hour = delta.hour, hour != 0 {
-            return "\(hour) hour\(hour == 1 ? "" : "s") ago"
+            switch hour {
+            case 1:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("hour_singular", comment: ""), hour)) \(agoKey)"
+            case 2...4:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("hour_plural_2_4", comment: ""), hour)) \(agoKey)"
+            default:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("hour_plural_5_10", comment: ""), hour)) \(agoKey)"
+            }
         } else if let minute = delta.minute, minute != 0 {
-            return "\(minute) minute\(minute == 1 ? "" : "s") ago"
+            switch minute {
+            case 1:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("minute_singular", comment: ""), minute)) \(agoKey)"
+            case 2...4:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("minute_plural_2_4", comment: ""), minute)) \(agoKey)"
+            default:
+                return "\(String.localizedStringWithFormat(NSLocalizedString("minute_plural_5_10", comment: ""), minute)) \(agoKey)"
+            }
         } else {
-            return "recent"
+            return NSLocalizedString("recent", comment: "")
         }
     }
 }

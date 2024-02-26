@@ -16,5 +16,9 @@ extension APIURLConfig {
         case science = "Science"
         case games = "Games"
         case sport = "Sport"
+        
+        var localizedString: String {
+            return NSLocalizedString(self.rawValue, comment: "")
+        }
     }
 }

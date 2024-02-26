@@ -21,10 +21,10 @@ struct ProgressAlert: View {
             
             ProgressView()
         }
+        .padding(.horizontal)
         .background {
             RoundedRectangle(cornerRadius: 10)
                 .fill(.black)
-                .frame(width: 300, height: 25, alignment: .bottom)
                 .background {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(lineWidth: 3)

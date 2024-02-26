@@ -21,7 +21,7 @@ final class NewsViewModel: ObservableObject {
     @Published var newsSources: [(name: String, source: String)]
     
     init() {
-        titlesTopic = Theme.allCases.map { $0.rawValue }
+        titlesTopic = Theme.allCases.map { $0.localizedString }
         newsSources = APIURLConfig.sources.prefix(15).shuffled()
     }
     

@@ -24,7 +24,7 @@ struct SavedNewsView: View {
             
             VStack(alignment: .leading) {
   
-                HeaderView(titleText: "Saved News",
+                HeaderView(titleText: NSLocalizedString("Saved News", comment: ""),
                            isAppearDismissButton: false,
                            isNewDataLoaded: $newsVM.isNewDataLoaded,
                            togglingForm: $togglingForm,

@@ -35,7 +35,8 @@ struct DateViewSection: View {
                 .fontWeight(.semibold)
                 
             } else {
-                CollapsedPickerView(title: "When", description: "Add dates")
+                CollapsedPickerView(title: NSLocalizedString("When", comment: ""),
+                                    description: NSLocalizedString("Add dates", comment: ""))
             }
         }
         .modifier(CollapsibleDestinationViewModifier())

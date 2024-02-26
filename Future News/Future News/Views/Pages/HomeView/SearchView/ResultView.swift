@@ -42,23 +42,32 @@ struct ResultView: View {
                 .opacity(0.5)
                 .ignoresSafeArea()
             
-            NavigationView {
-                VStack(alignment: .leading) {
-                    
-                    HeaderView(titleText: "Result:",
-                               isAppearDismissButton: true,
-                               isNewDataLoaded: $newsVM.isNewDataLoaded,
-                               togglingForm: $togglingForm,
-                               buttonOpacity: !items.isEmpty ? 1.0 : 0.0,
-                               isAppearProgressAlert: true)  { dismiss() }
-                    
-                    if togglingForm {
-                        TableStyleView(items: _items, isActive: $isActive)
-                            .environmentObject(newsVM)
-                    } else {
-                        CollectionStyleView(items: _items, isActive: $isActive)
-                            .environmentObject(newsVM)
+            VStack(alignment: .leading) {
+                
+                HeaderView(titleText: NSLocalizedString("Result:", comment: ""),
+                           isAppearDismissButton: true,
+                           isNewDataLoaded: $newsVM.isNewDataLoaded,
+                           togglingForm: $togglingForm,
+                           buttonOpacity: !items.isEmpty ? 1.0 : 0.0,
+                           isAppearProgressAlert: true)  { dismiss() }
+                
+                if items.isEmpty {
+                    VStack {
+                        Text("😕")
+                            .font(.system(size: 80))
+                        Text("Strange, nothing found.\nTry changing your query!")
+                            .multilineTextAlignment(.center)
+                            .font(.system(size: 23))
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                }
+                
+                if togglingForm {
+                    TableStyleView(items: _items, isActive: $isActive)
+                        .environmentObject(newsVM)
+                } else {
+                    CollectionStyleView(items: _items, isActive: $isActive)
+                        .environmentObject(newsVM)
                 }
             }
         }
