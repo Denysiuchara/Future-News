@@ -17,15 +17,31 @@ struct DestinationSearchView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var newsVM: NewsViewModel
     
+    /// Variable for calling ResultView
     @State private var isShowResultView = false
+    
+    /// Variable indicating whether the date is set
     @State private var isStartDateSelected = false
+    
+    /// Variable to invoke the alert.
+    /// Describes whether the required fields are filled in.
     @State private var isConditionMet = true
+    
+    /// Responsible for the selected filter cell.
     @State private var selectedOption: DestinationSearchOptions = .text
     
-    // MARK: - property for textField and picker's
+    // MARK: - Storage property
+    
+    /// Storage for text field
     @State private var destination = ""
+    
+    /// Storage for Start DatePicker
     @State private var startDate = Date()
+    
+    /// Storage for End DatePicker
     @State private var endDate = Date()
+    
+    /// Storage for Selected Publishers
     @State private var selectedPublishers: Set<String> = []
     
     var body: some View {
@@ -66,33 +82,14 @@ struct DestinationSearchView: View {
                 
                 Spacer()
                 
-                Button {
-                    if (!destination.isEmpty && !isStartDateSelected && !selectedPublishers.isEmpty) // Если все поля заполнены
-                        || (!destination.isEmpty && !isStartDateSelected) // Если заполнена поисковая строка и выбрана дата
-                        || (!destination.isEmpty && !selectedPublishers.isEmpty) // Если заполнена поисковая строка и выбраны источники
-                    {
-                        isShowResultView.toggle()
-                    } else {
-                        withAnimation {
-                            isConditionMet = false
-                        }
-                        heavyFeedback()
-                        lightFeedback()
-                    }
-                } label: {
-                    Text("Find")
-                        .foregroundStyle(.black)
-                        .fontWeight(.bold)
-                        .font(.title2)
-                        .padding(.horizontal)
-                }
-                .padding()
-                .frame(width: 150, height: 50)
-                .background {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.orange)
-                        .shadow(radius: 5)
-                }
+                PrepareSearchButton(destination: $destination,
+                                    selectedPublishers: $selectedPublishers,
+                                    startDate: $startDate,
+                                    endDate: $endDate,
+                                    isStartDateSelected: $isStartDateSelected,
+                                    isShowResultView: $isShowResultView,
+                                    isConditionMet: $isConditionMet)
+                .environmentObject(newsVM)
                 
                 Spacer()
                     .frame(height: 20)
@@ -128,22 +125,6 @@ struct DestinationSearchView: View {
                 }
             }
         }
-    }
-    
-    
-    #warning("Не отрабатывают обе вибрации, а только одна")
-    /// Функция для создания сильного тактильного фидбека
-    private func heavyFeedback() {
-        let heavyFeedback = UIImpactFeedbackGenerator(style: .heavy)
-            heavyFeedback.prepare()
-            heavyFeedback.impactOccurred()
-    }
-
-    /// Функция для создания слабого тактильного фидбека
-    private func lightFeedback() {
-        let lightFeedback = UIImpactFeedbackGenerator(style: .light)
-            lightFeedback.prepare()
-            lightFeedback.impactOccurred()
     }
 }
 

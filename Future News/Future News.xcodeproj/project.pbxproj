@@ -34,6 +34,7 @@
 		945313B52B5ACFB10015FF05 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945313B42B5ACFB10015FF05 /* MenuView.swift */; };
 		945313B72B5AD37A0015FF05 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945313B62B5AD37A0015FF05 /* VisualEffectView.swift */; };
 		94612A822B55B7A50001808E /* dragon.gif in Resources */ = {isa = PBXBuildFile; fileRef = 94612A812B55B7A50001808E /* dragon.gif */; };
+		9468E4612B8CC68800F09308 /* PrepareSearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9468E4602B8CC68800F09308 /* PrepareSearchButton.swift */; };
 		946940BC2B3330DA00F87C47 /* UnderlineModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946940BB2B3330DA00F87C47 /* UnderlineModifier.swift */; };
 		946940BE2B3330FD00F87C47 /* SegmentedButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946940BD2B3330FD00F87C47 /* SegmentedButtonView.swift */; };
 		946940C02B33311A00F87C47 /* RectPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946940BF2B33311A00F87C47 /* RectPreferenceKey.swift */; };
@@ -110,6 +111,7 @@
 		945313B42B5ACFB10015FF05 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		945313B62B5AD37A0015FF05 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		94612A812B55B7A50001808E /* dragon.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = dragon.gif; sourceTree = "<group>"; };
+		9468E4602B8CC68800F09308 /* PrepareSearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareSearchButton.swift; sourceTree = "<group>"; };
 		946940BB2B3330DA00F87C47 /* UnderlineModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineModifier.swift; sourceTree = "<group>"; };
 		946940BD2B3330FD00F87C47 /* SegmentedButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedButtonView.swift; sourceTree = "<group>"; };
 		946940BF2B33311A00F87C47 /* RectPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectPreferenceKey.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				943EC2032B28A9B60023BA08 /* DestinationSearchView.swift */,
 				949084F82B7FA61A00AE2199 /* ResultView.swift */,
 				94399FA72B29F54F00FAE319 /* CollapsedPickerView.swift */,
+				9468E4602B8CC68800F09308 /* PrepareSearchButton.swift */,
 				94D1B0822B7F9FEC006B64E3 /* Sections */,
 				94ED72EA2B2C906F00D29AE1 /* GridPublishers */,
 			);
@@ -495,7 +498,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
+				uk,
+				ru,
 			);
 			mainGroup = 94A1DDBE2B20DC0A0067A7C0;
 			packageReferences = (
@@ -542,6 +546,7 @@
 				943BFDD02B233FCA00B2E677 /* ApiService.swift in Sources */,
 				94BF24A72B221C860034F9D8 /* ExtractNews.swift in Sources */,
 				942B6AFF2B654C3800F2FED7 /* CustomTabView.swift in Sources */,
+				9468E4612B8CC68800F09308 /* PrepareSearchButton.swift in Sources */,
 				94D1B07D2B7F9D65006B64E3 /* SearchViewSection.swift in Sources */,
 				94ADF9C72B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift in Sources */,
 				94EB3C322B7D24D900B2D569 /* APIParameterLanguage -> APIURLConfig.swift in Sources */,

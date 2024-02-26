@@ -62,40 +62,6 @@ struct ResultView: View {
                 }
             }
         }
-        .onAppear {
-            #warning("Данные показываются только тогда когда повторно открываешь view ResultView.")
-            // Скорее всего нужно сделать так чтобы TableStyleView и CollectionStyleView перерисовались по окончанию загрузки данных из сети.
-            
-            // Либо сделать так чтобы при нажании на кнопку "Find" в DestinationSearcView:
-            //      1. загружались данные с помощью метода fetchNews();
-            //      2. затем отображалось сколько новостей нашло(просто писалось на кнопке)
-            //      3. затем кнопка меняла надпись на "Перейти к новостям"
-            //      4. вызывался fullScreenCover()
-            //      5. метод predicateFormulation() вызывался при инициализации ResultView, а не при появлении на экране
-            
-            appearingMethod()
-        }
-    }
-    
-    private func appearingMethod() {
-//        items.nsPredicate = NSPredicate
-//            .predicateFormulation(
-//                destination: destination,
-//                startDate: startDate,
-//                endDate: endDate,
-//                selectedPublishers: selectedPublishers
-//            )
-        
-        newsVM
-            .fetchNews(
-                with: [
-                    .text : destination,
-                    .sort: "publish-time",
-                    .latestPublishDate : endDate.convertToString(),
-                    .earliestPublishDate : startDate.convertToString(),
-                    .newsSources : selectedPublishers.map { "https://www.\($0)" }.joined(separator: ",")
-                ],
-                isCustomDate: true)
     }
 }
 
