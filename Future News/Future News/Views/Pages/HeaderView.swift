@@ -11,9 +11,9 @@ struct HeaderView: View {
     
     var titleText: String
     var isAppearDismissButton: Bool
+    
     @Binding var isNewDataLoaded: Bool
     @Binding var togglingForm: Bool
-    @State var buttonOpacity: Double
     
     var isAppearProgressAlert: Bool = false
     
@@ -57,7 +57,6 @@ struct HeaderView: View {
                         .scaledToFill()
                         .frame(width: 30, height: 30)
                 }
-                .opacity(buttonOpacity)
                 .accentColor(.black)
                 .padding([.top, .trailing])
             }
@@ -86,5 +85,5 @@ struct HeaderView: View {
                isAppearDismissButton: true,
                isNewDataLoaded: .constant(true),
                togglingForm: .constant(true),
-               buttonOpacity: 1.0, action: { })
+               action: { })
 }

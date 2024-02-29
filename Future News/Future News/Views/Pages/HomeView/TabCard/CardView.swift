@@ -9,51 +9,61 @@ import SwiftUI
 
 struct CardView: View {
     
-    var asyncImageName: String
+    @ObservedObject var newsItem: NewsEntity
     
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                AsyncImage(url: URL(string: asyncImageName)) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geo.size.width * 0.90, height: geo.size.height)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                } placeholder: {
-                    Image("news-placeholder")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geo.size.width * 0.90, height: geo.size.height)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                }
-                
-                VStack {
+        VStack(alignment: .center) {
+            GeometryReader { geo in
+                VStack(alignment: .center) {
+                    VStack {
+                        Text(newsItem.title_)
+                            .fontDesign(.rounded)
+                            .lineLimit(2)
+                            .foregroundStyle(.white)
+                            .frame(width: geo.size.width,
+                                   height: geo.size.height * 0.20,
+                                   alignment: .topLeading)
+                            .padding(.horizontal, 10)
+                            .padding(.top, 8)
+                            .background {
+                                GeometryReader { geometry in
+                                    VisualEffectView(style: .systemThinMaterialDark, alpha: 1.0)
+                                        .opacity(0.6)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
+                            }
+                    }
                     
-                    Spacer()
-                    
-                    Text("**Some color to fill in the string!Some color to fill in the string!Some color to fill**")
-                        .fontDesign(.rounded)
-                        .lineLimit(2)
-                        .foregroundStyle(.white)
-                        .frame(width: geo.size.width * 0.83, height: 60, alignment: .leading)
-                        .padding()
-                        .background {
-                            VisualEffectView(style: .systemThinMaterialDark, alpha: 1.0)
-                                .opacity(0.5)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                                .frame(width: geo.size.width * 0.85, height: geo.size.height * 0.25)
-                        }
-                        .padding(.bottom, 25)
-                        
+                    AsyncImage(url: newsItem.imageURL_) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geo.size.width,
+                                   height: geo.size.height * 0.80)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    } placeholder: {
+                        Image("news-placeholder")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geo.size.width,
+                                   height: geo.size.height * 0.80)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
+                    .padding(.bottom, 16)
                 }
+                .frame(width: geo.size.width,
+                       height: geo.size.height)
             }
-            .frame(width: geo.size.width)
         }
+        .padding()
+        .background {
+            GeometryReader { geo in
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.colorSet3)
+                    .shadow(radius: 7)
+                    .padding(.horizontal, 6)
+            }
+        }
+        .padding(.vertical)
     }
-}
-
-#Preview {
-    CardView(asyncImageName: "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg")
-        .frame(height: 300)
 }

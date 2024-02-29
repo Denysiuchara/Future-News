@@ -25,10 +25,11 @@ struct AllNewsView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.colorSet3)
                     .frame(width: screenSize.width,
-                           height: screenSize.height * 0.3)
+                           height: screenSize.height * 0.45)
                 
                 HStack {
                     Text("Latest news")
+                        .bold()
                         .fontDesign(.rounded)
                         .font(.title)
                     
@@ -36,15 +37,31 @@ struct AllNewsView: View {
                 }
                 .listRowBackground(Color.colorSet3)
                 
-                ForEach(items, id: \.self) { element in
+                
+                #warning("проработать альтернативный вид для iPad")
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    ForEach(items, id: \.self) { element in
                         NewsCell(selectedNews: element)
                             .onTapGesture {
                                 newsVM.selectedNews = element
                                 isActive.toggle()
                             }
                             .id(element.id_)
-                    .listRowBackground(Color.colorSet3)
-                    .listRowSeparator(.hidden)
+                            .listRowBackground(Color.colorSet3)
+                            .listRowSeparator(.hidden)
+                    }
+                } else {
+                    LazyVGrid(columns: [ GridItem(.flexible()),
+                                         GridItem(.flexible()) ],
+                              spacing: 10) {
+                        ForEach(items, id: \.self) { element in
+                            NewsCell(selectedNews: element)
+                                .onTapGesture {
+                                    newsVM.selectedNews = element
+                                    isActive.toggle()
+                                }
+                        }
+                    }
                 }
             }
             .listStyle(.inset)

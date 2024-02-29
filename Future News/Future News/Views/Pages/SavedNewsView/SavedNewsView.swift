@@ -27,8 +27,7 @@ struct SavedNewsView: View {
                 HeaderView(titleText: NSLocalizedString("Saved News", comment: ""),
                            isAppearDismissButton: false,
                            isNewDataLoaded: $newsVM.isNewDataLoaded,
-                           togglingForm: $togglingForm,
-                           buttonOpacity: !items.isEmpty ? 1.0 : 0.0)
+                           togglingForm: $togglingForm)
                 
                 if items.isEmpty {
                     VStack {

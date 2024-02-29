@@ -50,5 +50,6 @@ struct SearchViewContainer: View {
 
 #Preview {
     SearchViewContainer()
+        .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
         .environmentObject(NewsViewModel())
 }

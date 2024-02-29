@@ -22,6 +22,7 @@
 		942B6AFF2B654C3800F2FED7 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942B6AFE2B654C3800F2FED7 /* CustomTabView.swift */; };
 		942B71E22B38764A00A94E68 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 942B71E12B38764A00A94E68 /* WrappingHStack */; };
 		942B71E42B38766400A94E68 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 942B71E32B38766400A94E68 /* WrappingHStack */; };
+		943760362B90BB980055D883 /* news-placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 943760352B90BB970055D883 /* news-placeholder.jpg */; };
 		94399FA82B29F54F00FAE319 /* CollapsedPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94399FA72B29F54F00FAE319 /* CollapsedPickerView.swift */; };
 		94399FAD2B2A06A900FAE319 /* GridPublishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94399FAC2B2A06A900FAE319 /* GridPublishers.swift */; };
 		943BFDD02B233FCA00B2E677 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943BFDCF2B233FCA00B2E677 /* ApiService.swift */; };
@@ -33,7 +34,6 @@
 		944933632B6D4C11005473B0 /* saveContext() -> NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944933622B6D4C11005473B0 /* saveContext() -> NSManagedObjectContext.swift */; };
 		945313B52B5ACFB10015FF05 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945313B42B5ACFB10015FF05 /* MenuView.swift */; };
 		945313B72B5AD37A0015FF05 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945313B62B5AD37A0015FF05 /* VisualEffectView.swift */; };
-		94612A822B55B7A50001808E /* dragon.gif in Resources */ = {isa = PBXBuildFile; fileRef = 94612A812B55B7A50001808E /* dragon.gif */; };
 		9468E4612B8CC68800F09308 /* PrepareSearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9468E4602B8CC68800F09308 /* PrepareSearchButton.swift */; };
 		9468E46A2B8CD75100F09308 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9468E4692B8CD75100F09308 /* Localizable.xcstrings */; };
 		9468E46C2B8CF78A00F09308 /* urlEncode() -> String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9468E46B2B8CF78A00F09308 /* urlEncode() -> String.swift */; };
@@ -57,7 +57,6 @@
 		94A1DDCD2B20DC0A0067A7C0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A1DDCC2B20DC0A0067A7C0 /* HomeView.swift */; };
 		94A1DDCF2B20DC0C0067A7C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94A1DDCE2B20DC0C0067A7C0 /* Assets.xcassets */; };
 		94A1DDD92B20DD9B0067A7C0 /* SearchNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A1DDD82B20DD9B0067A7C0 /* SearchNews.swift */; };
-		94ADC39D2B8B99B0004B38DD /* news-placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 94ADC39C2B8B99B0004B38DD /* news-placeholder.jpg */; };
 		94ADC39F2B8B9E4A004B38DD /* predicateFormulation() -> NSPredicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADC39E2B8B9E4A004B38DD /* predicateFormulation() -> NSPredicate.swift */; };
 		94ADF9C72B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADF9C62B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift */; };
 		94ADF9CA2B55955E0078A6D3 /* screenSize -> EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ADF9C92B55955E0078A6D3 /* screenSize -> EnvironmentValues.swift */; };
@@ -101,6 +100,8 @@
 		9423BC152B24BAC200D23418 /* TabPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabPageControl.swift; sourceTree = "<group>"; };
 		9423BC1D2B24CB9300D23418 /* SegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedView.swift; sourceTree = "<group>"; };
 		942B6AFE2B654C3800F2FED7 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		943760352B90BB970055D883 /* news-placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "news-placeholder.jpg"; path = "Future News/news-placeholder.jpg"; sourceTree = "<group>"; };
+		943760392B90F32A0055D883 /* my_photo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = my_photo.jpg; sourceTree = "<group>"; };
 		94399FA72B29F54F00FAE319 /* CollapsedPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedPickerView.swift; sourceTree = "<group>"; };
 		94399FAC2B2A06A900FAE319 /* GridPublishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPublishers.swift; sourceTree = "<group>"; };
 		943BFDCF2B233FCA00B2E677 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
@@ -112,7 +113,6 @@
 		944933622B6D4C11005473B0 /* saveContext() -> NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "saveContext() -> NSManagedObjectContext.swift"; sourceTree = "<group>"; };
 		945313B42B5ACFB10015FF05 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		945313B62B5AD37A0015FF05 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
-		94612A812B55B7A50001808E /* dragon.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = dragon.gif; sourceTree = "<group>"; };
 		9468E4602B8CC68800F09308 /* PrepareSearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareSearchButton.swift; sourceTree = "<group>"; };
 		9468E4692B8CD75100F09308 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		9468E46B2B8CF78A00F09308 /* urlEncode() -> String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "urlEncode() -> String.swift"; sourceTree = "<group>"; };
@@ -138,7 +138,6 @@
 		94A1DDCC2B20DC0A0067A7C0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		94A1DDCE2B20DC0C0067A7C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		94A1DDD82B20DD9B0067A7C0 /* SearchNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNews.swift; sourceTree = "<group>"; };
-		94ADC39C2B8B99B0004B38DD /* news-placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "news-placeholder.jpg"; path = "../../../../.Trash/news-placeholder.jpg"; sourceTree = "<group>"; };
 		94ADC39E2B8B9E4A004B38DD /* predicateFormulation() -> NSPredicate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "predicateFormulation() -> NSPredicate.swift"; sourceTree = "<group>"; };
 		94ADF9BD2B556ED00078A6D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		94ADF9C62B5594830078A6D3 /* ScreenSizeEnvironmentKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSizeEnvironmentKey.swift; sourceTree = "<group>"; };
@@ -316,6 +315,7 @@
 		94A1DDBE2B20DC0A0067A7C0 = {
 			isa = PBXGroup;
 			children = (
+				943760352B90BB970055D883 /* news-placeholder.jpg */,
 				941972702B530AFB008644FF /* Task List */,
 				94A1DDC92B20DC0A0067A7C0 /* Future News */,
 				94A1DDC82B20DC0A0067A7C0 /* Products */,
@@ -333,6 +333,7 @@
 		94A1DDC92B20DC0A0067A7C0 /* Future News */ = {
 			isa = PBXGroup;
 			children = (
+				9468E4692B8CD75100F09308 /* Localizable.xcstrings */,
 				947FE3942B823FA7001AA58C /* Future-News-Info.plist */,
 				94A1DDCA2B20DC0A0067A7C0 /* Future_NewsApp.swift */,
 				94BF24AF2B221ED50034F9D8 /* Views */,
@@ -340,10 +341,8 @@
 				94A1DDDA2B20DDAC0067A7C0 /* Models */,
 				94ADF9C82B5594930078A6D3 /* Extensions */,
 				94ADF9BC2B556EA10078A6D3 /* Preview Content */,
-				94612A812B55B7A50001808E /* dragon.gif */,
-				94ADC39C2B8B99B0004B38DD /* news-placeholder.jpg */,
 				94A1DDCE2B20DC0C0067A7C0 /* Assets.xcassets */,
-				9468E4692B8CD75100F09308 /* Localizable.xcstrings */,
+				943760392B90F32A0055D883 /* my_photo.jpg */,
 			);
 			path = "Future News";
 			sourceTree = "<group>";
@@ -491,7 +490,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					94A1DDC62B20DC0A0067A7C0 = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -506,6 +505,7 @@
 				en,
 				uk,
 				ru,
+				Base,
 			);
 			mainGroup = 94A1DDBE2B20DC0A0067A7C0;
 			packageReferences = (
@@ -525,10 +525,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94ADC39D2B8B99B0004B38DD /* news-placeholder.jpg in Resources */,
+				943760362B90BB980055D883 /* news-placeholder.jpg in Resources */,
 				9468E46A2B8CD75100F09308 /* Localizable.xcstrings in Resources */,
 				941972712B530AFB008644FF /* Task List in Resources */,
-				94612A822B55B7A50001808E /* dragon.gif in Resources */,
 				94A1DDCF2B20DC0C0067A7C0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -621,6 +620,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -684,6 +684,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

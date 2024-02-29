@@ -17,21 +17,8 @@
         }
       }
     },
-    "**Some color to fill in the string!Some color to fill in the string!Some color to fill**" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "**Каким цветом заполнить строку! Каким цветом заполнить строку! Каким цветом заполнить**"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "**Яким кольором зафарбувати рядок! Яким кольором зафарбувати рядок! Яким кольором зафарбувати рядок! Яким кольором зафарбувати**"
-          }
-        }
-      }
+    "+380(98)647-54-67" : {
+
     },
     "😕" : {
       "localizations" : {
@@ -48,6 +35,9 @@
           }
         }
       }
+    },
+    "A little bit about me." : {
+
     },
     "About me!" : {
       "localizations" : {
@@ -149,18 +139,21 @@
         }
       }
     },
-    "Change news language" : {
+    "Contact:" : {
+
+    },
+    "Continue reading:" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Изменить язык новостей"
+            "value" : "Продолжить чтение:"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Змінити мову новин"
+            "value" : "Читати далі:"
           }
         }
       }
@@ -177,22 +170,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Скопіювати посилання"
-          }
-        }
-      }
-    },
-    "Dark Theme" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Темная тема"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Темна тема"
           }
         }
       }
@@ -262,22 +239,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d день"
-          }
-        }
-      }
-    },
-    "Environment Setting" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Настройки окружения"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Налаштування середовища"
           }
         }
       }
@@ -380,6 +341,9 @@
         }
       }
     },
+    "Hello, everyone!" : {
+
+    },
     "Home" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -466,6 +430,12 @@
         }
       }
     },
+    "https://github.com/Denysiuchara" : {
+
+    },
+    "https://www.facebook.com/profile.php?id=100016582338639" : {
+
+    },
     "Latest news" : {
       "localizations" : {
         "ru" : {
@@ -478,22 +448,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Останні новини"
-          }
-        }
-      }
-    },
-    "Light theme" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Светлая тема"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Світла тема"
           }
         }
       }
@@ -652,6 +606,18 @@
         }
       }
     },
+    "My FaceBook:" : {
+
+    },
+    "My GitHub:" : {
+
+    },
+    "My name is Danya, I'm 21 years old and I'm an aspiring programmer.\nI was born and live in Ukraine. I have a lot of hobbies, such as basketball, cooking, computer games, so I know what teamwork is. About my communication with people. I am quite sociable, I can find a common language with any person, but at the same time I am independent enough not to run to a middle developer every time I have a problem." : {
+
+    },
+    "My Phone Number:" : {
+
+    },
     "News is loading. Please wait!" : {
       "localizations" : {
         "ru" : {
@@ -681,22 +647,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Джерело Новин"
-          }
-        }
-      }
-    },
-    "Notification setting" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Настройки уведомлений"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Налаштування сповіщень"
           }
         }
       }
@@ -916,6 +866,22 @@
         }
       }
     },
+    "Strange, nothing found.\nTry changing your query!" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Странно, ничего не найдено.\nПопробуйте изменить запрос!"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дивно, нічого не знайдено.\nСпробуйте змінити запит!"
+          }
+        }
+      }
+    },
     "Strange, nothing found.\\nTry changing your query!" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -949,6 +915,9 @@
           }
         }
       }
+    },
+    "Thanks for trying out my app! This is an app I created to show off my skills. By making this app I have grown a lot as a programmer." : {
+
     },
     "The quota has been exhausted!" : {
       "localizations" : {

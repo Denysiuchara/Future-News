@@ -29,5 +29,6 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
         .environmentObject(NewsViewModel())
 }

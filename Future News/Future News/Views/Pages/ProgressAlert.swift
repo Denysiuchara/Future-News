@@ -19,9 +19,19 @@ struct ProgressAlert: View {
                 .fontWeight(.semibold)
                 .padding(.trailing, 10)
             
-            ProgressView()
+            ZStack {
+                ProgressView()
+                    .tint(.white)
+                
+                ProgressView()
+                    .tint(Color(#colorLiteral(red: 0.337254902,
+                                              green: 0.1137254902,
+                                              blue: 0.7490196078,
+                                              alpha: 1)))
+            }
         }
         .padding(.horizontal)
+        .padding(.vertical, 6)
         .background {
             RoundedRectangle(cornerRadius: 10)
                 .fill(.black)

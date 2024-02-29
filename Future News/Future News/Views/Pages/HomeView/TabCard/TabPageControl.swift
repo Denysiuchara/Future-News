@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct TabPageControl: View {
-    var numberOfPages: Int
     @Binding var currentPage: Int
+    @State var numberOfPages: Int
     
     var body: some View {
-        HStack(spacing: 8){
-            ForEach(0..<numberOfPages) { page in
+        HStack(spacing: 8) {
+            ForEach(0..<numberOfPages, id: \.self) { page in
                 Circle()
                     .strokeBorder(.orange, lineWidth: 2)
-                    .background(Circle())
-                    .foregroundStyle(page == currentPage ? .clear : .orange)
                     .frame(width: 11, height: 11)
+                    .background {
+                        Circle()
+                            .foregroundStyle(page == currentPage ? .clear : .orange)
+                    }
             }
         }
     }
 }
 
 #Preview {
-    TabPageControl(numberOfPages: 10, currentPage: Binding(projectedValue: .constant(1)))
+    TabPageControl(currentPage: Binding(projectedValue: .constant(1)), numberOfPages: 10)
 }
