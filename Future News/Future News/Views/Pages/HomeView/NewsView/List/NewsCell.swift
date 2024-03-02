@@ -37,22 +37,6 @@ struct NewsCell: View {
                 }
                 
                 Spacer()
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 2)
-                    withAnimation(.spring(duration: 0.4, bounce: 0.0, blendDuration: 1)) {
-                        selectedNews.toggle()
-                        selectedNews.objectWillChange.send()
-                    }
-                } label: {
-                    Image(systemName: "bookmark.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 28, height: 28)
-                        .foregroundStyle(selectedNews.isSaveNews ? .orange : .black)
-                }
-                .frame(width: 30, height: 30)
-                .buttonStyle(BorderlessButtonStyle())
             }
             .padding(.horizontal)
             .frame(width: optimizeForDevice(iphone: screenSize.width * 0.96,

@@ -14,9 +14,9 @@ struct RowView: View {
     var body: some View {
         switch rowViewOrientation {
         case .vertical:
-            HorizontalViewRow(item: item)
-        case .horizontal:
             VerticalViewRow(item: item)
+        case .horizontal:
+            HorizontalViewRow(item: item)
         }
     }
     
@@ -27,7 +27,7 @@ struct RowView: View {
 }
 
 
-fileprivate struct HorizontalViewRow: View {
+fileprivate struct VerticalViewRow: View {
     @State var item: NewsEntity
     
     var body: some View {
@@ -74,7 +74,7 @@ fileprivate struct HorizontalViewRow: View {
 }
 
 
-fileprivate struct VerticalViewRow: View {
+fileprivate struct HorizontalViewRow: View {
     @State var item: NewsEntity
     
     var body: some View {
@@ -84,8 +84,10 @@ fileprivate struct VerticalViewRow: View {
                     .resizable()
                     .scaledToFill()
                     .shadow(radius: 10)
-                    .frame(maxWidth: 100)
-                    .frame(height: 80)
+                    .frame(width: optimizeForDevice(iphone: 100,
+                                                    ipad: 250),
+                           height: optimizeForDevice(iphone: 80,
+                                                     ipad: 170))
                     .padding(.horizontal)
                     .clipped()
             } placeholder: {
@@ -93,8 +95,10 @@ fileprivate struct VerticalViewRow: View {
                     .resizable()
                     .scaledToFill()
                     .shadow(radius: 10)
-                    .frame(maxWidth: 100)
-                    .frame(height: 80)
+                    .frame(width: optimizeForDevice(iphone: 100,
+                                                    ipad: 250),
+                           height: optimizeForDevice(iphone: 80,
+                                                     ipad: 170))
                     .padding(.horizontal)
                     .clipped()
             }
@@ -110,9 +114,11 @@ fileprivate struct VerticalViewRow: View {
                     .fontWeight(.medium)
                     .font(.system(size: 17))
                     .lineLimit(2)
+                    .padding(.top, 2)
                 
                 Text(item.publishDate_.publishingDifference())
                     .font(.system(size: 15))
+                    .padding(.top, 2)
             }
         }
         .padding()
@@ -120,6 +126,15 @@ fileprivate struct VerticalViewRow: View {
             RoundedRectangle(cornerRadius: 7)
                 .fill(.colorSet3)
                 .shadow(radius: 3)
+        }
+    }
+    
+    private func optimizeForDevice<T>(iphone: T, ipad: T) -> T {
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            return iphone
+        default:
+            return ipad
         }
     }
 }

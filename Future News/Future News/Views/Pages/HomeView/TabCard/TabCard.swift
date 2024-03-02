@@ -14,9 +14,12 @@ struct TabCard: View {
     
     @State private var currentPage = 0
     @State private var isPresented = false
+    @State private var isNewsDetailsNotDisappeared = true
+    
+    var idiom: UIUserInterfaceIdiom
     
     var body: some View {
-        if !items.isEmpty {
+        if !items.isEmpty && !isNewsDetailsNotDisappeared {
             VStack {
                 Text("Continue reading:")
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -28,7 +31,7 @@ struct TabCard: View {
                 ZStack {
                     TabView(selection: $currentPage) {
                         ForEach(items.shuffled().prefix(10), id: \.self) { item in
-                            CardView(newsItem: item)
+                            CardView(newsItem: item, idiom: idiom)
                                 .onTapGesture {
                                     newsVM.selectedNews = item
                                     isPresented.toggle()
@@ -44,10 +47,20 @@ struct TabCard: View {
             }
         }
     }
+    
+    private func optimizeForDevice<T>(iphone: T, ipad: T) -> T {
+        switch idiom {
+        case .phone:
+            // Если выбран только iPhone
+            return iphone
+        default:
+            return ipad
+        }
+    }
 }
 
 #Preview {
-    TabCard()
+    TabCard(idiom: .phone)
         .frame(height: 300)
         .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
 }

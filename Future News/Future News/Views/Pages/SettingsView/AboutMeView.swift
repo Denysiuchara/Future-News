@@ -13,6 +13,7 @@ struct AboutMeView: View {
             Color
                 .colorSet3
                 .ignoresSafeArea(.all)
+            
             ScrollView {
                 VStack(alignment: .leading) {
                     Text("Hello, everyone!")
@@ -61,7 +62,9 @@ I was born and live in Ukraine. I have a lot of hobbies, such as basketball, coo
                         Text("My GitHub:")
                             .fontDesign(.rounded)
                         
-                        Text("https://github.com/Denysiuchara")
+                        Button("https://github.com/Denysiuchara") {
+                            goToURL("https://github.com/Denysiuchara")
+                        }
                             .lineLimit(1)
                     }
                     
@@ -74,7 +77,9 @@ I was born and live in Ukraine. I have a lot of hobbies, such as basketball, coo
                         Text("My FaceBook:")
                             .fontDesign(.rounded)
                         
-                        Text("https://www.facebook.com/profile.php?id=100016582338639")
+                        Button("https://www.facebook.com/profile.php?id=100016582338639") {
+                            goToURL("https://www.facebook.com/profile.php?id=100016582338639")
+                        }
                             .lineLimit(1)
                     }
                     
@@ -87,11 +92,30 @@ I was born and live in Ukraine. I have a lot of hobbies, such as basketball, coo
                         Text("My Phone Number:")
                             .fontDesign(.rounded)
                         
-                        Text("+380(98)647-54-67")
+                        Button("+380(98)647-54-67") {
+                            call(to: "+380(98)647-54-67")
+                        }
+                        .lineLimit(1)
                     }
                 }
                 .padding(.horizontal)
             }
+        }
+    }
+    
+    func goToURL(_ string: String) {
+        guard let url = URL(string: string) else { return }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func call(to number: String) {
+        guard let url = URL(string: "tel://\(number)") else { return }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
         }
     }
 }

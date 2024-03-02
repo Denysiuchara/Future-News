@@ -10,11 +10,11 @@ import SwiftUI
 struct NewsDetails: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.screenSize) private var screenSize
-    
-    @ObservedObject var selectedNews: NewsEntity
-    
     @State private var scrollOffset: CGFloat = 0
     @State private var isCoppied = false
+    
+    @ObservedObject var selectedNews: NewsEntity
+    @State private var textHeight: Double = 0
     
     var body: some View {
         ZStack {
@@ -76,7 +76,10 @@ struct NewsDetails: View {
                             .foregroundStyle(.colorSet3)
                         
                         Rectangle()
-                            .foregroundStyle(Color(#colorLiteral(red: 0.337254902, green: 0.1137254902, blue: 0.7490196078, alpha: 1)))
+                            .foregroundStyle(Color(#colorLiteral(red: 0.337254902,
+                                                                 green: 0.1137254902,
+                                                                 blue: 0.7490196078,
+                                                                 alpha: 1)))
                             .frame(width: screenSize.width * scrollOffset)
                             .animation(.easeIn, value: scrollOffset)
                     }
@@ -85,6 +88,7 @@ struct NewsDetails: View {
                 }
                     
                 DynamicView(scrollOffset: $scrollOffset,
+                            textHeight: $textHeight,
                             imageURL: selectedNews.imageURL_,
                             title: selectedNews.title_,
                             author: selectedNews.author_,
@@ -95,6 +99,14 @@ struct NewsDetails: View {
                     ScrollView {
                         Text(selectedNews.text_)
                             .padding(.horizontal)
+                            .background {
+                                GeometryReader { geometry in
+                                    Color.clear
+                                        .onAppear {
+                                            textHeight = geometry.size.height
+                                        }
+                                }
+                            }
                     }
                 }
             }
@@ -102,36 +114,7 @@ struct NewsDetails: View {
             .tint(.orange)
             
             // MARK: - ALERT
-            HStack {
-                Text("Source was coppied")
-                    .fontWeight(.medium)
-                
-                Image(systemName: isCoppied ? "checkmark.circle" : "x.circle")
-                    .contentTransition(.symbolEffect(.replace))
-                    .foregroundStyle(isCoppied ? .green : .red)
-            }
-            .frame(width: 200, height: 50)
-            .background {
-                VisualEffectView(style: .systemMaterial, alpha: 1.0)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .shadow(radius: 10)
-            }
-            .offset(y: -100)
-            .opacity(isCoppied ? 1.0 : 0.0)
-            .frame(maxHeight: screenSize.height, alignment: .bottom)
-            .onChange(of: isCoppied) { _, newValue in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                    withAnimation {
-                        if newValue == true {
-                            isCoppied = false
-                        }
-                    }
-                }
-            }
+            NewsDetailsAlert(isCoppied: $isCoppied)
         }
     }
 }
-
-
-
-
