@@ -8,9 +8,9 @@ struct Future_NewsApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-                .onAppear {
-                    newsVM.fetchNews()
-                }
+//                .onAppear {
+//                    newsVM.fetchNews()
+//                }
                 .environmentObject(newsVM)
                 .environment(\.managedObjectContext,
                               CoreDataService.shared.context)

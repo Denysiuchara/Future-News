@@ -38,10 +38,9 @@ struct AllNewsView: View {
                 .listRowBackground(Color.colorSet3)
                 
                 
-                #warning("проработать альтернативный вид для iPad")
                 if UIDevice.current.userInterfaceIdiom == .phone {
                     ForEach(items, id: \.self) { element in
-                        NewsCell(selectedNews: element)
+                        NewsCell(selectedNews: element, idiom: [.phone])
                             .onTapGesture {
                                 newsVM.selectedNews = element
                                 isActive.toggle()
@@ -53,15 +52,18 @@ struct AllNewsView: View {
                 } else {
                     LazyVGrid(columns: [ GridItem(.flexible()),
                                          GridItem(.flexible()) ],
-                              spacing: 10) {
+                              spacing: 15) {
                         ForEach(items, id: \.self) { element in
-                            NewsCell(selectedNews: element)
+                            NewsCell(selectedNews: element, idiom: [.pad, .mac])
                                 .onTapGesture {
                                     newsVM.selectedNews = element
                                     isActive.toggle()
                                 }
+                                .id(element.id_)
                         }
                     }
+                              .listRowBackground(Color.colorSet3)
+                              .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.inset)
@@ -86,6 +88,4 @@ struct AllNewsView: View {
 #Preview {
     AllNewsView(selectedIndex: .constant(0))
         .environmentObject(NewsViewModel())
-        .environment(\.managedObjectContext,
-                      CoreDataService.preview.previewContainer!.viewContext)
 }

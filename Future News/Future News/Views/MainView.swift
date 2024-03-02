@@ -38,6 +38,6 @@ struct MainView: View {
 
 #Preview {
     MainView()
-        .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
+//        .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
         .environmentObject(NewsViewModel())
 }
