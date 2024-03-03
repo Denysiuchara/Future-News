@@ -14,12 +14,11 @@ struct TabCard: View {
     
     @State private var currentPage = 0
     @State private var isPresented = false
-    @State private var isNewsDetailsNotDisappeared = true
     
     var idiom: UIUserInterfaceIdiom
     
     var body: some View {
-        if !items.isEmpty && !isNewsDetailsNotDisappeared {
+        if !items.isEmpty {
             VStack {
                 Text("Continue reading:")
                     .frame(maxWidth: .infinity, alignment: .leading)
