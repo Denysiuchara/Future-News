@@ -8,28 +8,36 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var newsVM: NewsViewModel
+    @State private var tabSelection = 1
+    
     var body: some View {
-        TabView {
-            HomeView()
-                .tabItem {
-                    Image(systemName: "house.fill")
+        NavigationStack {
+            TabView(selection: $tabSelection) {
+                Group {
+                    HomeView()
+                        .environmentObject(newsVM)
+                        .tag(1)
+                    
+                    SavedNewsView()
+                        .environmentObject(newsVM)
+                        .tag(2)
+                    
+                    SettingsView()
+                        .tag(3)
                 }
-            
-            SavedNewsView()
-                .tabItem {
-                    Image(systemName: "bookmark.fill")
-                }
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gearshape")
-                }
+                .toolbarBackground(.hidden, for: .tabBar)
+            }
+            .overlay(alignment: .bottom) {
+                CustomTabView(tabSelection: $tabSelection)
+            }
+            .tint(.colorSet6)
         }
-        .tint(.orange)
     }
 }
 
-
 #Preview {
     MainView()
+//        .environment(\.managedObjectContext, CoreDataService.preview.previewContainer!.viewContext)
+        .environmentObject(NewsViewModel())
 }
